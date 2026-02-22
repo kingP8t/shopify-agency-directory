@@ -10,7 +10,6 @@ async function verifyToken(token: string, secret: string): Promise<boolean> {
   const value = token.slice(0, lastDot);
   const sig = token.slice(lastDot + 1);
 
-  // Import the secret key
   const encoder = new TextEncoder();
   const keyData = encoder.encode(secret);
   const cryptoKey = await crypto.subtle.importKey(
@@ -21,7 +20,6 @@ async function verifyToken(token: string, secret: string): Promise<boolean> {
     ["sign"]
   );
 
-  // Sign the value
   const signatureBuffer = await crypto.subtle.sign(
     "HMAC",
     cryptoKey,
@@ -42,7 +40,7 @@ async function verifyToken(token: string, secret: string): Promise<boolean> {
   return diff === 0;
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Only protect /admin routes (but not /admin/login itself)
