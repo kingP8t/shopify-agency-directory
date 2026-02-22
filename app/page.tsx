@@ -60,6 +60,9 @@ export default async function HomePage() {
             <a href="/agencies" className="text-gray-600 hover:text-gray-900">
               Browse Agencies
             </a>
+            <a href="/submit" className="text-gray-600 hover:text-gray-900">
+              List Your Agency
+            </a>
             <a
               href="/get-matched"
               className="rounded-lg bg-green-600 px-4 py-2 font-medium text-white hover:bg-green-700"
@@ -216,22 +219,44 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Get Matched CTA */}
+      {/* Two CTAs side by side */}
       <section className="px-6 py-16">
-        <div className="mx-auto max-w-2xl rounded-2xl border bg-white p-10 text-center shadow-sm">
-          <h2 className="text-2xl font-bold text-gray-900">
-            Not sure which agency is right for you?
-          </h2>
-          <p className="mt-3 text-gray-600">
-            Tell us about your project and we&apos;ll personally match you with
-            the best Shopify agency for your needs and budget.
-          </p>
-          <a
-            href="/get-matched"
-            className="mt-6 inline-block rounded-lg bg-green-600 px-8 py-3 font-medium text-white hover:bg-green-700"
-          >
-            Get Matched — It&apos;s Free
-          </a>
+        <div className="mx-auto grid max-w-4xl gap-6 sm:grid-cols-2">
+          {/* For merchants */}
+          <div className="rounded-2xl border bg-white p-8 text-center shadow-sm">
+            <div className="text-3xl">🔍</div>
+            <h2 className="mt-3 text-xl font-bold text-gray-900">
+              Looking for an agency?
+            </h2>
+            <p className="mt-2 text-sm text-gray-600">
+              Tell us about your project and we&apos;ll personally match you
+              with the best Shopify agency for your needs.
+            </p>
+            <a
+              href="/get-matched"
+              className="mt-5 inline-block rounded-lg bg-green-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-green-700"
+            >
+              Get Matched — Free
+            </a>
+          </div>
+
+          {/* For agencies */}
+          <div className="rounded-2xl border bg-white p-8 text-center shadow-sm">
+            <div className="text-3xl">🏢</div>
+            <h2 className="mt-3 text-xl font-bold text-gray-900">
+              Are you a Shopify agency?
+            </h2>
+            <p className="mt-2 text-sm text-gray-600">
+              Get discovered by thousands of merchants. List your agency in
+              our directory — completely free.
+            </p>
+            <a
+              href="/submit"
+              className="mt-5 inline-block rounded-lg border border-green-600 px-6 py-2.5 text-sm font-medium text-green-600 hover:bg-green-50"
+            >
+              Submit Your Agency →
+            </a>
+          </div>
         </div>
       </section>
 
@@ -241,6 +266,7 @@ export default async function HomePage() {
           <p className="font-medium text-gray-900">Shopify Agency Directory</p>
           <div className="flex gap-6">
             <a href="/agencies" className="hover:text-gray-900">Browse Agencies</a>
+            <a href="/submit" className="hover:text-gray-900">List Your Agency</a>
             <a href="/get-matched" className="hover:text-gray-900">Get Matched</a>
           </div>
           <p>© {new Date().getFullYear()} Shopify Agency Directory</p>
