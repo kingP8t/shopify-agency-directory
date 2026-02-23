@@ -4,6 +4,16 @@ import { generateAgencyMetadata, generateAgencyJsonLd } from "@/lib/seo";
 import { supabase } from "@/lib/supabase";
 import type { Agency } from "@/lib/supabase";
 import LeadForm from "@/app/components/LeadForm";
+import SiteNav from "@/app/components/SiteNav";
+import ReviewForm from "@/app/components/ReviewForm";
+
+interface Review {
+  id: string;
+  reviewer_name: string;
+  body: string;
+  rating: number;
+  created_at: string;
+}
 
 // ---------------------------------------------------------------------------
 // Data fetching
@@ -19,6 +29,16 @@ async function getAgency(slug: string): Promise<Agency | null> {
 
   if (error) return null;
   return data as Agency;
+}
+
+async function getApprovedReviews(agencyId: string): Promise<Review[]> {
+  const { data } = await supabase
+    .from("reviews")
+    .select("id, reviewer_name, body, rating, created_at")
+    .eq("agency_id", agencyId)
+    .eq("approved", true)
+    .order("created_at", { ascending: false });
+  return (data as Review[]) ?? [];
 }
 
 async function getAllSlugs(): Promise<string[]> {
@@ -75,6 +95,8 @@ export default async function AgencyPage({
 
   if (!agency) notFound();
 
+  const reviews = await getApprovedReviews(agency.id);
+
   const jsonLd = generateAgencyJsonLd({
     name: agency.name,
     slug: agency.slug,
@@ -96,20 +118,7 @@ export default async function AgencyPage({
       />
 
       <div className="min-h-screen bg-gray-50">
-        {/* Nav */}
-        <nav className="border-b bg-white px-6 py-4">
-          <div className="mx-auto flex max-w-4xl items-center justify-between">
-            <a href="/" className="text-lg font-bold text-gray-900">
-              Shopify Agency Directory
-            </a>
-            <a
-              href="/agencies"
-              className="text-sm text-gray-500 hover:text-gray-900"
-            >
-              ← Back to Directory
-            </a>
-          </div>
-        </nav>
+        <SiteNav />
 
         <main className="mx-auto max-w-4xl px-6 py-12">
           {/* Header card */}
@@ -222,6 +231,69 @@ export default async function AgencyPage({
               </div>
             </div>
           )}
+
+          {/* Reviews */}
+          <div className="mt-5 rounded-2xl border bg-white p-8 shadow-sm">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-gray-900">
+                Reviews
+                {reviews.length > 0 && (
+                  <span className="ml-2 text-sm font-normal text-gray-400">
+                    ({reviews.length})
+                  </span>
+                )}
+              </h2>
+              {agency.rating && (
+                <div className="flex items-center gap-1 text-sm">
+                  <span className="text-yellow-400 text-lg">★</span>
+                  <span className="font-semibold text-gray-900">{agency.rating}</span>
+                  <span className="text-gray-400">/ 5</span>
+                </div>
+              )}
+            </div>
+
+            {reviews.length > 0 ? (
+              <ul className="mt-6 divide-y divide-gray-100">
+                {reviews.map((review) => (
+                  <li key={review.id} className="py-5 first:pt-0 last:pb-0">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <p className="font-medium text-gray-900">{review.reviewer_name}</p>
+                        <div className="mt-0.5 flex gap-0.5">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <span
+                              key={star}
+                              className={star <= review.rating ? "text-yellow-400" : "text-gray-200"}
+                            >
+                              ★
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      <time className="shrink-0 text-xs text-gray-400">
+                        {new Date(review.created_at).toLocaleDateString("en-GB", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </time>
+                    </div>
+                    <p className="mt-2 text-sm leading-relaxed text-gray-600">{review.body}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-4 text-sm text-gray-400">
+                No reviews yet — be the first to leave one below.
+              </p>
+            )}
+
+            {/* Leave a review */}
+            <div className="mt-8 border-t pt-6">
+              <h3 className="mb-4 font-semibold text-gray-900">Leave a Review</h3>
+              <ReviewForm agencyId={agency.id} agencyName={agency.name} />
+            </div>
+          </div>
 
           {/* Contact / Lead form */}
           <div className="mt-5 rounded-2xl border bg-white p-8 shadow-sm">

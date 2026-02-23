@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { supabase } from "@/lib/supabase";
 import type { Agency } from "@/lib/supabase";
 import HeroSearch from "@/app/components/HeroSearch";
+import SiteNav from "@/app/components/SiteNav";
 
 export const metadata: Metadata = {
   title: "Shopify Agency Directory | Find Top Shopify Experts",
@@ -50,28 +51,7 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Nav */}
-      <nav className="border-b bg-white px-6 py-4">
-        <div className="mx-auto flex max-w-6xl items-center justify-between">
-          <a href="/" className="text-lg font-bold text-gray-900">
-            Shopify Agency Directory
-          </a>
-          <div className="flex items-center gap-6 text-sm">
-            <a href="/agencies" className="text-gray-600 hover:text-gray-900">
-              Browse Agencies
-            </a>
-            <a href="/submit" className="text-gray-600 hover:text-gray-900">
-              List Your Agency
-            </a>
-            <a
-              href="/get-matched"
-              className="rounded-lg bg-green-600 px-4 py-2 font-medium text-white hover:bg-green-700"
-            >
-              Get Matched
-            </a>
-          </div>
-        </div>
-      </nav>
+      <SiteNav />
 
       {/* Hero */}
       <section className="bg-white px-6 py-20">
@@ -261,15 +241,23 @@ export default async function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t bg-white px-6 py-8 text-center text-sm text-gray-500">
-        <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 sm:flex-row sm:justify-between">
-          <p className="font-medium text-gray-900">Shopify Agency Directory</p>
-          <div className="flex gap-6">
-            <a href="/agencies" className="hover:text-gray-900">Browse Agencies</a>
-            <a href="/submit" className="hover:text-gray-900">List Your Agency</a>
-            <a href="/get-matched" className="hover:text-gray-900">Get Matched</a>
+      <footer className="border-t bg-white px-6 py-8 text-sm text-gray-500">
+        <div className="mx-auto max-w-6xl space-y-4">
+          <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
+            <p className="font-medium text-gray-900">Shopify Agency Directory</p>
+            <div className="flex flex-wrap justify-center gap-6">
+              <a href="/agencies" className="hover:text-gray-900">Browse Agencies</a>
+              <a href="/submit" className="hover:text-gray-900">List Your Agency</a>
+              <a href="/get-matched" className="hover:text-gray-900">Get Matched</a>
+            </div>
           </div>
-          <p>© {new Date().getFullYear()} Shopify Agency Directory</p>
+          <div className="flex flex-col items-center gap-2 border-t pt-4 sm:flex-row sm:justify-between">
+            <p>© {new Date().getFullYear()} Shopify Agency Directory</p>
+            <div className="flex gap-4">
+              <a href="/privacy" className="hover:text-gray-900">Privacy Policy</a>
+              <a href="/terms" className="hover:text-gray-900">Terms of Service</a>
+            </div>
+          </div>
         </div>
       </footer>
     </div>

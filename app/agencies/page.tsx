@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { supabase } from "@/lib/supabase";
 import type { Agency } from "@/lib/supabase";
+import SiteNav from "@/app/components/SiteNav";
 
 export const metadata: Metadata = {
   title: "Browse Shopify Agencies",
@@ -112,17 +113,7 @@ export default async function AgenciesPage({
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Nav */}
-      <nav className="border-b bg-white px-6 py-4">
-        <div className="mx-auto flex max-w-6xl items-center justify-between">
-          <a href="/" className="text-lg font-bold text-gray-900">
-            Shopify Agency Directory
-          </a>
-          <a href="/" className="text-sm text-gray-500 hover:text-gray-900">
-            ← Home
-          </a>
-        </div>
-      </nav>
+      <SiteNav />
 
       <div className="mx-auto max-w-6xl px-6 py-8">
         <div className="flex flex-col gap-8 lg:flex-row">
