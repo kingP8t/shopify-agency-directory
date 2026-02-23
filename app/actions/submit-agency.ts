@@ -1,10 +1,27 @@
 "use server";
 
 import { supabase } from "@/lib/supabase";
+import { headers } from "next/headers";
 
 export interface SubmitAgencyState {
   success: boolean;
   error?: string;
+}
+
+// ─── Simple in-process rate limiter ──────────────────────────────────────────
+const agencyRateMap = new Map<string, { count: number; resetAt: number }>();
+const WINDOW_MS = 60_000;
+const MAX_REQUESTS = 3; // stricter — max 3 agency submissions per IP per minute
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = agencyRateMap.get(ip);
+  if (!entry || now > entry.resetAt) {
+    agencyRateMap.set(ip, { count: 1, resetAt: now + WINDOW_MS });
+    return false;
+  }
+  entry.count += 1;
+  return entry.count > MAX_REQUESTS;
 }
 
 function slugify(text: string): string {
@@ -20,6 +37,24 @@ export async function submitAgencyAction(
   _prev: SubmitAgencyState,
   formData: FormData
 ): Promise<SubmitAgencyState> {
+  // ── Honeypot check ──────────────────────────────────────────────────────
+  const honeypot = formData.get("website_url")?.toString();
+  if (honeypot) return { success: true }; // silently block bots
+
+  // ── Rate limiting ───────────────────────────────────────────────────────
+  const headersList = await headers();
+  const ip =
+    headersList.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    headersList.get("x-real-ip") ??
+    "unknown";
+
+  if (isRateLimited(ip)) {
+    return {
+      success: false,
+      error: "Too many submissions. Please wait a moment and try again.",
+    };
+  }
+
   const name = formData.get("name")?.toString().trim();
   const description = formData.get("description")?.toString().trim();
   const website = formData.get("website")?.toString().trim() || null;

@@ -62,6 +62,15 @@ export default function SubmitAgencyForm() {
 
   return (
     <form action={formAction} className="space-y-6">
+      {/* Honeypot — hidden from real users, bots fill this in and get silently blocked */}
+      <input
+        type="text"
+        name="website_url"
+        aria-hidden="true"
+        tabIndex={-1}
+        autoComplete="off"
+        style={{ display: "none" }}
+      />
       {/* Agency basics */}
       <div className="rounded-xl border bg-white p-6 shadow-sm">
         <h2 className="font-semibold text-gray-900">Agency Details</h2>

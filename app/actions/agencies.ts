@@ -1,6 +1,9 @@
 "use server";
 
-import { supabase } from "@/lib/supabase";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyClient = any;
+
+import { getAdminClient } from "@/lib/supabase";
 import { revalidatePath } from "next/cache";
 
 function slugify(text: string): string {
@@ -22,6 +25,8 @@ export async function upsertAgencyAction(
   _prev: AgencyFormState,
   formData: FormData
 ): Promise<AgencyFormState> {
+  const db: AnyClient = getAdminClient();
+
   const id = formData.get("id")?.toString() || undefined;
   const name = formData.get("name")?.toString().trim();
   const description = formData.get("description")?.toString().trim();
@@ -42,20 +47,21 @@ export async function upsertAgencyAction(
   const featured = formData.get("featured") === "true";
   const status = formData.get("status")?.toString() || "draft";
 
-  // Parse array fields (comma-separated)
-  const specializations = formData
-    .get("specializations")
-    ?.toString()
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean) ?? [];
+  const specializations =
+    formData
+      .get("specializations")
+      ?.toString()
+      .split(",")
+      .map((s: string) => s.trim())
+      .filter(Boolean) ?? [];
 
-  const tags = formData
-    .get("tags")
-    ?.toString()
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean) ?? [];
+  const tags =
+    formData
+      .get("tags")
+      ?.toString()
+      .split(",")
+      .map((s: string) => s.trim())
+      .filter(Boolean) ?? [];
 
   if (!name || !description) {
     return { success: false, error: "Name and description are required." };
@@ -84,14 +90,14 @@ export async function upsertAgencyAction(
 
   let result;
   if (id) {
-    result = await supabase
+    result = await db
       .from("agencies")
       .update(payload)
       .eq("id", id)
       .select("id")
       .single();
   } else {
-    result = await supabase
+    result = await db
       .from("agencies")
       .insert([payload])
       .select("id")
@@ -109,8 +115,12 @@ export async function upsertAgencyAction(
   return { success: true, id: result.data.id };
 }
 
-export async function deleteAgencyAction(id: string): Promise<AgencyFormState> {
-  const { error } = await supabase.from("agencies").delete().eq("id", id);
+export async function deleteAgencyAction(
+  id: string
+): Promise<AgencyFormState> {
+  const db: AnyClient = getAdminClient();
+
+  const { error } = await db.from("agencies").delete().eq("id", id);
   if (error) return { success: false, error: error.message };
 
   revalidatePath("/admin");
@@ -124,8 +134,10 @@ export async function toggleStatusAction(
   id: string,
   currentStatus: string
 ): Promise<AgencyFormState> {
+  const db: AnyClient = getAdminClient();
+
   const newStatus = currentStatus === "published" ? "draft" : "published";
-  const { error } = await supabase
+  const { error } = await db
     .from("agencies")
     .update({ status: newStatus })
     .eq("id", id);

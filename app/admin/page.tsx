@@ -12,6 +12,18 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
+// Build the Supabase dashboard URL from the project URL env var (no hardcoded project ID)
+function getSupabaseDashboardUrl(table: string): string | null {
+  const projectUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (!projectUrl) return null;
+  try {
+    const projectId = new URL(projectUrl).hostname.split(".")[0];
+    return `https://supabase.com/dashboard/project/${projectId}/editor?table=${table}`;
+  } catch {
+    return null;
+  }
+}
+
 async function getAllAgencies(): Promise<Agency[]> {
   const { data, error } = await supabase
     .from("agencies")
@@ -35,6 +47,7 @@ export default async function AdminPage() {
     getAllAgencies(),
     getLeadCount(),
   ]);
+  const leadsTableUrl = getSupabaseDashboardUrl("leads");
 
   const published = agencies.filter((a) => a.status === "published").length;
   const drafts = agencies.filter((a) => a.status === "draft").length;
@@ -130,14 +143,16 @@ export default async function AdminPage() {
           <p className="mt-1 text-sm text-gray-500">
             {leadCount} contact{leadCount !== 1 ? "s" : ""} received from merchants via the Get Matched form.
           </p>
-          <a
-            href="https://supabase.com/dashboard/project/xsvdnqqddspzmokcnzyv/editor"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-3 inline-block rounded-lg border px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-          >
-            View in Supabase → leads table ↗
-          </a>
+          {leadsTableUrl && (
+            <a
+              href={leadsTableUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-block rounded-lg border px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+            >
+              View in Supabase → leads table ↗
+            </a>
+          )}
         </div>
       </main>
     </div>

@@ -46,6 +46,15 @@ export default function LeadForm({ agencyId, agencyName }: LeadFormProps) {
       {agencyId && (
         <input type="hidden" name="agency_id" value={agencyId} />
       )}
+      {/* Honeypot — hidden from real users, bots fill this in and get silently blocked */}
+      <input
+        type="text"
+        name="website_url"
+        aria-hidden="true"
+        tabIndex={-1}
+        autoComplete="off"
+        style={{ display: "none" }}
+      />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
