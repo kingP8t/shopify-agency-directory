@@ -1,8 +1,30 @@
 import type { MetadataRoute } from "next";
-import { BASE_URL } from "@/lib/seo";
 import { supabase } from "@/lib/supabase";
 
+// Always use HTTPS in production. Never let localhost leak into the sitemap.
+function getSiteUrl(): string {
+  const raw = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+  // Strip trailing slash
+  const clean = raw.replace(/\/$/, "");
+  // If it's localhost or empty, fall back to Vercel's production URL env var
+  if (!clean || clean.includes("localhost")) {
+    const vercelUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+    if (vercelUrl) return `https://${vercelUrl}`;
+    return "";
+  }
+  // Force https:// in production
+  if (process.env.NODE_ENV === "production" && clean.startsWith("http://")) {
+    return clean.replace("http://", "https://");
+  }
+  return clean;
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const BASE_URL = getSiteUrl();
+
+  // If we can't resolve a real production URL, return empty sitemap
+  if (!BASE_URL) return [];
+
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: BASE_URL,
@@ -51,7 +73,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     (agency: { slug: string; updated_at: string }) => ({
       url: `${BASE_URL}/agencies/${agency.slug}`,
       lastModified: new Date(agency.updated_at),
-      changeFrequency: "weekly",
+      changeFrequency: "weekly" as const,
       priority: 0.8,
     })
   );
