@@ -27,15 +27,20 @@ const BUDGET_RANGES = [
   "$100,000+",
 ];
 
-async function getAgencies(params: {
-  specialization?: string;
-  budget?: string;
-  location?: string;
-  search?: string;
-}): Promise<Agency[]> {
+const PAGE_SIZE = 10;
+
+async function getAgencies(
+  params: {
+    specialization?: string;
+    budget?: string;
+    location?: string;
+    search?: string;
+  },
+  page: number
+): Promise<{ agencies: Agency[]; total: number }> {
   let query = supabase
     .from("agencies")
-    .select("*")
+    .select("*", { count: "exact" })
     .eq("status", "published")
     .order("featured", { ascending: false })
     .order("rating", { ascending: false });
@@ -55,12 +60,16 @@ async function getAgencies(params: {
     );
   }
 
-  const { data, error } = await query;
+  const from = (page - 1) * PAGE_SIZE;
+  const to = from + PAGE_SIZE - 1;
+  query = query.range(from, to);
+
+  const { data, error, count } = await query;
   if (error) {
     console.error("Error fetching agencies:", error);
-    return [];
+    return { agencies: [], total: 0 };
   }
-  return (data as Agency[]) ?? [];
+  return { agencies: (data as Agency[]) ?? [], total: count ?? 0 };
 }
 
 export default async function AgenciesPage({
@@ -71,10 +80,16 @@ export default async function AgenciesPage({
     budget?: string;
     location?: string;
     search?: string;
+    page?: string;
   }>;
 }) {
   const params = await searchParams;
-  const agencies = await getAgencies(params);
+  const page = Math.max(1, parseInt(params.page ?? "1", 10));
+  const { agencies, total } = await getAgencies(params, page);
+
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+  const hasPrev = page > 1;
+  const hasNext = page < totalPages;
 
   const activeFilters = [
     params.specialization,
@@ -82,6 +97,18 @@ export default async function AgenciesPage({
     params.location,
     params.search,
   ].filter(Boolean);
+
+  // Build a query string preserving all current filters + new page
+  function pageUrl(p: number) {
+    const qs = new URLSearchParams();
+    if (params.specialization) qs.set("specialization", params.specialization);
+    if (params.budget) qs.set("budget", params.budget);
+    if (params.location) qs.set("location", params.location);
+    if (params.search) qs.set("search", params.search);
+    if (p > 1) qs.set("page", String(p));
+    const str = qs.toString();
+    return `/agencies${str ? `?${str}` : ""}`;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -91,10 +118,7 @@ export default async function AgenciesPage({
           <a href="/" className="text-lg font-bold text-gray-900">
             Shopify Agency Directory
           </a>
-          <a
-            href="/"
-            className="text-sm text-gray-500 hover:text-gray-900"
-          >
+          <a href="/" className="text-sm text-gray-500 hover:text-gray-900">
             ← Home
           </a>
         </div>
@@ -197,12 +221,11 @@ export default async function AgenciesPage({
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-xl font-bold text-gray-900">
-                  {activeFilters.length > 0
-                    ? "Filtered Results"
-                    : "All Agencies"}
+                  {activeFilters.length > 0 ? "Filtered Results" : "All Agencies"}
                 </h1>
                 <p className="mt-0.5 text-sm text-gray-500">
-                  {agencies.length} {agencies.length === 1 ? "agency" : "agencies"} found
+                  {total} {total === 1 ? "agency" : "agencies"} found
+                  {totalPages > 1 && ` · Page ${page} of ${totalPages}`}
                 </p>
               </div>
 
@@ -254,13 +277,13 @@ export default async function AgenciesPage({
                     href={`/agencies/${agency.slug}`}
                     className="group flex gap-5 rounded-2xl border bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
                   >
-                    {/* Logo */}
+                    {/* Logo placeholder */}
                     <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-green-100 text-xl font-bold text-green-700">
                       {agency.name.charAt(0)}
                     </div>
 
                     {/* Info */}
-                    <div className="flex-1 min-w-0">
+                    <div className="min-w-0 flex-1">
                       <div className="flex items-start justify-between gap-4">
                         <div>
                           <div className="flex items-center gap-2">
@@ -280,7 +303,7 @@ export default async function AgenciesPage({
                           )}
                         </div>
 
-                        <div className="text-right shrink-0">
+                        <div className="shrink-0 text-right">
                           {agency.rating && (
                             <p className="text-sm font-medium text-gray-900">
                               ⭐ {agency.rating}
@@ -297,7 +320,7 @@ export default async function AgenciesPage({
                         </div>
                       </div>
 
-                      <p className="mt-2 text-sm text-gray-600 line-clamp-2">
+                      <p className="mt-2 line-clamp-2 text-sm text-gray-600">
                         {agency.description}
                       </p>
 
@@ -317,6 +340,76 @@ export default async function AgenciesPage({
                     </div>
                   </a>
                 ))}
+              </div>
+            )}
+
+            {/* ── Pagination ── */}
+            {totalPages > 1 && (
+              <div className="mt-8 flex items-center justify-center gap-2">
+                {/* Previous */}
+                {hasPrev ? (
+                  <a
+                    href={pageUrl(page - 1)}
+                    className="rounded-lg border bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+                  >
+                    ← Previous
+                  </a>
+                ) : (
+                  <span className="rounded-lg border bg-gray-50 px-4 py-2 text-sm font-medium text-gray-300 cursor-not-allowed">
+                    ← Previous
+                  </span>
+                )}
+
+                {/* Page numbers */}
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1)
+                    .filter(
+                      (p) =>
+                        p === 1 ||
+                        p === totalPages ||
+                        Math.abs(p - page) <= 1
+                    )
+                    .reduce<(number | "...")[]>((acc, p, idx, arr) => {
+                      if (idx > 0 && p - (arr[idx - 1] as number) > 1) {
+                        acc.push("...");
+                      }
+                      acc.push(p);
+                      return acc;
+                    }, [])
+                    .map((item, idx) =>
+                      item === "..." ? (
+                        <span key={`ellipsis-${idx}`} className="px-2 text-gray-400">
+                          …
+                        </span>
+                      ) : (
+                        <a
+                          key={item}
+                          href={pageUrl(item as number)}
+                          className={`rounded-lg px-3 py-2 text-sm font-medium ${
+                            item === page
+                              ? "bg-green-600 text-white shadow-sm"
+                              : "border bg-white text-gray-700 hover:bg-gray-50"
+                          }`}
+                        >
+                          {item}
+                        </a>
+                      )
+                    )}
+                </div>
+
+                {/* Next */}
+                {hasNext ? (
+                  <a
+                    href={pageUrl(page + 1)}
+                    className="rounded-lg border bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+                  >
+                    Next →
+                  </a>
+                ) : (
+                  <span className="rounded-lg border bg-gray-50 px-4 py-2 text-sm font-medium text-gray-300 cursor-not-allowed">
+                    Next →
+                  </span>
+                )}
               </div>
             )}
           </main>

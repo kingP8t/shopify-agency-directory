@@ -2,6 +2,7 @@
 
 import { supabase } from "@/lib/supabase";
 import { headers } from "next/headers";
+import { sendNewLeadEmail } from "@/lib/email";
 
 export interface LeadFormState {
   success: boolean;
@@ -71,6 +72,17 @@ export async function submitLeadAction(
     return { success: false, error: "Please enter a valid email address." };
   }
 
+  // Look up agency name if agency_id was provided (for email subject line)
+  let agencyName: string | undefined;
+  if (agency_id) {
+    const { data } = await supabase
+      .from("agencies")
+      .select("name")
+      .eq("id", agency_id)
+      .single();
+    agencyName = data?.name;
+  }
+
   const { error } = await supabase.from("leads").insert([
     { name, email, company, budget, message, agency_id },
   ]);
@@ -79,6 +91,9 @@ export async function submitLeadAction(
     console.error("Lead insert error:", error);
     return { success: false, error: "Something went wrong. Please try again." };
   }
+
+  // Send admin notification email (fire-and-forget — never blocks the response)
+  await sendNewLeadEmail({ name, email, company, budget, message, agencyName });
 
   return { success: true };
 }

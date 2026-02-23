@@ -2,6 +2,7 @@
 
 import { supabase } from "@/lib/supabase";
 import { headers } from "next/headers";
+import { sendNewAgencySubmissionEmail } from "@/lib/email";
 
 export interface SubmitAgencyState {
   success: boolean;
@@ -122,6 +123,15 @@ export async function submitAgencyAction(
       error: "Something went wrong submitting your agency. Please try again.",
     };
   }
+
+  // Send admin notification email (fire-and-forget)
+  await sendNewAgencySubmissionEmail({
+    name: name!,
+    email: email!,
+    website,
+    location,
+    description: description!,
+  });
 
   return { success: true };
 }

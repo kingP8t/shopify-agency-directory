@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { supabase } from "@/lib/supabase";
-import type { Agency } from "@/lib/supabase";
+import type { Agency, Lead } from "@/lib/supabase";
 import AdminAgencyRow from "@/app/components/AdminAgencyRow";
 import AddAgencyModal from "@/app/components/AddAgencyModal";
 import AdminLogoutButton from "@/app/components/AdminLogoutButton";
+import AdminLeadsTable from "@/app/components/AdminLeadsTable";
 
 export const metadata: Metadata = {
   title: "Admin — Shopify Agency Directory",
@@ -35,22 +36,25 @@ async function getAllAgencies(): Promise<Agency[]> {
   return (data as Agency[]) ?? [];
 }
 
-async function getLeadCount(): Promise<number> {
-  const { count } = await supabase
+async function getLeads(): Promise<Lead[]> {
+  const { data, error } = await supabase
     .from("leads")
-    .select("*", { count: "exact", head: true });
-  return count ?? 0;
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(100); // Show last 100 leads
+
+  if (error) return [];
+  return (data as Lead[]) ?? [];
 }
 
 export default async function AdminPage() {
-  const [agencies, leadCount] = await Promise.all([
+  const [agencies, leads] = await Promise.all([
     getAllAgencies(),
-    getLeadCount(),
+    getLeads(),
   ]);
   const leadsTableUrl = getSupabaseDashboardUrl("leads");
 
   const published = agencies.filter((a) => a.status === "published").length;
-  const drafts = agencies.filter((a) => a.status === "draft").length;
   const pending = agencies.filter((a) => a.status === "pending");
 
   return (
@@ -87,7 +91,7 @@ export default async function AdminPage() {
             { label: "Total Agencies", value: agencies.length, color: "bg-gray-100 text-gray-900" },
             { label: "Published", value: published, color: "bg-green-100 text-green-800" },
             { label: "Pending Review", value: pending.length, color: pending.length > 0 ? "bg-orange-100 text-orange-800" : "bg-gray-100 text-gray-600" },
-            { label: "Lead Enquiries", value: leadCount, color: "bg-blue-100 text-blue-800" },
+            { label: "Lead Enquiries", value: leads.length, color: "bg-blue-100 text-blue-800" },
           ].map((stat) => (
             <div key={stat.label} className={`rounded-xl p-5 ${stat.color}`}>
               <p className="text-3xl font-bold">{stat.value}</p>
@@ -118,7 +122,7 @@ export default async function AdminPage() {
           </div>
         )}
 
-        {/* ── All other agencies ── */}
+        {/* ── All agencies ── */}
         <div className="mt-8">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
             All Agencies ({agencies.length})
@@ -137,22 +141,29 @@ export default async function AdminPage() {
           )}
         </div>
 
-        {/* Leads */}
-        <div className="mt-10 rounded-xl border bg-white p-6 shadow-sm">
-          <h2 className="font-semibold text-gray-900">Lead Enquiries</h2>
-          <p className="mt-1 text-sm text-gray-500">
-            {leadCount} contact{leadCount !== 1 ? "s" : ""} received from merchants via the Get Matched form.
-          </p>
-          {leadsTableUrl && (
-            <a
-              href={leadsTableUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-3 inline-block rounded-lg border px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-            >
-              View in Supabase → leads table ↗
-            </a>
-          )}
+        {/* ── Lead Enquiries ── */}
+        <div className="mt-10">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
+                Lead Enquiries ({leads.length})
+              </h2>
+              <p className="mt-1 text-sm text-gray-400">
+                Merchants who submitted the Get Matched form
+              </p>
+            </div>
+            {leadsTableUrl && (
+              <a
+                href={leadsTableUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border px-3 py-1.5 text-xs text-gray-500 hover:bg-gray-50"
+              >
+                Open in Supabase ↗
+              </a>
+            )}
+          </div>
+          <AdminLeadsTable leads={leads} />
         </div>
       </main>
     </div>
