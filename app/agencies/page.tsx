@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { supabase } from "@/lib/supabase";
 import type { Agency } from "@/lib/supabase";
 import SiteNav from "@/app/components/SiteNav";
+import Breadcrumbs from "@/app/components/Breadcrumbs";
+import { generateAgencyListJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Browse Shopify Agencies",
@@ -111,7 +113,16 @@ export default async function AgenciesPage({
     return `/agencies${str ? `?${str}` : ""}`;
   }
 
+  const listSchema = generateAgencyListJsonLd(
+    agencies.map((a) => ({ name: a.name, slug: a.slug, description: a.description }))
+  );
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(listSchema) }}
+      />
     <div className="min-h-screen bg-gray-50">
       <SiteNav />
 
@@ -208,6 +219,12 @@ export default async function AgenciesPage({
 
           {/* Main content */}
           <main className="flex-1">
+            <Breadcrumbs
+              items={[
+                { name: "Home", href: "/" },
+                { name: "Agencies", href: "/agencies" },
+              ]}
+            />
             {/* Header row */}
             <div className="flex items-center justify-between">
               <div>
@@ -407,5 +424,6 @@ export default async function AgenciesPage({
         </div>
       </div>
     </div>
+    </>
   );
 }

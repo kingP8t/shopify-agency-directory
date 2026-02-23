@@ -6,6 +6,7 @@ import type { Agency } from "@/lib/supabase";
 import LeadForm from "@/app/components/LeadForm";
 import SiteNav from "@/app/components/SiteNav";
 import ReviewForm from "@/app/components/ReviewForm";
+import Breadcrumbs from "@/app/components/Breadcrumbs";
 
 interface Review {
   id: string;
@@ -107,6 +108,13 @@ export default async function AgencyPage({
     specializations: agency.specializations ?? undefined,
     rating: agency.rating ?? undefined,
     reviewCount: agency.review_count ?? undefined,
+    // Pass approved reviews so they appear in structured data
+    reviews: reviews.map((r) => ({
+      reviewer_name: r.reviewer_name,
+      body: r.body,
+      rating: r.rating,
+      created_at: r.created_at,
+    })),
   });
 
   return (
@@ -121,6 +129,13 @@ export default async function AgencyPage({
         <SiteNav />
 
         <main className="mx-auto max-w-4xl px-6 py-12">
+          <Breadcrumbs
+            items={[
+              { name: "Home", href: "/" },
+              { name: "Agencies", href: "/agencies" },
+              { name: agency.name, href: `/agencies/${agency.slug}` },
+            ]}
+          />
           {/* Header card */}
           <div className="rounded-2xl border bg-white p-8 shadow-sm">
             <div className="flex items-start justify-between gap-4">

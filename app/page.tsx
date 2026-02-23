@@ -3,6 +3,7 @@ import { supabase } from "@/lib/supabase";
 import type { Agency } from "@/lib/supabase";
 import HeroSearch from "@/app/components/HeroSearch";
 import SiteNav from "@/app/components/SiteNav";
+import { generateOrganizationJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Shopify Agency Directory | Find Top Shopify Experts",
@@ -49,7 +50,14 @@ export default async function HomePage() {
     getAgencyCount(),
   ]);
 
+  const orgSchema = generateOrganizationJsonLd();
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+      />
     <div className="min-h-screen bg-gray-50">
       <SiteNav />
 
@@ -261,5 +269,6 @@ export default async function HomePage() {
         </div>
       </footer>
     </div>
+    </>
   );
 }
