@@ -10,6 +10,7 @@ interface NavLink {
 
 const NAV_LINKS: NavLink[] = [
   { href: "/agencies", label: "Browse Agencies" },
+  { href: "/blog", label: "Blog" },
   { href: "/submit", label: "List Your Agency" },
   { href: "/get-matched", label: "Get Matched", highlight: true },
 ];

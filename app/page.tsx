@@ -4,6 +4,7 @@ import type { Agency } from "@/lib/supabase";
 import HeroSearch from "@/app/components/HeroSearch";
 import SiteNav from "@/app/components/SiteNav";
 import { generateOrganizationJsonLd } from "@/lib/seo";
+import { getAllPosts } from "@/lib/blog";
 
 export const metadata: Metadata = {
   title: "Shopify Agency Directory | Find Top Shopify Experts",
@@ -51,6 +52,7 @@ export default async function HomePage() {
   ]);
 
   const orgSchema = generateOrganizationJsonLd();
+  const recentPosts = getAllPosts().slice(0, 3);
 
   return (
     <>
@@ -248,6 +250,42 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Blog preview */}
+      <section className="px-6 py-16 bg-gray-50">
+        <div className="mx-auto max-w-6xl">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold text-gray-900">
+              From the Blog
+            </h2>
+            <a href="/blog" className="text-sm text-green-600 hover:underline">
+              View all articles →
+            </a>
+          </div>
+          <div className="mt-6 grid gap-5 sm:grid-cols-3">
+            {recentPosts.map((post) => (
+              <a
+                key={post.slug}
+                href={`/blog/${post.slug}`}
+                className="group rounded-2xl border bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+              >
+                <span className="rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-700">
+                  {post.category}
+                </span>
+                <h3 className="mt-3 font-semibold text-gray-900 group-hover:text-green-700">
+                  {post.title}
+                </h3>
+                <p className="mt-2 line-clamp-2 text-sm text-gray-500">
+                  {post.excerpt}
+                </p>
+                <p className="mt-3 text-xs text-gray-400">
+                  {post.readingTime} min read
+                </p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="border-t bg-white px-6 py-8 text-sm text-gray-500">
         <div className="mx-auto max-w-6xl space-y-4">
@@ -255,6 +293,7 @@ export default async function HomePage() {
             <p className="font-medium text-gray-900">Shopify Agency Directory</p>
             <div className="flex flex-wrap justify-center gap-6">
               <a href="/agencies" className="hover:text-gray-900">Browse Agencies</a>
+              <a href="/blog" className="hover:text-gray-900">Blog</a>
               <a href="/submit" className="hover:text-gray-900">List Your Agency</a>
               <a href="/get-matched" className="hover:text-gray-900">Get Matched</a>
             </div>
