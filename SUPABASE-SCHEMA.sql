@@ -104,7 +104,43 @@ CREATE POLICY "Public read verified reviews"
   USING (verified = TRUE);
 
 -- ---------------------------------------------------------------------------
--- 5. Seed data — one example agency to test with
+-- 5. Blog posts table
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS blog_posts (
+  id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  slug         TEXT NOT NULL UNIQUE,
+  title        TEXT NOT NULL,
+  excerpt      TEXT NOT NULL,
+  content      JSONB NOT NULL DEFAULT '[]',
+  category     TEXT NOT NULL DEFAULT 'Guide',
+  tags         TEXT[] DEFAULT '{}',
+  author       TEXT NOT NULL DEFAULT 'Shopify Agency Directory',
+  reading_time INT NOT NULL DEFAULT 5,
+  status       TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('published', 'draft')),
+  featured     BOOLEAN DEFAULT FALSE,
+  date         DATE NOT NULL DEFAULT CURRENT_DATE,
+  updated_date DATE,
+  created_at   TIMESTAMPTZ DEFAULT NOW(),
+  updated_at   TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_blog_posts_status ON blog_posts(status);
+CREATE INDEX IF NOT EXISTS idx_blog_posts_date   ON blog_posts(date DESC);
+
+-- Reuse the set_updated_at trigger function (already created for agencies)
+CREATE OR REPLACE TRIGGER set_updated_at_blog_posts
+  BEFORE UPDATE ON blog_posts
+  FOR EACH ROW EXECUTE FUNCTION set_updated_at();
+
+-- RLS
+ALTER TABLE blog_posts ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Public can read published posts"
+  ON blog_posts FOR SELECT
+  USING (status = 'published');
+
+-- ---------------------------------------------------------------------------
+-- 6. Seed data — one example agency to test with
 -- ---------------------------------------------------------------------------
 INSERT INTO agencies (
   name, slug, description, long_description, location, country,

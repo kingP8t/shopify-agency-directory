@@ -1,10 +1,16 @@
 // ---------------------------------------------------------------------------
-// Blog post data — no CMS or MDX needed, just TypeScript.
-// To add a new post: copy an existing entry, change the slug, and fill in
-// the content array. Each content item is a paragraph, heading, or list.
+// Blog post data — posts are stored in Supabase `blog_posts` table and
+// managed from the admin dashboard. The hardcoded `posts` array below is
+// kept as the seed source; once you run the seed SQL those rows live in DB.
 // ---------------------------------------------------------------------------
 
+import { getAllBlogPosts, getBlogPostBySlug } from "@/lib/supabase";
+import type { BlogPostDB } from "@/lib/supabase";
+
+export type { BlogPostDB };
+
 export interface BlogPost {
+  id?: string;
   slug: string;
   title: string;
   excerpt: string;
@@ -14,7 +20,31 @@ export interface BlogPost {
   author: string;
   category: string;
   tags: string[];
+  featured?: boolean;
+  status?: "published" | "draft";
   content: ContentBlock[];
+}
+
+// ---------------------------------------------------------------------------
+// Map Supabase DB row → BlogPost
+// ---------------------------------------------------------------------------
+
+function toPost(row: BlogPostDB): BlogPost {
+  return {
+    id: row.id,
+    slug: row.slug,
+    title: row.title,
+    excerpt: row.excerpt,
+    date: row.date,
+    updatedDate: row.updated_date ?? undefined,
+    readingTime: row.reading_time,
+    author: row.author,
+    category: row.category,
+    tags: row.tags ?? [],
+    featured: row.featured,
+    status: row.status,
+    content: (row.content ?? []) as ContentBlock[],
+  };
 }
 
 export type ContentBlock =
@@ -522,28 +552,35 @@ const posts: BlogPost[] = [
 ];
 
 // ---------------------------------------------------------------------------
-// Helper functions
+// Helper functions — fetch from Supabase (async)
+// Falls back to the hardcoded `posts` array if Supabase returns nothing
+// (e.g., during local dev before seeding).
 // ---------------------------------------------------------------------------
 
-export function getAllPosts(): BlogPost[] {
-  return posts.sort(
+export async function getAllPosts(): Promise<BlogPost[]> {
+  const rows = await getAllBlogPosts();
+  if (rows.length > 0) return rows.map(toPost);
+  // Fallback: return hardcoded posts sorted by date
+  return [...posts].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 }
 
-export function getPostBySlug(slug: string): BlogPost | undefined {
+export async function getPostBySlug(slug: string): Promise<BlogPost | undefined> {
+  const row = await getBlogPostBySlug(slug);
+  if (row) return toPost(row);
+  // Fallback: find in hardcoded posts
   return posts.find((p) => p.slug === slug);
 }
 
-export function getRelatedPosts(slug: string, limit = 3): BlogPost[] {
-  const post = getPostBySlug(slug);
-  if (!post) return getAllPosts().slice(0, limit);
-  return posts
+export async function getRelatedPosts(slug: string, limit = 3): Promise<BlogPost[]> {
+  const [all, current] = await Promise.all([getAllPosts(), getPostBySlug(slug)]);
+  if (!current) return all.slice(0, limit);
+  return all
     .filter((p) => p.slug !== slug)
     .sort((a, b) => {
-      // Sort by tag overlap
-      const aOverlap = a.tags.filter((t) => post.tags.includes(t)).length;
-      const bOverlap = b.tags.filter((t) => post.tags.includes(t)).length;
+      const aOverlap = a.tags.filter((t) => current.tags.includes(t)).length;
+      const bOverlap = b.tags.filter((t) => current.tags.includes(t)).length;
       return bOverlap - aOverlap;
     })
     .slice(0, limit);

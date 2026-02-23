@@ -11,7 +11,8 @@ const SITE_URL = "https://shopifyagencydirectory.com";
 // ---------------------------------------------------------------------------
 
 export async function generateStaticParams() {
-  return getAllPosts().map((post) => ({ slug: post.slug }));
+  const posts = await getAllPosts();
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
 // ---------------------------------------------------------------------------
@@ -24,7 +25,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
   if (!post) return { title: "Post Not Found" };
 
   return {
@@ -132,10 +133,10 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
   if (!post) notFound();
 
-  const related = getRelatedPosts(slug);
+  const related = await getRelatedPosts(slug);
 
   // Article JSON-LD structured data
   const jsonLd = {

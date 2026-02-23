@@ -126,3 +126,55 @@ export async function submitLead(
   if (error) return { success: false, error: error.message };
   return { success: true };
 }
+
+// ---------------------------------------------------------------------------
+// Blog post types
+// ---------------------------------------------------------------------------
+
+export interface BlogPostDB {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  content: any[];          // ContentBlock[] stored as JSONB
+  category: string;
+  tags: string[];
+  author: string;
+  reading_time: number;
+  status: "published" | "draft";
+  featured: boolean;
+  date: string;            // ISO date string YYYY-MM-DD
+  updated_date: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+// ---------------------------------------------------------------------------
+// Blog post query helpers (anon client — read only)
+// ---------------------------------------------------------------------------
+
+export async function getAllBlogPosts(): Promise<BlogPostDB[]> {
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .select("*")
+    .eq("status", "published")
+    .order("date", { ascending: false });
+
+  if (error) return [];
+  return (data as BlogPostDB[]) ?? [];
+}
+
+export async function getBlogPostBySlug(
+  slug: string
+): Promise<BlogPostDB | null> {
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .select("*")
+    .eq("slug", slug)
+    .eq("status", "published")
+    .single();
+
+  if (error) return null;
+  return data as BlogPostDB;
+}

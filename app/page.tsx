@@ -52,7 +52,7 @@ export default async function HomePage() {
   ]);
 
   const orgSchema = generateOrganizationJsonLd();
-  const recentPosts = getAllPosts().slice(0, 3);
+  const recentPosts = (await getAllPosts()).slice(0, 3);
 
   return (
     <>
