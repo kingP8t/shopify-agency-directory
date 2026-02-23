@@ -12,10 +12,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const SITE_URL = "https://shopifyagencydirectory.com";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(BASE_URL),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Shopify Agency Directory | Find Top Shopify Experts",
     template: "%s | Shopify Agency Directory",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: BASE_URL,
+    url: SITE_URL,
     siteName: "Shopify Agency Directory",
     title: "Shopify Agency Directory | Find Top Shopify Experts",
     description:

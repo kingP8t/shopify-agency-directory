@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { BASE_URL } from "@/lib/seo";
+
+const SITE_URL = "https://shopifyagencydirectory.com";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -10,7 +11,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin/", "/api/", "/_next/"],
       },
     ],
-    sitemap: `${BASE_URL}/sitemap.xml`,
-    host: BASE_URL,
+    sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
   };
 }
