@@ -58,9 +58,17 @@ async function getAgencies(
     query = query.ilike("location", `%${params.location}%`);
   }
   if (params.search) {
-    query = query.or(
-      `name.ilike.%${params.search}%,description.ilike.%${params.search}%,location.ilike.%${params.search}%`
-    );
+    // Escape ILIKE wildcards and strip chars that break PostgREST OR filter strings
+    const safe = params.search
+      .replace(/[%_]/g, "\\$&")    // escape wildcard chars
+      .replace(/[,.()'"`]/g, " ")  // strip PostgREST filter syntax chars
+      .trim()
+      .slice(0, 100);              // cap length
+    if (safe) {
+      query = query.or(
+        `name.ilike.%${safe}%,description.ilike.%${safe}%,location.ilike.%${safe}%`
+      );
+    }
   }
 
   const from = (page - 1) * PAGE_SIZE;

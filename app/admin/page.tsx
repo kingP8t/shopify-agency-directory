@@ -40,16 +40,21 @@ async function getAllAgencies(): Promise<Agency[]> {
   return (data as Agency[]) ?? [];
 }
 
-async function getLeads(): Promise<Lead[]> {
-  const db = getAdminClient();
-  const { data, error } = await db
-    .from("leads")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(100);
+const LEADS_PAGE_SIZE = 50;
 
-  if (error) return [];
-  return (data as Lead[]) ?? [];
+async function getLeads(page: number): Promise<{ leads: Lead[]; total: number }> {
+  const db = getAdminClient();
+  const from = (page - 1) * LEADS_PAGE_SIZE;
+  const to = from + LEADS_PAGE_SIZE - 1;
+
+  const { data, error, count } = await db
+    .from("leads")
+    .select("*", { count: "exact" })
+    .order("created_at", { ascending: false })
+    .range(from, to);
+
+  if (error) return { leads: [], total: 0 };
+  return { leads: (data as Lead[]) ?? [], total: count ?? 0 };
 }
 
 async function getAllBlogPostsAdmin(): Promise<BlogPostDB[]> {
@@ -100,13 +105,21 @@ async function getAllReviews(): Promise<AdminReview[]> {
   });
 }
 
-export default async function AdminPage() {
-  const [agencies, leads, blogPosts, reviews] = await Promise.all([
+export default async function AdminPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ leadsPage?: string }>;
+}) {
+  const { leadsPage } = await searchParams;
+  const currentLeadsPage = Math.max(1, parseInt(leadsPage ?? "1", 10) || 1);
+
+  const [agencies, { leads, total: leadsTotal }, blogPosts, reviews] = await Promise.all([
     getAllAgencies(),
-    getLeads(),
+    getLeads(currentLeadsPage),
     getAllBlogPostsAdmin(),
     getAllReviews(),
   ]);
+  const totalLeadsPages = Math.ceil(leadsTotal / LEADS_PAGE_SIZE);
   const leadsTableUrl = getSupabaseDashboardUrl("leads");
 
   const published = agencies.filter((a) => a.status === "published").length;
@@ -149,7 +162,7 @@ export default async function AdminPage() {
             { label: "Published", value: published, color: "bg-green-100 text-green-800" },
             { label: "Pending Agencies", value: pendingAgencies.length, color: pendingAgencies.length > 0 ? "bg-orange-100 text-orange-800" : "bg-gray-100 text-gray-600" },
             { label: "Pending Reviews", value: pendingReviews.length, color: pendingReviews.length > 0 ? "bg-yellow-100 text-yellow-800" : "bg-gray-100 text-gray-600" },
-            { label: "Lead Enquiries", value: leads.length, color: "bg-blue-100 text-blue-800" },
+            { label: "Lead Enquiries", value: leadsTotal, color: "bg-blue-100 text-blue-800" },
             { label: "Blog Posts", value: `${publishedPosts}/${blogPosts.length}`, color: "bg-purple-100 text-purple-800" },
           ].map((stat) => (
             <div key={stat.label} className={`rounded-xl p-5 ${stat.color}`}>
@@ -247,10 +260,10 @@ export default async function AdminPage() {
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-                Lead Enquiries ({leads.length})
+                Lead Enquiries ({leadsTotal})
               </h2>
               <p className="mt-1 text-sm text-gray-400">
-                Merchants who submitted the Get Matched form
+                Showing {leads.length} of {leadsTotal} — page {currentLeadsPage} of {totalLeadsPages || 1}
               </p>
             </div>
             {leadsTableUrl && (
@@ -265,6 +278,34 @@ export default async function AdminPage() {
             )}
           </div>
           <AdminLeadsTable leads={leads} />
+          {/* Pagination */}
+          {totalLeadsPages > 1 && (
+            <div className="mt-4 flex items-center justify-between">
+              <a
+                href={currentLeadsPage > 1 ? `?leadsPage=${currentLeadsPage - 1}` : "#"}
+                className={`rounded-lg border px-4 py-2 text-sm ${
+                  currentLeadsPage <= 1
+                    ? "pointer-events-none text-gray-300"
+                    : "text-gray-600 hover:bg-gray-50"
+                }`}
+              >
+                ← Previous
+              </a>
+              <span className="text-sm text-gray-500">
+                Page {currentLeadsPage} of {totalLeadsPages}
+              </span>
+              <a
+                href={currentLeadsPage < totalLeadsPages ? `?leadsPage=${currentLeadsPage + 1}` : "#"}
+                className={`rounded-lg border px-4 py-2 text-sm ${
+                  currentLeadsPage >= totalLeadsPages
+                    ? "pointer-events-none text-gray-300"
+                    : "text-gray-600 hover:bg-gray-50"
+                }`}
+              >
+                Next →
+              </a>
+            </div>
+          )}
         </div>
 
         {/* ── Blog Posts ── */}

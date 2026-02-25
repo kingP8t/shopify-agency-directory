@@ -24,6 +24,9 @@ export default function AdminAgencyRow({ agency }: AdminAgencyRowProps) {
   }
 
   async function handleToggle() {
+    if (agency.status === "published") {
+      if (!confirm(`Unpublish "${agency.name}"? It will be hidden from the directory.`)) return;
+    }
     setToggling(true);
     await toggleStatusAction(agency.id, agency.status);
     setToggling(false);

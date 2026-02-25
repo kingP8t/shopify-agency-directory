@@ -45,10 +45,33 @@ async function getAgencyCount(): Promise<number> {
   return count ?? 0;
 }
 
+async function getReviewCount(): Promise<number> {
+  const { count } = await supabase
+    .from("reviews")
+    .select("*", { count: "exact", head: true })
+    .eq("approved", true);
+  return count ?? 0;
+}
+
+async function getAverageRating(): Promise<number | null> {
+  const { data } = await supabase
+    .from("agencies")
+    .select("rating")
+    .eq("status", "published")
+    .not("rating", "is", null);
+  if (!data || data.length === 0) return null;
+  const avg =
+    data.reduce((sum: number, a: { rating: number | null }) => sum + (a.rating ?? 0), 0) /
+    data.length;
+  return Math.round(avg * 10) / 10;
+}
+
 export default async function HomePage() {
-  const [featuredAgencies, agencyCount] = await Promise.all([
+  const [featuredAgencies, agencyCount, reviewCount, avgRating] = await Promise.all([
     getFeaturedAgencies(),
     getAgencyCount(),
+    getReviewCount(),
+    getAverageRating(),
   ]);
 
   const orgSchema = generateOrganizationJsonLd();
@@ -199,11 +222,15 @@ export default async function HomePage() {
             <p className="mt-1 text-green-100">Verified Agencies</p>
           </div>
           <div>
-            <p className="text-3xl font-bold">500+</p>
-            <p className="mt-1 text-green-100">Projects Completed</p>
+            <p className="text-3xl font-bold">
+              {reviewCount > 0 ? `${reviewCount}+` : "0"}
+            </p>
+            <p className="mt-1 text-green-100">Verified Reviews</p>
           </div>
           <div>
-            <p className="text-3xl font-bold">4.8★</p>
+            <p className="text-3xl font-bold">
+              {avgRating ? `${avgRating}★` : "—"}
+            </p>
             <p className="mt-1 text-green-100">Average Rating</p>
           </div>
         </div>

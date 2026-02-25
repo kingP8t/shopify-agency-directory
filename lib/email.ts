@@ -15,7 +15,19 @@ function getResend(): Resend | null {
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "";
 const SITE_NAME = "Shopify Agency Directory";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://shopifyagencydirectory.com";
 const FROM_ADDRESS = "Shopify Agency Directory <support@shopifyagencydirectory.com>";
+
+// Escape user-supplied strings before embedding in HTML to prevent XSS
+function esc(str: string | null | undefined): string {
+  if (!str) return "";
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
 
 // ─── Notify admin of a new lead enquiry ──────────────────────────────────────
 export async function sendNewLeadEmail(lead: {
@@ -37,15 +49,15 @@ export async function sendNewLeadEmail(lead: {
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #16a34a;">New Lead Enquiry 🎯</h2>
         <table style="width: 100%; border-collapse: collapse;">
-          <tr><td style="padding: 8px 0; font-weight: bold; width: 120px;">Name</td><td>${lead.name}</td></tr>
-          <tr><td style="padding: 8px 0; font-weight: bold;">Email</td><td><a href="mailto:${lead.email}">${lead.email}</a></td></tr>
-          ${lead.company ? `<tr><td style="padding: 8px 0; font-weight: bold;">Company</td><td>${lead.company}</td></tr>` : ""}
-          ${lead.budget ? `<tr><td style="padding: 8px 0; font-weight: bold;">Budget</td><td>${lead.budget}</td></tr>` : ""}
-          ${lead.agencyName ? `<tr><td style="padding: 8px 0; font-weight: bold;">Agency</td><td>${lead.agencyName}</td></tr>` : ""}
+          <tr><td style="padding: 8px 0; font-weight: bold; width: 120px;">Name</td><td>${esc(lead.name)}</td></tr>
+          <tr><td style="padding: 8px 0; font-weight: bold;">Email</td><td><a href="mailto:${esc(lead.email)}">${esc(lead.email)}</a></td></tr>
+          ${lead.company ? `<tr><td style="padding: 8px 0; font-weight: bold;">Company</td><td>${esc(lead.company)}</td></tr>` : ""}
+          ${lead.budget ? `<tr><td style="padding: 8px 0; font-weight: bold;">Budget</td><td>${esc(lead.budget)}</td></tr>` : ""}
+          ${lead.agencyName ? `<tr><td style="padding: 8px 0; font-weight: bold;">Agency</td><td>${esc(lead.agencyName)}</td></tr>` : ""}
         </table>
         <div style="margin-top: 16px; padding: 16px; background: #f9fafb; border-radius: 8px;">
           <p style="margin: 0; font-weight: bold;">Message:</p>
-          <p style="margin: 8px 0 0; white-space: pre-wrap;">${lead.message}</p>
+          <p style="margin: 8px 0 0; white-space: pre-wrap;">${esc(lead.message)}</p>
         </div>
         <p style="margin-top: 24px; color: #6b7280; font-size: 14px;">
           Sent from ${SITE_NAME}
@@ -71,7 +83,7 @@ export async function sendClaimVerificationEmail(params: {
     html: `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #16a34a;">Claim Your Agency Listing</h2>
-        <p>You requested to claim <strong>${params.agencyName}</strong> on the ${SITE_NAME}.</p>
+        <p>You requested to claim <strong>${esc(params.agencyName)}</strong> on the ${SITE_NAME}.</p>
         <p>Click the button below to verify your email and access your owner dashboard.
            This link expires in <strong>24 hours</strong>.</p>
         <p style="margin-top: 24px;">
@@ -115,8 +127,8 @@ export async function sendClaimNotificationEmail(params: {
     html: `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #16a34a;">Agency Claim Verified ✅</h2>
-        <p><strong>${params.agencyName}</strong> has been claimed by
-           <a href="mailto:${params.claimedEmail}">${params.claimedEmail}</a>.</p>
+        <p><strong>${esc(params.agencyName)}</strong> has been claimed by
+           <a href="mailto:${esc(params.claimedEmail)}">${esc(params.claimedEmail)}</a>.</p>
         <p>They now have access to the owner dashboard to edit their listing,
            view leads, and respond to reviews.</p>
         <p style="margin-top: 16px;">
@@ -138,6 +150,7 @@ export async function sendClaimNotificationEmail(params: {
 export async function sendLeadToOwnerEmail(params: {
   ownerEmail: string;
   agencyName: string;
+  agencySlug: string;
   lead: {
     name: string;
     email: string;
@@ -156,22 +169,28 @@ export async function sendLeadToOwnerEmail(params: {
     html: `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
         <h2 style="color: #16a34a;">New Lead Enquiry 🎯</h2>
-        <p>Someone has enquired about <strong>${params.agencyName}</strong> via the ${SITE_NAME}.</p>
+        <p>Someone has enquired about <strong>${esc(params.agencyName)}</strong> via the ${SITE_NAME}.</p>
         <table style="width: 100%; border-collapse: collapse; margin-top: 16px;">
-          <tr><td style="padding: 8px 0; font-weight: bold; width: 120px;">Name</td><td>${params.lead.name}</td></tr>
-          <tr><td style="padding: 8px 0; font-weight: bold;">Email</td><td><a href="mailto:${params.lead.email}">${params.lead.email}</a></td></tr>
-          ${params.lead.company ? `<tr><td style="padding: 8px 0; font-weight: bold;">Company</td><td>${params.lead.company}</td></tr>` : ""}
-          ${params.lead.budget ? `<tr><td style="padding: 8px 0; font-weight: bold;">Budget</td><td>${params.lead.budget}</td></tr>` : ""}
+          <tr><td style="padding: 8px 0; font-weight: bold; width: 120px;">Name</td><td>${esc(params.lead.name)}</td></tr>
+          <tr><td style="padding: 8px 0; font-weight: bold;">Email</td><td><a href="mailto:${esc(params.lead.email)}">${esc(params.lead.email)}</a></td></tr>
+          ${params.lead.company ? `<tr><td style="padding: 8px 0; font-weight: bold;">Company</td><td>${esc(params.lead.company)}</td></tr>` : ""}
+          ${params.lead.budget ? `<tr><td style="padding: 8px 0; font-weight: bold;">Budget</td><td>${esc(params.lead.budget)}</td></tr>` : ""}
         </table>
         <div style="margin-top: 16px; padding: 16px; background: #f9fafb; border-radius: 8px;">
           <p style="margin: 0; font-weight: bold;">Message:</p>
-          <p style="margin: 8px 0 0; white-space: pre-wrap;">${params.lead.message}</p>
+          <p style="margin: 8px 0 0; white-space: pre-wrap;">${esc(params.lead.message)}</p>
         </div>
         <p style="margin-top: 24px; color: #6b7280; font-size: 14px;">
-          Reply directly to <a href="mailto:${params.lead.email}">${params.lead.email}</a> to follow up.
+          Reply directly to <a href="mailto:${esc(params.lead.email)}">${esc(params.lead.email)}</a> to follow up.
         </p>
         <p style="margin-top: 8px; color: #6b7280; font-size: 14px;">
           Sent from ${SITE_NAME}
+        </p>
+        <p style="margin-top: 16px; font-size: 11px; color: #9ca3af; border-top: 1px solid #f3f4f6; padding-top: 12px;">
+          You're receiving lead notifications because you claimed <strong>${esc(params.agencyName)}</strong> on
+          <a href="${SITE_URL}" style="color: #9ca3af;">${SITE_NAME}</a>.
+          To stop these emails, reply with &ldquo;unsubscribe&rdquo; or
+          <a href="${SITE_URL}/agencies/${params.agencySlug}/owner" style="color: #9ca3af;">manage your listing</a>.
         </p>
       </div>
     `,
@@ -198,14 +217,14 @@ export async function sendNewAgencySubmissionEmail(agency: {
         <h2 style="color: #16a34a;">New Agency Submission ⏳</h2>
         <p style="color: #6b7280;">A new agency has submitted themselves and is waiting for your review.</p>
         <table style="width: 100%; border-collapse: collapse;">
-          <tr><td style="padding: 8px 0; font-weight: bold; width: 120px;">Agency</td><td>${agency.name}</td></tr>
-          <tr><td style="padding: 8px 0; font-weight: bold;">Email</td><td><a href="mailto:${agency.email}">${agency.email}</a></td></tr>
-          ${agency.website ? `<tr><td style="padding: 8px 0; font-weight: bold;">Website</td><td><a href="${agency.website}">${agency.website}</a></td></tr>` : ""}
-          ${agency.location ? `<tr><td style="padding: 8px 0; font-weight: bold;">Location</td><td>${agency.location}</td></tr>` : ""}
+          <tr><td style="padding: 8px 0; font-weight: bold; width: 120px;">Agency</td><td>${esc(agency.name)}</td></tr>
+          <tr><td style="padding: 8px 0; font-weight: bold;">Email</td><td><a href="mailto:${esc(agency.email)}">${esc(agency.email)}</a></td></tr>
+          ${agency.website ? `<tr><td style="padding: 8px 0; font-weight: bold;">Website</td><td><a href="${esc(agency.website)}">${esc(agency.website)}</a></td></tr>` : ""}
+          ${agency.location ? `<tr><td style="padding: 8px 0; font-weight: bold;">Location</td><td>${esc(agency.location)}</td></tr>` : ""}
         </table>
         <div style="margin-top: 16px; padding: 16px; background: #f9fafb; border-radius: 8px;">
           <p style="margin: 0; font-weight: bold;">Description:</p>
-          <p style="margin: 8px 0 0;">${agency.description}</p>
+          <p style="margin: 8px 0 0;">${esc(agency.description)}</p>
         </div>
         <p style="margin-top: 24px;">
           <a href="${process.env.NEXT_PUBLIC_SITE_URL}/admin"

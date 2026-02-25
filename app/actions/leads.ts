@@ -74,14 +74,16 @@ export async function submitLeadAction(
 
   // Look up agency name + claimed_email if agency_id was provided
   let agencyName: string | undefined;
+  let agencySlug: string | undefined;
   let agencyClaimedEmail: string | null = null;
   if (agency_id) {
     const { data } = await supabase
       .from("agencies")
-      .select("name, claimed_email")
+      .select("name, slug, claimed_email")
       .eq("id", agency_id)
       .single();
     agencyName = data?.name;
+    agencySlug = data?.slug;
     agencyClaimedEmail = data?.claimed_email ?? null;
   }
 
@@ -98,10 +100,11 @@ export async function submitLeadAction(
   await sendNewLeadEmail({ name, email, company, budget, message, agencyName });
 
   // Notify the agency owner directly if their listing is claimed (fire-and-forget)
-  if (agencyClaimedEmail && agencyName) {
+  if (agencyClaimedEmail && agencyName && agencySlug) {
     await sendLeadToOwnerEmail({
       ownerEmail: agencyClaimedEmail,
       agencyName,
+      agencySlug,
       lead: { name, email, company: company ?? null, budget: budget ?? null, message },
     });
   }
