@@ -1,6 +1,6 @@
 "use server";
 
-import { supabase } from "@/lib/supabase";
+import { getAdminClient } from "@/lib/supabase";
 import { headers } from "next/headers";
 import { sendNewAgencySubmissionEmail } from "@/lib/email";
 
@@ -93,7 +93,8 @@ export async function submitAgencyAction(
 
   const slug = slugify(name);
 
-  const { error } = await supabase.from("agencies").insert([
+  const adminClient = getAdminClient();
+  const { error } = await adminClient.from("agencies").insert([
     {
       name,
       slug,

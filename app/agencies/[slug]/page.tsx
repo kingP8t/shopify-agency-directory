@@ -13,6 +13,7 @@ interface Review {
   reviewer_name: string;
   body: string;
   rating: number;
+  owner_reply: string | null;
   created_at: string;
 }
 
@@ -35,7 +36,7 @@ async function getAgency(slug: string): Promise<Agency | null> {
 async function getApprovedReviews(agencyId: string): Promise<Review[]> {
   const { data } = await supabase
     .from("reviews")
-    .select("id, reviewer_name, body, rating, created_at")
+    .select("id, reviewer_name, body, rating, owner_reply, created_at")
     .eq("agency_id", agencyId)
     .eq("approved", true)
     .order("created_at", { ascending: false });
@@ -169,16 +170,34 @@ export default async function AgencyPage({
                 </div>
               </div>
 
-              {agency.website && (
-                <a
-                  href={agency.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="shrink-0 rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:border-gray-400"
-                >
-                  Visit Website ↗
-                </a>
-              )}
+              <div className="flex shrink-0 flex-col items-end gap-2">
+                {agency.website && (
+                  <a
+                    href={agency.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:border-gray-400"
+                  >
+                    Visit Website ↗
+                  </a>
+                )}
+                {!agency.claimed_at && (
+                  <a
+                    href={`/agencies/${agency.slug}/claim`}
+                    className="rounded-lg border border-dashed border-gray-300 px-4 py-2 text-xs text-gray-400 hover:border-green-400 hover:text-green-600"
+                  >
+                    Is this your agency? Claim it →
+                  </a>
+                )}
+                {agency.claimed_at && (
+                  <a
+                    href={`/agencies/${agency.slug}/owner`}
+                    className="rounded-lg border border-green-200 bg-green-50 px-4 py-2 text-xs font-medium text-green-700 hover:bg-green-100"
+                  >
+                    ✓ Owner Dashboard →
+                  </a>
+                )}
+              </div>
             </div>
 
             {/* Description */}
@@ -294,6 +313,16 @@ export default async function AgencyPage({
                       </time>
                     </div>
                     <p className="mt-2 text-sm leading-relaxed text-gray-600">{review.body}</p>
+                    {review.owner_reply && (
+                      <div className="mt-3 rounded-lg border-l-2 border-green-400 bg-gray-50 px-4 py-3">
+                        <p className="text-xs font-medium text-gray-500">
+                          Response from {agency.name}
+                        </p>
+                        <p className="mt-1 text-sm text-gray-700">
+                          {review.owner_reply}
+                        </p>
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>

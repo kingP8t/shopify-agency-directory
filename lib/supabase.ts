@@ -57,8 +57,25 @@ export interface Agency {
   review_count: number | null;
   featured: boolean;
   status: "published" | "draft" | "pending";
+  // Claim flow columns
+  claim_token: string | null;
+  claim_token_expires_at: string | null;
+  claimed_email: string | null;
+  claimed_at: string | null;
   created_at: string;
   updated_at: string;
+}
+
+export interface Review {
+  id: string;
+  agency_id: string;
+  reviewer_name: string;
+  body: string;
+  rating: number;
+  approved: boolean;
+  owner_reply: string | null;
+  owner_replied_at: string | null;
+  created_at: string;
 }
 
 export interface Lead {
