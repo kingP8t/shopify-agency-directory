@@ -63,7 +63,7 @@ export async function sendClaimVerificationEmail(params: {
   const client = getResend();
   if (!client) return;
 
-  await client.emails.send({
+  const { error } = await client.emails.send({
     from: `${SITE_NAME} <onboarding@resend.dev>`,
     to: params.to,
     subject: `Verify your ownership of ${params.agencyName}`,
@@ -92,7 +92,8 @@ export async function sendClaimVerificationEmail(params: {
         </p>
       </div>
     `,
-  }).catch(console.error);
+  });
+  if (error) throw new Error(error.message);
 }
 
 // ─── Notify admin when an agency is successfully claimed ──────────────────────

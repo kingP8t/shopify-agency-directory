@@ -60,11 +60,21 @@ export default function AdminAgencyRow({ agency }: AdminAgencyRowProps) {
               Featured
             </span>
           )}
+          {agency.claimed_at && (
+            <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+              Claimed
+            </span>
+          )}
         </div>
         <p className="mt-0.5 text-sm text-gray-500">
           {agency.location && `📍 ${agency.location} · `}
           {agency.slug}
         </p>
+        {agency.claimed_email && (
+          <p className="mt-0.5 text-xs text-green-600">
+            📧 {agency.claimed_email}
+          </p>
+        )}
         {agency.specializations && agency.specializations.length > 0 && (
           <div className="mt-2 flex flex-wrap gap-1">
             {agency.specializations.slice(0, 4).map((s) => (

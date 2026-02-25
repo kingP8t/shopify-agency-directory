@@ -104,11 +104,19 @@ export async function requestClaimAction(
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
   const verifyUrl = `${siteUrl}/agencies/${slug}/claim/verify?token=${token}&email=${encodeURIComponent(email)}`;
 
-  await sendClaimVerificationEmail({
-    to: email,
-    agencyName: agency.name,
-    verifyUrl,
-  });
+  try {
+    await sendClaimVerificationEmail({
+      to: email,
+      agencyName: agency.name,
+      verifyUrl,
+    });
+  } catch (emailError) {
+    console.error("Claim email send error:", emailError);
+    return {
+      success: false,
+      error: "Failed to send verification email. Please try again or contact support.",
+    };
+  }
 
   return { success: true };
 }

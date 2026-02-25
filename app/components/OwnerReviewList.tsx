@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useState, useActionState } from "react";
 import {
   respondToReviewAction,
   type OwnerReplyState,
@@ -31,6 +31,9 @@ function ReviewReplyForm({
   slug: string;
   existingReply: string | null;
 }) {
+  // Track the textarea value so we can display it after successful submission
+  // without relying on document.querySelector (which reads stale/missing DOM).
+  const [replyText, setReplyText] = useState("");
   const initialState: OwnerReplyState = { success: false };
   const [state, formAction, isPending] = useActionState(
     respondToReviewAction,
@@ -42,9 +45,7 @@ function ReviewReplyForm({
       <div className="mt-3 rounded-lg border-l-2 border-green-400 bg-gray-50 px-4 py-3">
         <p className="text-xs font-medium text-gray-500">Your response</p>
         <p className="mt-1 text-sm text-gray-700">
-          {state.success
-            ? (document.querySelector(`[data-reply="${reviewId}"]`) as HTMLTextAreaElement | null)?.value ?? existingReply
-            : existingReply}
+          {state.success ? replyText : existingReply}
         </p>
       </div>
     );
@@ -56,8 +57,9 @@ function ReviewReplyForm({
       <input type="hidden" name="review_id" value={reviewId} />
       <textarea
         name="reply"
-        data-reply={reviewId}
         rows={2}
+        value={replyText}
+        onChange={(e) => setReplyText(e.target.value)}
         placeholder="Write a response to this review..."
         className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
       />

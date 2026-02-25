@@ -190,12 +190,9 @@ export default async function AgencyPage({
                   </a>
                 )}
                 {agency.claimed_at && (
-                  <a
-                    href={`/agencies/${agency.slug}/owner`}
-                    className="rounded-lg border border-green-200 bg-green-50 px-4 py-2 text-xs font-medium text-green-700 hover:bg-green-100"
-                  >
-                    ✓ Owner Dashboard →
-                  </a>
+                  <span className="rounded-lg border border-green-200 bg-green-50 px-4 py-2 text-xs font-medium text-green-700">
+                    ✓ Verified Owner
+                  </span>
                 )}
               </div>
             </div>
