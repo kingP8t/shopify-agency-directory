@@ -15,6 +15,7 @@ function getResend(): Resend | null {
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? "";
 const SITE_NAME = "Shopify Agency Directory";
+const FROM_ADDRESS = "Shopify Agency Directory <support@shopifyagencydirectory.com>";
 
 // ─── Notify admin of a new lead enquiry ──────────────────────────────────────
 export async function sendNewLeadEmail(lead: {
@@ -29,7 +30,7 @@ export async function sendNewLeadEmail(lead: {
   if (!client || !ADMIN_EMAIL) return; // Not configured — skip silently
 
   await client.emails.send({
-    from: `${SITE_NAME} <onboarding@resend.dev>`,
+    from: FROM_ADDRESS,
     to: ADMIN_EMAIL,
     subject: `New lead enquiry${lead.agencyName ? ` for ${lead.agencyName}` : ""} — ${lead.name}`,
     html: `
@@ -64,7 +65,7 @@ export async function sendClaimVerificationEmail(params: {
   if (!client) return;
 
   const { error } = await client.emails.send({
-    from: `${SITE_NAME} <onboarding@resend.dev>`,
+    from: FROM_ADDRESS,
     to: params.to,
     subject: `Verify your ownership of ${params.agencyName}`,
     html: `
@@ -108,7 +109,7 @@ export async function sendClaimNotificationEmail(params: {
   const ownerDashboardUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/agencies/${params.agencySlug}/owner`;
 
   await client.emails.send({
-    from: `${SITE_NAME} <onboarding@resend.dev>`,
+    from: FROM_ADDRESS,
     to: ADMIN_EMAIL,
     subject: `Agency claimed: ${params.agencyName} — ${params.claimedEmail}`,
     html: `
@@ -149,7 +150,7 @@ export async function sendLeadToOwnerEmail(params: {
   if (!client) return; // Not configured — skip silently
 
   await client.emails.send({
-    from: `${SITE_NAME} <onboarding@resend.dev>`,
+    from: FROM_ADDRESS,
     to: params.ownerEmail,
     subject: `New enquiry for ${params.agencyName} — ${params.lead.name}`,
     html: `
@@ -189,7 +190,7 @@ export async function sendNewAgencySubmissionEmail(agency: {
   if (!client || !ADMIN_EMAIL) return;
 
   await client.emails.send({
-    from: `${SITE_NAME} <onboarding@resend.dev>`,
+    from: FROM_ADDRESS,
     to: ADMIN_EMAIL,
     subject: `New agency submission — ${agency.name} (pending review)`,
     html: `
