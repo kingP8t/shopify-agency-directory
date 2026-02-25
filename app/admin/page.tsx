@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { supabase } from "@/lib/supabase";
+import { getAdminClient } from "@/lib/supabase";
 import type { Agency, Lead, BlogPostDB } from "@/lib/supabase";
 import AdminAgencyRow from "@/app/components/AdminAgencyRow";
 import AddAgencyModal from "@/app/components/AddAgencyModal";
@@ -7,6 +7,7 @@ import AdminLogoutButton from "@/app/components/AdminLogoutButton";
 import AdminLeadsTable from "@/app/components/AdminLeadsTable";
 import AdminBlogRow from "@/app/components/AdminBlogRow";
 import AddBlogPostModal from "@/app/components/AddBlogPostModal";
+import AdminReviewRow, { type AdminReview } from "@/app/components/AdminReviewRow";
 
 export const metadata: Metadata = {
   title: "Admin — Shopify Agency Directory",
@@ -28,7 +29,8 @@ function getSupabaseDashboardUrl(table: string): string | null {
 }
 
 async function getAllAgencies(): Promise<Agency[]> {
-  const { data, error } = await supabase
+  const db = getAdminClient();
+  const { data, error } = await db
     .from("agencies")
     .select("*")
     .order("status", { ascending: true }) // pending first
@@ -39,7 +41,8 @@ async function getAllAgencies(): Promise<Agency[]> {
 }
 
 async function getLeads(): Promise<Lead[]> {
-  const { data, error } = await supabase
+  const db = getAdminClient();
+  const { data, error } = await db
     .from("leads")
     .select("*")
     .order("created_at", { ascending: false })
@@ -50,7 +53,8 @@ async function getLeads(): Promise<Lead[]> {
 }
 
 async function getAllBlogPostsAdmin(): Promise<BlogPostDB[]> {
-  const { data, error } = await supabase
+  const db = getAdminClient();
+  const { data, error } = await db
     .from("blog_posts")
     .select("*")
     .order("date", { ascending: false });
@@ -59,17 +63,56 @@ async function getAllBlogPostsAdmin(): Promise<BlogPostDB[]> {
   return (data as BlogPostDB[]) ?? [];
 }
 
+async function getAllReviews(): Promise<AdminReview[]> {
+  const db = getAdminClient();
+  const { data, error } = await db
+    .from("reviews")
+    .select("id, reviewer_name, rating, body, approved, created_at, agency_id, agencies(name, slug)")
+    .order("approved", { ascending: true }) // pending first
+    .order("created_at", { ascending: false })
+    .limit(200);
+
+  if (error) return [];
+
+  return ((data as unknown[]) ?? []).map((row) => {
+    const r = row as {
+      id: string;
+      reviewer_name: string;
+      rating: number;
+      body: string | null;
+      approved: boolean;
+      created_at: string;
+      agency_id: string;
+      agencies: { name: string; slug: string } | { name: string; slug: string }[] | null;
+    };
+    const agencyData = Array.isArray(r.agencies) ? r.agencies[0] : r.agencies;
+    return {
+      id: r.id,
+      reviewer_name: r.reviewer_name,
+      rating: r.rating,
+      body: r.body,
+      approved: r.approved,
+      created_at: r.created_at,
+      agency_id: r.agency_id,
+      agency_name: agencyData?.name ?? "Unknown",
+      agency_slug: agencyData?.slug ?? "",
+    };
+  });
+}
+
 export default async function AdminPage() {
-  const [agencies, leads, blogPosts] = await Promise.all([
+  const [agencies, leads, blogPosts, reviews] = await Promise.all([
     getAllAgencies(),
     getLeads(),
     getAllBlogPostsAdmin(),
+    getAllReviews(),
   ]);
   const leadsTableUrl = getSupabaseDashboardUrl("leads");
 
   const published = agencies.filter((a) => a.status === "published").length;
-  const pending = agencies.filter((a) => a.status === "pending");
+  const pendingAgencies = agencies.filter((a) => a.status === "pending");
   const publishedPosts = blogPosts.filter((p) => p.status === "published").length;
+  const pendingReviews = reviews.filter((r) => !r.approved);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -100,11 +143,12 @@ export default async function AdminPage() {
         </div>
 
         {/* Stats */}
-        <div className="mt-6 grid gap-4 sm:grid-cols-5">
+        <div className="mt-6 grid gap-4 sm:grid-cols-3 lg:grid-cols-6">
           {[
             { label: "Total Agencies", value: agencies.length, color: "bg-gray-100 text-gray-900" },
             { label: "Published", value: published, color: "bg-green-100 text-green-800" },
-            { label: "Pending Review", value: pending.length, color: pending.length > 0 ? "bg-orange-100 text-orange-800" : "bg-gray-100 text-gray-600" },
+            { label: "Pending Agencies", value: pendingAgencies.length, color: pendingAgencies.length > 0 ? "bg-orange-100 text-orange-800" : "bg-gray-100 text-gray-600" },
+            { label: "Pending Reviews", value: pendingReviews.length, color: pendingReviews.length > 0 ? "bg-yellow-100 text-yellow-800" : "bg-gray-100 text-gray-600" },
             { label: "Lead Enquiries", value: leads.length, color: "bg-blue-100 text-blue-800" },
             { label: "Blog Posts", value: `${publishedPosts}/${blogPosts.length}`, color: "bg-purple-100 text-purple-800" },
           ].map((stat) => (
@@ -115,12 +159,12 @@ export default async function AdminPage() {
           ))}
         </div>
 
-        {/* ── Pending submissions — action required ── */}
-        {pending.length > 0 && (
+        {/* ── Pending agency submissions ── */}
+        {pendingAgencies.length > 0 && (
           <div className="mt-8">
             <div className="flex items-center gap-2">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-orange-600">
-                ⏳ Pending Review ({pending.length})
+                ⏳ Pending Agencies ({pendingAgencies.length})
               </h2>
               <span className="rounded-full bg-orange-100 px-2 py-0.5 text-xs font-medium text-orange-700">
                 Action required
@@ -130,8 +174,30 @@ export default async function AdminPage() {
               These agencies submitted themselves via the public form. Review, edit if needed, then publish.
             </p>
             <ul className="mt-3 space-y-3">
-              {pending.map((agency) => (
+              {pendingAgencies.map((agency) => (
                 <AdminAgencyRow key={agency.id} agency={agency} />
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* ── Pending reviews ── */}
+        {pendingReviews.length > 0 && (
+          <div className="mt-8">
+            <div className="flex items-center gap-2">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-yellow-600">
+                ⭐ Pending Reviews ({pendingReviews.length})
+              </h2>
+              <span className="rounded-full bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-700">
+                Action required
+              </span>
+            </div>
+            <p className="mt-1 text-sm text-gray-500">
+              Approve reviews to publish them on the agency profile. Delete spam or invalid submissions.
+            </p>
+            <ul className="mt-3 space-y-3">
+              {pendingReviews.map((review) => (
+                <AdminReviewRow key={review.id} review={review} />
               ))}
             </ul>
           </div>
@@ -151,6 +217,26 @@ export default async function AdminPage() {
             <ul className="mt-4 space-y-3">
               {agencies.map((agency) => (
                 <AdminAgencyRow key={agency.id} agency={agency} />
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {/* ── All reviews ── */}
+        <div className="mt-10">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
+            All Reviews ({reviews.length})
+          </h2>
+          <p className="mt-1 text-sm text-gray-400">
+            {reviews.filter((r) => r.approved).length} approved ·{" "}
+            {pendingReviews.length} pending
+          </p>
+          {reviews.length === 0 ? (
+            <p className="mt-4 text-sm text-gray-400">No reviews yet.</p>
+          ) : (
+            <ul className="mt-4 space-y-3">
+              {reviews.map((review) => (
+                <AdminReviewRow key={review.id} review={review} />
               ))}
             </ul>
           )}
