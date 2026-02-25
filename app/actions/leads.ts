@@ -2,7 +2,7 @@
 
 import { supabase } from "@/lib/supabase";
 import { headers } from "next/headers";
-import { sendNewLeadEmail } from "@/lib/email";
+import { sendNewLeadEmail, sendLeadToOwnerEmail } from "@/lib/email";
 
 export interface LeadFormState {
   success: boolean;
@@ -72,15 +72,17 @@ export async function submitLeadAction(
     return { success: false, error: "Please enter a valid email address." };
   }
 
-  // Look up agency name if agency_id was provided (for email subject line)
+  // Look up agency name + claimed_email if agency_id was provided
   let agencyName: string | undefined;
+  let agencyClaimedEmail: string | null = null;
   if (agency_id) {
     const { data } = await supabase
       .from("agencies")
-      .select("name")
+      .select("name, claimed_email")
       .eq("id", agency_id)
       .single();
     agencyName = data?.name;
+    agencyClaimedEmail = data?.claimed_email ?? null;
   }
 
   const { error } = await supabase.from("leads").insert([
@@ -92,8 +94,17 @@ export async function submitLeadAction(
     return { success: false, error: "Something went wrong. Please try again." };
   }
 
-  // Send admin notification email (fire-and-forget — never blocks the response)
+  // Notify admin (fire-and-forget)
   await sendNewLeadEmail({ name, email, company, budget, message, agencyName });
+
+  // Notify the agency owner directly if their listing is claimed (fire-and-forget)
+  if (agencyClaimedEmail && agencyName) {
+    await sendLeadToOwnerEmail({
+      ownerEmail: agencyClaimedEmail,
+      agencyName,
+      lead: { name, email, company: company ?? null, budget: budget ?? null, message },
+    });
+  }
 
   return { success: true };
 }
