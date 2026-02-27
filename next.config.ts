@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
   ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).hostname
@@ -27,6 +28,12 @@ const cspHeader = [
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  // Pin the Turbopack workspace root to THIS project directory.
+  // Prevents Next.js picking up a package.json at C:\Users\USER\ as the root,
+  // which would cause Tailwind CSS to fail to resolve.
+  turbopack: {
+    root: path.resolve(__dirname),
+  },
   images: {
     remotePatterns: [
       // Allow Supabase storage images

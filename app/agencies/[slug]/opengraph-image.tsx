@@ -46,6 +46,7 @@ export default async function OgImage({
             flexDirection: "column",
             justifyContent: "center",
             padding: "60px 80px",
+            width: "100%",
           }}
         >
           {/* Logo placeholder */}
@@ -73,7 +74,7 @@ export default async function OgImage({
 
           {location && (
             <div style={{ fontSize: 24, color: "#6b7280", marginTop: 12 }}>
-              📍 {location}
+              {`${location}`}
             </div>
           )}
 
@@ -85,7 +86,7 @@ export default async function OgImage({
 
           {rating && (
             <div style={{ fontSize: 22, color: "#374151", marginTop: 20 }}>
-              ⭐ {rating} · {agency?.review_count} reviews
+              {`${rating} stars · ${agency?.review_count ?? 0} reviews`}
             </div>
           )}
         </div>
@@ -97,8 +98,10 @@ export default async function OgImage({
             borderTop: "1px solid #e5e7eb",
             padding: "20px 80px",
             display: "flex",
+            flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-between",
+            width: "100%",
           }}
         >
           <div style={{ fontSize: 18, color: "#6b7280" }}>Shopify Agency Directory</div>
