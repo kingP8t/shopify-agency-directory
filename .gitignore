@@ -40,3 +40,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .firecrawl/
+
+# Scraper output (can be large, not needed in git)
+scripts/scraped-partners.json
+scripts/scrape-checkpoint.json
+scripts/outreach-list.csv
+scripts/debug-page1.html
+

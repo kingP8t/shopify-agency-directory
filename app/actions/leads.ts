@@ -3,32 +3,16 @@
 import { supabase } from "@/lib/supabase";
 import { headers } from "next/headers";
 import { sendNewLeadEmail, sendLeadToOwnerEmail } from "@/lib/email";
+import { isRateLimited } from "@/lib/rate-limit";
 
 export interface LeadFormState {
   success: boolean;
   error?: string;
 }
 
-// ─── Simple in-process rate limiter ──────────────────────────────────────────
-// Tracks submission counts per IP using a Map. Resets every WINDOW_MS.
-// Good enough for a low-traffic directory; swap for Redis/Upstash for scale.
-const rateMap = new Map<string, { count: number; resetAt: number }>();
-const WINDOW_MS = 60_000; // 1 minute window
-const MAX_REQUESTS = 5;   // max 5 submissions per IP per minute
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = rateMap.get(ip);
-
-  if (!entry || now > entry.resetAt) {
-    rateMap.set(ip, { count: 1, resetAt: now + WINDOW_MS });
-    return false;
-  }
-
-  entry.count += 1;
-  if (entry.count > MAX_REQUESTS) return true;
-  return false;
-}
+// Rate limit config — 5 lead submissions per IP per minute
+const LEAD_MAX = 5;
+const LEAD_WINDOW_MS = 60_000;
 
 export async function submitLeadAction(
   _prev: LeadFormState,
@@ -48,7 +32,7 @@ export async function submitLeadAction(
     headersList.get("x-real-ip") ??
     "unknown";
 
-  if (isRateLimited(ip)) {
+  if (await isRateLimited(`lead:${ip}`, LEAD_MAX, LEAD_WINDOW_MS)) {
     return {
       success: false,
       error: "Too many submissions. Please wait a moment and try again.",

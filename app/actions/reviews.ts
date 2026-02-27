@@ -3,25 +3,16 @@
 import { supabase, getAdminClient } from "@/lib/supabase";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { isRateLimited } from "@/lib/rate-limit";
 
 export interface ReviewState {
   success: boolean;
   error?: string;
 }
 
-// Simple rate limiter
-const reviewRateMap = new Map<string, { count: number; resetAt: number }>();
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = reviewRateMap.get(ip);
-  if (!entry || now > entry.resetAt) {
-    reviewRateMap.set(ip, { count: 1, resetAt: now + 60_000 });
-    return false;
-  }
-  entry.count += 1;
-  return entry.count > 3; // max 3 reviews per IP per minute
-}
+// Rate limit config — 3 review submissions per IP per minute
+const REVIEW_MAX = 3;
+const REVIEW_WINDOW_MS = 60_000;
 
 export async function submitReviewAction(
   _prev: ReviewState,
@@ -34,7 +25,7 @@ export async function submitReviewAction(
     headersList.get("x-real-ip") ??
     "unknown";
 
-  if (isRateLimited(ip)) {
+  if (await isRateLimited(`review:${ip}`, REVIEW_MAX, REVIEW_WINDOW_MS)) {
     return { success: false, error: "Too many submissions. Please wait a moment." };
   }
 
