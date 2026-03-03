@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "shopify-agency-directory",
-      "runtimeExecutable": "C:/Program Files/nodejs/npm.cmd",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": ["/c", "npm run dev"],
       "port": 3000
     }
   ]
