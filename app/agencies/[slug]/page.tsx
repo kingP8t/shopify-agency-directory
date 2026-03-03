@@ -7,6 +7,7 @@ import LeadForm from "@/app/components/LeadForm";
 import SiteNav from "@/app/components/SiteNav";
 import ReviewForm from "@/app/components/ReviewForm";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
+import AgencyLogo from "@/app/components/AgencyLogo";
 
 interface Review {
   id: string;
@@ -142,9 +143,11 @@ export default async function AgencyPage({
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-start gap-5">
                 {/* Logo */}
-                <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-xl bg-green-100 text-2xl font-bold text-green-700">
-                  {agency.name.charAt(0)}
-                </div>
+                <AgencyLogo
+                  name={agency.name}
+                  website={agency.website}
+                  size="lg"
+                />
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
                     <h1 className="text-2xl font-bold text-gray-900">
