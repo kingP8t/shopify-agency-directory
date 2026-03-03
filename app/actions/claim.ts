@@ -5,15 +5,8 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getAdminClient } from "@/lib/supabase";
-import {
-  signOwnerToken,
-  OWNER_SESSION_MAX_AGE,
-  getOwnerSession,
-} from "@/lib/owner-session";
-import {
-  sendClaimVerificationEmail,
-  sendClaimNotificationEmail,
-} from "@/lib/email";
+import { getOwnerSession } from "@/lib/owner-session";
+import { sendClaimVerificationEmail } from "@/lib/email";
 
 export interface ClaimState {
   success: boolean;
@@ -122,97 +115,10 @@ export async function requestClaimAction(
 }
 
 // ---------------------------------------------------------------------------
-// Step 2: Owner clicks magic link → /agencies/[slug]/claim/verify
+// Step 2: Owner clicks magic link → handled by Route Handler
+// app/agencies/[slug]/claim/verify/route.ts
+// (Route Handlers can call cookies().set(); Server Component renders cannot)
 // ---------------------------------------------------------------------------
-export async function verifyClaimAction(params: {
-  slug: string;
-  token: string;
-  email: string;
-}): Promise<{ success: true; agencyId: string } | { success: false; error: string }> {
-  const { slug, token, email } = params;
-
-  if (!slug || !token || !email) {
-    return { success: false, error: "Invalid verification link." };
-  }
-
-  const db = getAdminClient();
-
-  const { data: agency } = await db
-    .from("agencies")
-    .select("id, name, slug, claim_token, claim_token_expires_at")
-    .eq("slug", slug)
-    .eq("claim_token", token)
-    .single();
-
-  if (!agency) {
-    return {
-      success: false,
-      error: "Invalid or expired verification link. Please request a new one.",
-    };
-  }
-
-  if (
-    !agency.claim_token_expires_at ||
-    new Date(agency.claim_token_expires_at) < new Date()
-  ) {
-    return {
-      success: false,
-      error: "This verification link has expired. Please request a new one.",
-    };
-  }
-
-  // Mark as claimed and consume the one-time token
-  const { error: claimError } = await db
-    .from("agencies")
-    .update({
-      claimed_email: email,
-      claimed_at: new Date().toISOString(),
-      claim_token: null,
-      claim_token_expires_at: null,
-    })
-    .eq("id", agency.id);
-
-  if (claimError) {
-    console.error("Claim verification error:", claimError);
-    return { success: false, error: "Something went wrong. Please try again." };
-  }
-
-  // Create a persistent owner session
-  const sessionExpiresAt = new Date(
-    Date.now() + OWNER_SESSION_MAX_AGE * 1000
-  ).toISOString();
-
-  const { data: session, error: sessionError } = await db
-    .from("agency_owner_sessions")
-    .insert([{ agency_id: agency.id, email, expires_at: sessionExpiresAt }])
-    .select("id")
-    .single();
-
-  if (sessionError || !session) {
-    console.error("Owner session creation error:", sessionError);
-    return { success: false, error: "Something went wrong. Please try again." };
-  }
-
-  // Set signed session cookie
-  const signed = signOwnerToken(session.id);
-  const cookieStore = await cookies();
-  cookieStore.set("owner_session", signed, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    maxAge: OWNER_SESSION_MAX_AGE,
-    path: "/",
-  });
-
-  // Notify admin (fire-and-forget)
-  await sendClaimNotificationEmail({
-    agencyName: agency.name,
-    agencySlug: agency.slug,
-    claimedEmail: email,
-  });
-
-  return { success: true, agencyId: agency.id };
-}
 
 // ---------------------------------------------------------------------------
 // Step 3a: Owner updates their listing (restricted fields only)

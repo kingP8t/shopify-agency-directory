@@ -12,10 +12,13 @@ export const metadata: Metadata = {
 
 export default async function ClaimPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ error?: string }>;
 }) {
   const { slug } = await params;
+  const { error: verifyError } = await searchParams;
 
   const { data: agency } = await supabase
     .from("agencies")
@@ -53,6 +56,13 @@ export default async function ClaimPage({
             Enter your business email to verify you own this listing. We&apos;ll
             send you a one-time verification link.
           </p>
+
+          {verifyError && (
+            <div className="mt-6 rounded-lg border border-red-200 bg-red-50 px-4 py-4 text-sm text-red-800">
+              <p className="font-medium">Verification failed</p>
+              <p className="mt-1 text-red-700">{decodeURIComponent(verifyError)}</p>
+            </div>
+          )}
 
           {agency.claimed_at ? (
             <div className="mt-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-4 text-sm text-amber-800">
