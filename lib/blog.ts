@@ -66,7 +66,7 @@ const posts: BlogPost[] = [
     slug: "how-to-choose-a-shopify-agency",
     title: "How to Choose a Shopify Agency: The Complete 2026 Guide",
     excerpt:
-      "Choosing the wrong Shopify agency can cost you months and thousands of pounds. Here's exactly what to look for — and the red flags to avoid.",
+      "Choosing the wrong Shopify agency can cost you months and thousands of dollars. Here's exactly what to look for — and the red flags to avoid.",
     date: "2026-01-15",
     readingTime: 8,
     author: "Shopify Agency Directory",
@@ -103,7 +103,7 @@ const posts: BlogPost[] = [
       },
       {
         type: "tip",
-        text: "Shopify Plus Partners have completed additional training and built a proven track record on the enterprise plan. If your store turns over more than £1M/year, only consider Plus Partners.",
+        text: "Shopify Plus Partners have completed additional training and built a proven track record on the enterprise plan. If your store turns over more than $1M/year, only consider Plus Partners.",
       },
       { type: "h2", text: "3. Review Their Portfolio Critically" },
       {
@@ -151,7 +151,7 @@ const posts: BlogPost[] = [
       },
       {
         type: "p",
-        text: "Don't always go for the cheapest quote. A £10,000 project that runs over to £25,000 is worse value than a transparent £18,000 fixed-price quote.",
+        text: "Don't always go for the cheapest quote. A $10,000 project that runs over to $25,000 is worse value than a transparent $18,000 fixed-price quote.",
       },
       { type: "h2", text: "6. Red Flags to Watch Out For" },
       {
@@ -179,7 +179,7 @@ const posts: BlogPost[] = [
     slug: "shopify-vs-shopify-plus-which-is-right-for-your-business",
     title: "Shopify vs Shopify Plus: Which Is Right for Your Business?",
     excerpt:
-      "Shopify Plus costs £2,000+ per month. Is it worth it? We break down every difference so you can make the right call for your business.",
+      "Shopify Plus starts at $2,300/month. Is it worth it? We break down every difference so you can make the right call for your business.",
     date: "2026-01-22",
     readingTime: 7,
     author: "Shopify Agency Directory",
@@ -274,7 +274,7 @@ const posts: BlogPost[] = [
     slug: "how-much-does-a-shopify-website-cost",
     title: "How Much Does a Shopify Website Cost in 2026?",
     excerpt:
-      "From £3,000 to £150,000+ — Shopify website costs vary enormously. Here's a transparent breakdown of what you'll actually pay and why.",
+      "From $3,000 to $150,000+ — Shopify website costs vary enormously. Here's a transparent breakdown of what you'll actually pay and why.",
     date: "2026-02-01",
     readingTime: 6,
     author: "Shopify Agency Directory",
@@ -283,14 +283,14 @@ const posts: BlogPost[] = [
     content: [
       {
         type: "p",
-        text: "One of the most common questions merchants ask is: how much does a Shopify website cost? The honest answer is — it depends enormously on what you're building. A basic theme customisation might cost £2,000. A fully bespoke Shopify Plus store for an enterprise brand can run to £150,000 or more.",
+        text: "One of the most common questions merchants ask is: how much does a Shopify website cost? The honest answer is — it depends enormously on what you're building. A basic theme customisation might cost $2,000. A fully bespoke Shopify Plus store for an enterprise brand can run to $150,000 or more.",
       },
       {
         type: "p",
         text: "Here's a transparent breakdown of real-world costs so you can set the right budget.",
       },
       { type: "h2", text: "The Three Tiers of Shopify Projects" },
-      { type: "h3", text: "Tier 1: Theme-Based Build (£2,000 – £8,000)" },
+      { type: "h3", text: "Tier 1: Theme-Based Build ($2,000 – $8,000)" },
       {
         type: "p",
         text: "This is the most common starting point for new Shopify stores. An agency takes a premium theme (like Dawn, Impulse, or Prestige), customises it to match your brand, and sets up your products and collections.",
@@ -304,7 +304,7 @@ const posts: BlogPost[] = [
           "What's not included: custom functionality, complex integrations, bespoke UX design",
         ],
       },
-      { type: "h3", text: "Tier 2: Custom Design Build (£8,000 – £40,000)" },
+      { type: "h3", text: "Tier 2: Custom Design Build ($8,000 – $40,000)" },
       {
         type: "p",
         text: "A fully designed-from-scratch Shopify store with custom UX, bespoke theme development, and thoughtful conversion optimisation.",
@@ -318,7 +318,7 @@ const posts: BlogPost[] = [
           "What's not included: custom Shopify apps, advanced B2B features, headless architecture",
         ],
       },
-      { type: "h3", text: "Tier 3: Enterprise / Headless (£40,000 – £150,000+)" },
+      { type: "h3", text: "Tier 3: Enterprise / Headless ($40,000 – $150,000+)" },
       {
         type: "p",
         text: "Enterprise Shopify Plus projects with headless architecture, custom app development, complex integrations (ERP, PIM, OMS), and multi-region setups.",
@@ -340,9 +340,9 @@ const posts: BlogPost[] = [
         type: "ul",
         items: [
           "Shopify plan: $39 – $399/month (or $2,300+/month for Plus)",
-          "Apps: £100 – £1,000+/month depending on your stack",
-          "Theme licence: £200 – £400 one-off for a premium theme",
-          "Ongoing support retainer: £500 – £3,000/month if you use an agency",
+          "Apps: $100 – $1,000+/month depending on your stack",
+          "Theme licence: $200 – $380 one-off for a premium theme",
+          "Ongoing support retainer: $500 – $3,000/month if you use an agency",
           "Hosting: included in Shopify's monthly fee",
         ],
       },
@@ -460,6 +460,382 @@ const posts: BlogPost[] = [
 
   // ─── Post 5 ───────────────────────────────────────────────────────────────
   {
+    slug: "best-shopify-review-apps-2026",
+    title: "Best Shopify Review Apps in 2026: Yotpo vs Judge.me vs Okendo vs Stamped",
+    excerpt:
+      "Customer reviews can lift conversion rates by 15–30%. But which review app is actually worth paying for? We compare the four leading options side by side.",
+    date: "2026-02-20",
+    readingTime: 9,
+    author: "Shopify Agency Directory",
+    category: "Tools & Apps",
+    tags: ["shopify apps", "reviews", "yotpo", "judge.me", "okendo", "stamped", "social proof"],
+    content: [
+      {
+        type: "p",
+        text: "Product reviews are one of the highest-ROI additions to any Shopify store. Studies consistently show that displaying reviews increases conversion rates by 15–30%, and review content improves SEO by adding unique, keyword-rich text to product pages. But the app market is crowded — and choosing the wrong one means paying for features you don't use, or missing features you need.",
+      },
+      {
+        type: "p",
+        text: "We've tested all four of the leading Shopify review apps across real stores ranging from small DTC brands to Shopify Plus merchants. Here's our honest verdict.",
+      },
+      { type: "h2", text: "Quick Comparison: At a Glance" },
+      {
+        type: "ul",
+        items: [
+          "Judge.me — best overall value; excellent free plan; fast loading; ideal for small to mid-size stores",
+          "Yotpo — best enterprise option; combines reviews, loyalty, SMS, and referrals; highest price",
+          "Okendo — best for DTC brands wanting rich UGC (photos, videos, attributes); strong integrations",
+          "Stamped.io — best all-in-one platform; reviews + loyalty + referrals in one subscription",
+        ],
+      },
+      { type: "h2", text: "1. Judge.me — Best for Value & Speed" },
+      {
+        type: "p",
+        text: "Judge.me is the most widely installed review app on Shopify — and for good reason. Its free plan is genuinely generous, and even the paid plan (around $15/month) unlocks almost every feature most stores will ever need.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Free plan includes unlimited review requests, basic widgets, and SEO rich snippets",
+          "Paid plan adds Q&A, Google Shopping integration, custom forms, and coupons",
+          "Review request emails are among the best-performing in the industry",
+          "Extremely fast — review widgets add almost no page weight",
+          "Strong Klaviyo and Shopify Flow integrations",
+        ],
+      },
+      {
+        type: "tip",
+        text: "Judge.me is the default recommendation for stores under $2M revenue. The $15/month plan covers 99% of what merchants need. Only upgrade to Yotpo or Okendo if you have specific enterprise requirements.",
+      },
+      { type: "h2", text: "2. Yotpo — Best Enterprise Platform" },
+      {
+        type: "p",
+        text: "Yotpo has evolved from a review app into a full retention marketing suite. Reviews are just one module — you can also add SMS marketing, loyalty, referrals, and visual UGC under one platform and one bill.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Deep Shopify Plus integration including checkout extensibility",
+          "Visual UGC (Instagram photos, video reviews) displayed natively in product pages",
+          "Combine with Yotpo SMSBump for tightly integrated post-purchase flows",
+          "Paid plans start at ~$15/month for basic reviews; enterprise pricing is bespoke",
+          "Analytics dashboard is the strongest of any review app",
+          "The main drawback: costs scale quickly as you add modules",
+        ],
+      },
+      { type: "h2", text: "3. Okendo — Best for DTC Brands" },
+      {
+        type: "p",
+        text: "Okendo has carved out a strong niche with DTC brands that care deeply about UGC quality and brand presentation. Its review widgets are the most visually polished of any app on this list.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Media reviews — photo and video uploads are beautiful and highly conversion-focused",
+          "Review attributes (e.g., 'Fits True to Size', 'Great Quality') drive purchase confidence",
+          "Micro-surveys capture structured feedback alongside reviews",
+          "Strong integrations with Klaviyo, Gorgias, and Attentive",
+          "Plans start at $19/month; mid-tier plans run $119–$299/month",
+          "Best fit for brands in fashion, beauty, wellness, or lifestyle categories",
+        ],
+      },
+      { type: "h2", text: "4. Stamped.io — Best All-in-One Stack" },
+      {
+        type: "p",
+        text: "Stamped.io bundles reviews, loyalty, referrals, and visual UGC into a single subscription. If you want to consolidate your social proof and retention stack into one vendor, Stamped is worth serious consideration.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Reviews, NPS, Q&A, and loyalty points all available within one platform",
+          "Google Shopping and structured data built in on all plans",
+          "Loyalty module is competitive with Smile.io, especially at scale",
+          "Plans start free; growth plans run $59–$149/month for the combined stack",
+          "Slightly less polished UX than Okendo, but the value-per-feature ratio is strong",
+        ],
+      },
+      { type: "h2", text: "Which App Should You Choose?" },
+      {
+        type: "ol",
+        items: [
+          "Starting out or under $500k revenue → Judge.me free or paid ($15/month)",
+          "DTC brand focused on UGC and brand image → Okendo",
+          "Shopify Plus merchant wanting a full retention suite → Yotpo",
+          "Looking to consolidate reviews + loyalty into one platform → Stamped.io",
+        ],
+      },
+      { type: "h2", text: "Installation Tips" },
+      {
+        type: "ul",
+        items: [
+          "Migrate existing reviews before switching apps — all four support CSV imports",
+          "Set up automated review request emails immediately after install; timing matters (usually 7–14 days post-delivery)",
+          "Enable rich snippets / structured data to get star ratings appearing in Google search results",
+          "A/B test widget placement — below the fold vs above the fold can swing conversion by 5–10%",
+        ],
+      },
+      {
+        type: "cta",
+        text: "Need help configuring the right app stack for your store?",
+        href: "/get-matched",
+        label: "Talk to a Shopify Agency →",
+      },
+    ],
+  },
+
+  // ─── Post 6 ───────────────────────────────────────────────────────────────
+  {
+    slug: "best-shopify-loyalty-apps-2026",
+    title: "Best Shopify Loyalty & Rewards Apps in 2026: Smile.io vs LoyaltyLion vs Yotpo",
+    excerpt:
+      "Loyalty programmes increase repeat purchase rates by up to 40%. Here's a detailed comparison of the top Shopify loyalty apps to help you choose the right one.",
+    date: "2026-02-25",
+    readingTime: 8,
+    author: "Shopify Agency Directory",
+    category: "Tools & Apps",
+    tags: ["shopify apps", "loyalty", "rewards", "smile.io", "loyaltylion", "retention", "ecommerce"],
+    content: [
+      {
+        type: "p",
+        text: "Acquiring a new customer costs five to seven times more than retaining an existing one. A well-designed loyalty programme is one of the most cost-effective growth levers available to Shopify merchants — and the right app makes the difference between a programme customers love and one they ignore.",
+      },
+      {
+        type: "p",
+        text: "Here's our in-depth comparison of the three leading Shopify loyalty apps in 2026, based on real implementations across stores of different sizes.",
+      },
+      { type: "h2", text: "What to Look for in a Loyalty App" },
+      {
+        type: "ul",
+        items: [
+          "Points and rewards flexibility — can you reward purchases, referrals, reviews, and social actions?",
+          "Redemption options — discounts, free products, early access, or custom rewards",
+          "Programme tiers (VIP) — do they support bronze/silver/gold or equivalent status levels?",
+          "Email and SMS integration — can you trigger loyalty-specific flows in Klaviyo?",
+          "Analytics — can you measure the programme's impact on CLV and repeat purchase rate?",
+          "Shopify Plus compatibility — does it integrate with the checkout and POS?",
+        ],
+      },
+      { type: "h2", text: "1. Smile.io — Best for Getting Started Fast" },
+      {
+        type: "p",
+        text: "Smile.io is the most popular loyalty app on Shopify and for many stores, the easiest path from zero to a working programme. Setup takes hours rather than days, the default templates are solid, and the free plan is a genuine starting point.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Free plan available (limited to basic points and referrals, no VIP tiers)",
+          "Starter plan from $49/month includes VIP tiers and branding customisation",
+          "Growth plan ($199/month) adds Klaviyo integration and advanced analytics",
+          "Points for purchases, referrals, reviews, birthdays, and social follows",
+          "Embedded loyalty widget and dedicated /rewards page out of the box",
+          "Best fit for stores doing $100k–$2M revenue",
+        ],
+      },
+      {
+        type: "tip",
+        text: "The Smile + Judge.me combination is the most popular loyalty and reviews stack on Shopify. Both apps integrate with each other — customers earn points for leaving reviews, creating a powerful flywheel.",
+      },
+      { type: "h2", text: "2. LoyaltyLion — Best for Customisation" },
+      {
+        type: "p",
+        text: "LoyaltyLion is the go-to choice for brands that want deep customisation, complex programme logic, and granular control over every aspect of the customer experience. It's more technical to set up than Smile.io, but the ceiling is much higher.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Highly configurable earning and redemption rules — far more flexible than Smile",
+          "Full API access on higher plans — build custom loyalty experiences in your storefront",
+          "Advanced segmentation — target loyalty campaigns to specific customer cohorts",
+          "Checkout extensions for Shopify Plus — apply points at the native checkout",
+          "Embedded analytics with CLV, repeat purchase rate, and programme ROI reporting",
+          "Plans from $159/month; enterprise pricing for large stores",
+          "Best fit for stores doing $1M+ revenue with complex loyalty requirements",
+        ],
+      },
+      { type: "h2", text: "3. Yotpo Loyalty — Best for Suite Consolidation" },
+      {
+        type: "p",
+        text: "If you're already using Yotpo for reviews (or considering it), the Yotpo Loyalty module is worth evaluating seriously. The tight integration between reviews, loyalty, SMS, and referrals within one platform creates meaningful synergies — customers earn points for leaving reviews, SMS flows trigger loyalty milestones, and analytics are unified.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Native integration with Yotpo Reviews, SMSBump, and Referrals — no extra setup",
+          "Points, tiers, referrals, and VIP benefits all configurable from one dashboard",
+          "Shopify Plus checkout extensibility — show loyalty points balance at checkout",
+          "Strong for brands wanting to reduce vendor count and unify customer data",
+          "Pricing is module-based; costs add up quickly but value is strong at scale",
+          "Best fit for Shopify Plus stores already in the Yotpo ecosystem",
+        ],
+      },
+      { type: "h2", text: "Loyalty Programme Best Practices" },
+      {
+        type: "ol",
+        items: [
+          "Launch with a simple programme first — too many earning actions confuses customers",
+          "Make the redemption value clear: '$5 off for every 500 points' beats vague 'earn rewards'",
+          "Add VIP tiers once you have data on top customer behaviour — typically 3–6 months post-launch",
+          "Email new members within 24 hours explaining how to earn and redeem",
+          "Reward actions beyond purchase — reviews, referrals, and social shares build community",
+          "Review programme performance quarterly and adjust earning rates to improve ROI",
+        ],
+      },
+      { type: "h2", text: "Our Recommendation" },
+      {
+        type: "ul",
+        items: [
+          "Under $500k revenue or just getting started → Smile.io (free or Starter plan)",
+          "$500k–$5M revenue with specific customisation needs → LoyaltyLion",
+          "Shopify Plus merchant already using Yotpo → Yotpo Loyalty",
+          "Wanting reviews + loyalty under one bill → Stamped.io (also worth considering)",
+        ],
+      },
+      {
+        type: "cta",
+        text: "Get expert help designing and implementing your loyalty programme",
+        href: "/get-matched",
+        label: "Find a Shopify Expert →",
+      },
+    ],
+  },
+
+  // ─── Post 7 ───────────────────────────────────────────────────────────────
+  {
+    slug: "best-shopify-themes-2026-review",
+    title: "Best Shopify Themes in 2026: Dawn vs Impulse vs Prestige vs Turbo Reviewed",
+    excerpt:
+      "Your theme shapes every visitor's first impression and directly impacts your conversion rate. Here's our honest review of the best Shopify themes in 2026.",
+    date: "2026-03-01",
+    readingTime: 10,
+    author: "Shopify Agency Directory",
+    category: "Tools & Apps",
+    tags: ["shopify themes", "dawn", "impulse", "prestige", "turbo", "theme review", "ecommerce design"],
+    content: [
+      {
+        type: "p",
+        text: "Your Shopify theme is the foundation of your store's design — it affects page speed, mobile experience, conversion rate, and how much custom development you'll need. Choosing the right theme upfront saves you thousands in development costs and months of frustration.",
+      },
+      {
+        type: "p",
+        text: "We've reviewed and built stores on every major Shopify theme. Here's our honest assessment of the four most important ones in 2026.",
+      },
+      { type: "h2", text: "What Makes a Great Shopify Theme?" },
+      {
+        type: "ul",
+        items: [
+          "Page speed — Core Web Vitals directly affect SEO rankings and conversion rate",
+          "Mobile-first design — over 70% of Shopify traffic is now mobile",
+          "Flexibility — sections and blocks that let you build pages without a developer",
+          "App compatibility — does it play nicely with popular third-party apps?",
+          "Active development — is the theme regularly updated for new Shopify features?",
+          "Support quality — are bugs resolved quickly when they appear?",
+        ],
+      },
+      { type: "h2", text: "1. Dawn — Best Free Theme" },
+      {
+        type: "p",
+        text: "Dawn is Shopify's flagship free theme and was rebuilt from the ground up in 2021 as a showcase for OS 2.0 features. It's fast, clean, and surprisingly flexible for a free option.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Price: Free (maintained by Shopify)",
+          "Best for: new stores, brands wanting a minimal aesthetic, merchants with a limited budget",
+          "Core Web Vitals: Excellent — one of the fastest themes available",
+          "Customisation: Sections and blocks on every page; good without code",
+          "Notable features: predictive search, cart drawer, image zoom, multi-column menus",
+          "Limitations: design is minimal and similar to thousands of other stores using it",
+        ],
+      },
+      {
+        type: "tip",
+        text: "Dawn is a genuinely good starting point. If you're a new store, launch on Dawn, prove your concept, then invest in a premium theme or custom design once revenue supports it.",
+      },
+      { type: "h2", text: "2. Impulse — Best for Fashion & Lifestyle Brands" },
+      {
+        type: "p",
+        text: "Impulse by Archetype Themes is one of the best-selling premium Shopify themes and a favourite among fashion, apparel, and lifestyle brands. It strikes an excellent balance between visual impact and performance.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Price: $380 one-off (Shopify Theme Store)",
+          "Best for: fashion, apparel, beauty, lifestyle, and brands with strong visual identity",
+          "Core Web Vitals: Very good — Archetype has invested heavily in performance",
+          "Customisation: Excellent section coverage; advanced promotional features built in",
+          "Notable features: colour swatches, quick-add-to-cart, announcement bar rotator, mega menu",
+          "Agency favourite: widely used by UK and US agencies — easy to find developers familiar with it",
+        ],
+      },
+      { type: "h2", text: "3. Prestige — Best for Luxury & Premium Brands" },
+      {
+        type: "p",
+        text: "Prestige is the go-to theme for luxury, high-AOV, and aspirational brands. Developed by Maestrooo, it's built with editorial storytelling in mind — large imagery, refined typography, and a premium feel that cheaper themes can't replicate.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Price: $380 one-off (Shopify Theme Store)",
+          "Best for: luxury, jewellery, fashion, interiors, wine, and high-AOV brands",
+          "Core Web Vitals: Good — image-heavy by nature so requires careful optimisation",
+          "Customisation: Strong, with a focus on content and storytelling sections",
+          "Notable features: lookbook sections, age verification, sticky header with cart, variant image groups",
+          "Watch out for: image-heavy designs need good image compression to maintain page speed",
+        ],
+      },
+      { type: "h2", text: "4. Turbo — Best for Large Catalogues" },
+      {
+        type: "p",
+        text: "Turbo by Out of the Sandbox is the most feature-rich premium theme available for Shopify and has been a favourite of agencies for nearly a decade. If you have a large product catalogue, complex navigation, or need maximum configuration options without custom development, Turbo delivers.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Price: $385 one-off (Out of the Sandbox)",
+          "Best for: large catalogues, multi-brand stores, stores with complex product ranges",
+          "Core Web Vitals: Good; Turbo introduced performance-focused updates in 2023–24",
+          "Customisation: The most customisable theme available without writing code",
+          "Notable features: Ajax cart, predictive search, mega menus, multiple homepage layouts, product filtering",
+          "Agency notes: steeper learning curve than Impulse or Prestige; worth it for complex builds",
+        ],
+      },
+      { type: "h2", text: "Honourable Mentions" },
+      {
+        type: "ul",
+        items: [
+          "Sense (free) — Shopify's best free theme for health and beauty",
+          "Craft (free) — ideal for artisan, handmade, or small-batch product brands",
+          "Motion by Archetype — best theme for brands wanting video and animation",
+          "Symmetry by Clean Canvas — strong for stores with complex product variants",
+          "Streamline by Fluorescent — popular with outdoor, fitness, and lifestyle brands",
+        ],
+      },
+      { type: "h2", text: "Free vs Premium: Is It Worth Paying?" },
+      {
+        type: "p",
+        text: "A premium theme costs $280–$380 as a one-off purchase. At even a 1% conversion rate improvement on a store doing $50k/month, that pays back in days. More importantly, premium themes reduce your reliance on expensive custom development — a good theme can save you $2,000–$5,000 in agency fees by building in features you'd otherwise need coded.",
+      },
+      {
+        type: "ol",
+        items: [
+          "New store, minimal budget → Start with Dawn (free)",
+          "Fashion or lifestyle brand → Impulse ($380)",
+          "Luxury or high-AOV brand → Prestige ($380)",
+          "Large catalogue or complex navigation → Turbo ($385)",
+          "Wanting video and animation → Motion ($380)",
+        ],
+      },
+      {
+        type: "cta",
+        text: "Need an agency to customise your Shopify theme to perfection?",
+        href: "/agencies?specialization=Theme+Development",
+        label: "Browse Theme Agencies →",
+      },
+    ],
+  },
+
+  // ─── Post 8 (original Post 5) ─────────────────────────────────────────────
+  {
     slug: "best-shopify-apps-2026",
     title: "The 20 Best Shopify Apps in 2026 (Tested & Ranked)",
     excerpt:
@@ -549,7 +925,609 @@ const posts: BlogPost[] = [
       },
     ],
   },
+
+  // ─── Post 9 ── Hiring Guide: Red Flags ────────────────────────────────────
+  {
+    slug: "shopify-agency-red-flags",
+    title: "Shopify Agency Red Flags: 12 Warning Signs to Spot Before You Sign",
+    excerpt:
+      "Not every agency that claims Shopify expertise has it. Here are 12 concrete warning signs that predict a bad project outcome — and how to spot them before you commit.",
+    date: "2026-02-03",
+    readingTime: 9,
+    author: "Shopify Agency Directory",
+    category: "Hiring Guide",
+    tags: ["hiring", "shopify agency", "red flags", "agency vetting", "ecommerce"],
+    content: [
+      {
+        type: "p",
+        text: "Hiring the wrong Shopify agency is one of the most expensive mistakes an ecommerce business can make. A bad project doesn't just cost you money — it costs you months of momentum, opportunity, and sometimes SEO rankings you've spent years building. The frustrating reality is that most agencies look credible from the outside. Good websites, polished decks, and a confident sales process don't tell you much about execution quality.",
+      },
+      {
+        type: "p",
+        text: "These 12 warning signs are the ones that most reliably predict a failed or disappointing engagement. Learn to spot them early.",
+      },
+      { type: "h2", text: "1. They Quote Without Understanding Your Business" },
+      {
+        type: "p",
+        text: "Any agency that sends you a proposal within 24 hours of your first conversation — without a proper discovery call or written brief — is not taking your project seriously. Good agencies ask questions. They want to understand your current tech stack, your customers, your business model, your growth goals, and your constraints before putting a number on anything.",
+      },
+      {
+        type: "tip",
+        text: "A discovery call should last at least 45 minutes. If an agency skips this step or rushes through it, their proposal is a guess — and the scope creep will start from day one.",
+      },
+      { type: "h2", text: "2. No Questions About Your Existing Tech Stack" },
+      {
+        type: "p",
+        text: "Professional agencies investigate before prescribing. If they don't ask about your current apps, integrations, third-party systems, and any custom code before starting work, they'll be flying blind. This is how you end up with app conflicts, broken features, and emergency fixes a week after launch.",
+      },
+      { type: "h2", text: "3. Every Portfolio Site Looks the Same" },
+      {
+        type: "p",
+        text: "A strong agency portfolio shows range. If every site in their portfolio has an almost identical layout, colour palette, or structure, the agency is applying a template rather than solving each client's unique problem. Great design solves specific problems for specific audiences — it doesn't clone the same solution repeatedly.",
+      },
+      { type: "h2", text: "4. They Guarantee SEO Rankings" },
+      {
+        type: "p",
+        text: "No one can guarantee specific Google rankings. Any agency that promises 'page one in 30 days' or guarantees a specific number of keyword positions is either being dishonest or planning to use black-hat tactics that will harm your domain long-term. Ethical SEO takes 3–6 months minimum and comes with probability, not guarantees.",
+      },
+      { type: "h2", text: "5. Vague or Padded Proposals" },
+      {
+        type: "p",
+        text: "Watch out for proposals full of agency buzzwords ('omnichannel ecosystem', 'synergistic digital strategy', 'frictionless customer journeys') with no concrete deliverables. A good proposal names specific pages to be built, features to be developed, milestones to be hit, and acceptance criteria for each. If you can't point to exactly what you're paying for, renegotiate or walk away.",
+      },
+      { type: "h2", text: "6. No Post-Launch Support Plan" },
+      {
+        type: "p",
+        text: "Launches break things. Bugs appear. Apps conflict. Traffic spikes expose performance issues. Any agency that doesn't have a clear post-launch support offering — even a basic 30-day warranty period — is planning to hand over and disappear. Ask specifically: 'What is your process for bugs discovered in the first 30 days after launch?' A confident agency will have a clear answer.",
+      },
+      { type: "h2", text: "7. Pressure to Sign Quickly" },
+      {
+        type: "p",
+        text: "Legitimate agencies don't use high-pressure sales tactics. 'This slot is only available until Friday' or 'we have two other clients looking at the same timeline' are manipulation techniques, not genuine constraints. Good agencies plan their capacity carefully — they don't rush you into a contract.",
+      },
+      { type: "h2", text: "8. They Can't Name Who Will Work on Your Project" },
+      {
+        type: "p",
+        text: "Ask specifically: 'Who will be my day-to-day developer and project manager?' If the answer is vague — 'our team' or 'we'll assign the best people' — be cautious. Many agencies win work with senior people and deliver with juniors or offshore contractors. You have the right to know who will actually build your store and what their Shopify experience is.",
+      },
+      { type: "h2", text: "9. No References From Comparable Projects" },
+      {
+        type: "p",
+        text: "Any credible agency will connect you with 2–3 happy clients from comparable projects. If an agency claims NDA restrictions on all their clients, or can only offer references from very small or very different projects, that's a warning sign. Ask to speak to a client who ran a similar project — similar budget, similar complexity, similar category.",
+      },
+      { type: "h2", text: "10. Unusual Payment Terms" },
+      {
+        type: "p",
+        text: "Standard agency payment terms are typically 30–50% upfront, with the remainder tied to milestones or delivery. Be wary of agencies asking for 100% upfront, or agencies offering very low upfront fees that spike in the second half. Both structures can incentivise poor behaviour. Milestone-based payments keep the agency accountable throughout the project.",
+      },
+      { type: "h2", text: "11. They Dismiss Your Concerns Rather Than Address Them" },
+      {
+        type: "p",
+        text: "Pay close attention to how an agency handles your questions during the sales process. If you raise a concern and they dismiss it, deflect, or over-promise without substance, this is exactly how they'll behave when problems arise mid-project. A trustworthy agency acknowledges complexity, explains trade-offs, and gives you honest assessments rather than just telling you what you want to hear.",
+      },
+      { type: "h2", text: "12. No Formal Handover or Documentation Process" },
+      {
+        type: "p",
+        text: "When a project ends, you need to own it completely. This means receiving: all login credentials, custom code with comments, a list of all installed apps and their configurations, documentation of any custom integrations, and a theme backup. Agencies that don't have a documented handover process often leave clients locked out, dependent, or unable to onboard a new agency later.",
+      },
+      { type: "h2", text: "What Good Looks Like" },
+      {
+        type: "ul",
+        items: [
+          "A thorough discovery call before any proposal",
+          "A proposal with named deliverables, milestones, and acceptance criteria",
+          "Clear post-launch support terms in the contract",
+          "Named team members who you can meet before signing",
+          "2–3 references from comparable projects you can actually call",
+          "Milestone-based payment structure",
+          "A documented handover and offboarding process",
+        ],
+      },
+      {
+        type: "cta",
+        text: "Browse verified Shopify agencies with transparent portfolios and real client reviews.",
+        href: "/agencies",
+        label: "Find a Verified Agency →",
+      },
+    ],
+  },
+
+  // ─── Post 10 ── Hiring Guide: Brief Template ───────────────────────────────
+  {
+    slug: "how-to-brief-a-shopify-agency",
+    title: "How to Brief a Shopify Agency: The Exact Template We Use",
+    excerpt:
+      "A well-written brief gets you better proposals, fewer surprises, and a project that actually delivers what you envisioned. Here's the exact framework to use.",
+    date: "2026-02-24",
+    readingTime: 8,
+    author: "Shopify Agency Directory",
+    category: "Hiring Guide",
+    tags: ["hiring", "shopify agency", "project brief", "rfp", "ecommerce"],
+    content: [
+      {
+        type: "p",
+        text: "The quality of the brief you send an agency directly determines the quality of the proposal you receive. A vague brief gets vague proposals. A precise brief gets precise proposals — with accurate budgets, realistic timelines, and agencies who actually understand what they're getting into.",
+      },
+      {
+        type: "p",
+        text: "Most merchants underinvest in their brief. They send a few bullet points or a short email and hope agencies will figure out the rest. The result is proposals that are incomparable (agencies have interpreted the brief differently), scopes that drift from day one, and costs that escalate unpredictably.",
+      },
+      {
+        type: "p",
+        text: "Here is the exact framework for a Shopify agency brief that gets you better outcomes.",
+      },
+      { type: "h2", text: "Section 1: Company Overview (1 page max)" },
+      {
+        type: "p",
+        text: "Give agencies the context they need to understand your brand, your market, and your customers. This isn't marketing copy — it's background information to help the agency understand your world.",
+      },
+      {
+        type: "ul",
+        items: [
+          "What your business does and what you sell",
+          "Your target audience — who buys from you and why",
+          "Your current annual revenue range (approximate is fine)",
+          "Key competitors — who do you respect in your category?",
+          "Your brand personality and any brand guidelines you have",
+          "Current platform — what are you migrating from, or is this a new build?",
+        ],
+      },
+      { type: "h2", text: "Section 2: Project Objectives" },
+      {
+        type: "p",
+        text: "Be specific about what success looks like. Agencies need to understand the business problem you're solving — not just the deliverable you want. Good objectives are measurable.",
+      },
+      {
+        type: "ul",
+        items: [
+          "What is the primary business goal? (e.g. improve conversion rate from 1.8% to 2.5%, reduce cart abandonment, launch into 3 new markets)",
+          "What are the secondary goals? (e.g. reduce page load time, improve mobile experience, enable wholesale B2B)",
+          "What does failure look like? What outcome would make this project a disappointment?",
+          "What is the must-have outcome vs. nice-to-have outcome?",
+        ],
+      },
+      {
+        type: "tip",
+        text: "The clearer you are about objectives, the better proposals you'll get. Agencies price and plan differently for 'improve conversion rate' vs 'build a new homepage' — even though the deliverable might be similar.",
+      },
+      { type: "h2", text: "Section 3: Scope of Work" },
+      {
+        type: "p",
+        text: "List every page, feature, and integration you need. Be exhaustive. Anything not in the brief risks becoming a change request later.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Pages required: homepage, collection pages, product pages, cart, checkout, about, contact, blog, custom pages",
+          "Custom features: product configurators, subscription logic, wholesale pricing, multi-currency, loyalty integration",
+          "Third-party integrations: ERP, CRM, email marketing, loyalty, reviews, returns management",
+          "Shopify plan: standard Shopify or Shopify Plus? (determines checkout customisation options)",
+          "Content: will you provide copy and images, or does the agency need to source/create them?",
+          "Data migration: what needs to move from your existing platform? (products, customers, orders, reviews)",
+        ],
+      },
+      { type: "h2", text: "Section 4: Technical Requirements" },
+      {
+        type: "ul",
+        items: [
+          "Current app stack: list every app you currently use and want to keep",
+          "Custom integrations: any existing API connections to other systems",
+          "Performance requirements: specific PageSpeed targets, if any",
+          "Accessibility requirements: WCAG 2.1 AA compliance, if required",
+          "Multi-language or multi-currency requirements",
+          "Any known technical constraints or legacy code issues",
+        ],
+      },
+      { type: "h2", text: "Section 5: Design Direction" },
+      {
+        type: "p",
+        text: "Even if you're using a theme rather than building from scratch, give agencies your design direction to help them scope correctly.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Brand assets: do you have a full brand identity (logo, fonts, colour palette, imagery guidelines)?",
+          "Inspiration sites: share 3–5 Shopify stores you admire and say specifically what you like about each",
+          "Existing assets: what photography, video, and copy do you already have vs. need created?",
+          "Theme preference: open to premium themes, or looking for a bespoke custom build?",
+        ],
+      },
+      { type: "h2", text: "Section 6: Timeline & Budget" },
+      {
+        type: "p",
+        text: "Be transparent about both. Agencies calibrate their proposals to your budget — if you hide your budget, you'll get proposals ranging from $5,000 to $150,000 with no way to compare them fairly.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Target launch date — is it fixed (e.g. tied to a product launch or sale period) or flexible?",
+          "Budget range — give a range rather than a single number (e.g. '$15,000–$25,000 for the initial build')",
+          "Ongoing budget — are you looking for ongoing support/retainer post-launch?",
+          "Payment preference — milestone-based is standard; note if you require specific terms",
+        ],
+      },
+      { type: "h2", text: "Section 7: Selection Criteria" },
+      {
+        type: "p",
+        text: "Tell agencies how you'll evaluate proposals. This signals professionalism and helps agencies tailor their response to what actually matters to you.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Relevant Shopify experience (specific industry or project type)",
+          "Team quality and named individuals who will work on the project",
+          "Proposed approach and methodology",
+          "References from comparable projects",
+          "Price and value",
+          "Communication style and cultural fit",
+        ],
+      },
+      { type: "h2", text: "Section 8: Process & Next Steps" },
+      {
+        type: "ul",
+        items: [
+          "Proposal deadline — give agencies at least 7–10 business days to respond properly",
+          "Proposal format — ask for: executive summary, proposed approach, team bios, timeline, itemised budget, references",
+          "Q&A process — will you hold a group briefing call, or answer questions by email?",
+          "Decision timeline — when will you notify the successful agency?",
+          "Contract terms — note any specific contract requirements upfront (e.g. IP ownership, confidentiality)",
+        ],
+      },
+      {
+        type: "tip",
+        text: "Send your brief to 3–5 agencies maximum. More than that and you're wasting everyone's time, including your own. Use your brief quality and shortlisting process to get to the right 3–5.",
+      },
+      {
+        type: "cta",
+        text: "Ready to send your brief? Browse our directory of verified Shopify agencies.",
+        href: "/agencies",
+        label: "Browse Agencies →",
+      },
+    ],
+  },
+
+  // ─── Post 11 ── SEO Guide ─────────────────────────────────────────────────
+  {
+    slug: "shopify-seo-guide-2026",
+    title: "Shopify SEO in 2026: The Complete Guide for Ecommerce Merchants",
+    excerpt:
+      "Over 50% of ecommerce traffic comes from organic search. This step-by-step Shopify SEO guide covers technical setup, on-page optimisation, content strategy, and the tools that actually move the needle.",
+    date: "2026-02-10",
+    readingTime: 12,
+    author: "Shopify Agency Directory",
+    category: "SEO",
+    tags: ["shopify seo", "technical seo", "ecommerce seo", "on-page seo", "site speed"],
+    content: [
+      {
+        type: "p",
+        text: "Search engine optimisation is the highest-ROI marketing channel available to most ecommerce merchants. Unlike paid ads, organic traffic compounds over time — rankings you earn today can deliver revenue for years. Yet most Shopify stores leave significant organic opportunity on the table because they don't address the technical and content fundamentals. This guide covers exactly what matters in 2026.",
+      },
+      { type: "h2", text: "Why SEO Is More Important Than Ever in 2026" },
+      {
+        type: "ul",
+        items: [
+          "Over 50% of all ecommerce traffic still comes from organic search",
+          "Google's AI Overviews (SGE) reward well-structured, authoritative content — not keyword stuffing",
+          "Paid ad costs have risen sharply — SEO is often 5–10× cheaper per acquisition at scale",
+          "Unlike ads, SEO builds lasting brand equity and domain authority",
+          "Merchants who invested in SEO early have a compounding competitive advantage",
+        ],
+      },
+      { type: "h2", text: "1. Technical SEO Foundations" },
+      {
+        type: "p",
+        text: "Technical SEO is the foundation everything else sits on. If search engines can't crawl, index, or understand your store correctly, no amount of great content will compensate. Run a technical audit before anything else.",
+      },
+      {
+        type: "h3",
+        text: "Fix These Technical Issues First",
+      },
+      {
+        type: "ul",
+        items: [
+          "Duplicate content — Shopify creates duplicate URLs for products in multiple collections; canonical tags fix this (Shopify adds them automatically, but verify)",
+          "Broken links and missing images — use Google Search Console to identify 404 errors and fix them with 301 redirects",
+          "Missing or thin meta titles/descriptions — every product, collection, and blog post needs unique, keyword-rich metadata",
+          "Uncompressed images — large images are the #1 cause of slow Shopify stores; compress everything with WebP where possible",
+          "Unused apps — each installed app can inject extra JavaScript; apps you're not using still slow your store",
+        ],
+      },
+      {
+        type: "tip",
+        text: "Submit your sitemap to Google Search Console (yourstore.com/sitemap.xml). Shopify generates this automatically. Once submitted, monitor crawl stats and indexing errors weekly.",
+      },
+      { type: "h2", text: "2. Page Speed Optimisation" },
+      {
+        type: "p",
+        text: "Google uses Core Web Vitals as a ranking signal. Largest Contentful Paint (LCP), Cumulative Layout Shift (CLS), and Interaction to Next Paint (INP) all affect both rankings and conversion rate. A 1-second delay in page load time can reduce conversions by 7%.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Use Google PageSpeed Insights or GTmetrix to benchmark your store — aim for LCP under 2.5 seconds",
+          "Choose a fast theme — Dawn (Shopify's free default) scores well; avoid heavy premium themes with excessive animations",
+          "Compress and lazy-load images — use apps like TinyIMG or Crush.pics",
+          "Reduce app bloat — audit your installed apps and remove anything not actively generating ROI",
+          "Avoid large hero videos on mobile — they dramatically increase load time",
+          "Enable Shopify's built-in CDN — it's on by default but verify your images are served via cdn.shopify.com",
+        ],
+      },
+      { type: "h2", text: "3. On-Page SEO: Products, Collections & Blog" },
+      {
+        type: "h3",
+        text: "Product Pages",
+      },
+      {
+        type: "ul",
+        items: [
+          "Write unique product descriptions — never use manufacturer copy verbatim; Google penalises thin/duplicate content",
+          "Include the primary keyword naturally in the product title and first paragraph of description",
+          "Optimise image alt text with descriptive, keyword-relevant text (e.g., 'black leather wallet mens bifold' not 'IMG_001')",
+          "Keep meta titles under 60 characters; meta descriptions under 155 characters",
+          "Add customer reviews — UGC adds fresh content and improves dwell time",
+        ],
+      },
+      {
+        type: "h3",
+        text: "Collection Pages",
+      },
+      {
+        type: "ul",
+        items: [
+          "Collection pages often have the highest commercial keyword value — treat them like landing pages",
+          "Add 150–300 words of descriptive content above or below the product grid",
+          "Use keyword-rich collection handles (e.g., /collections/mens-running-shoes not /collections/cat-123)",
+          "Internal link from collection pages to related collections and blog posts",
+        ],
+      },
+      {
+        type: "h3",
+        text: "Blog Content",
+      },
+      {
+        type: "p",
+        text: "Shopify includes a built-in blog. Use it to target informational queries that your product pages can't rank for — 'how to', 'best', 'vs', 'guide' content. This drives top-of-funnel traffic that you can convert through internal links to products and collections.",
+      },
+      { type: "h2", text: "4. Structured Data (Schema Markup)" },
+      {
+        type: "p",
+        text: "Schema markup helps Google understand your content and enables rich results — star ratings, prices, and availability showing directly in search results. These increase click-through rates by an average of 20–30%.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Product schema — Shopify themes include basic product schema by default; verify it with Google's Rich Results Test",
+          "Review/rating schema — apps like Judge.me and Yotpo inject review schema automatically",
+          "Article schema — important for blog posts to qualify for Google News and article rich results",
+          "BreadcrumbList schema — helps Google understand site structure and appears in search snippets",
+          "Use the JSON-LD for SEO app or Smart SEO to add and manage schema without touching code",
+        ],
+      },
+      { type: "h2", text: "5. URL Structure & Internal Linking" },
+      {
+        type: "p",
+        text: "Shopify forces certain URL structures (/products/, /collections/, /blogs/) that you can't change. Work within these constraints by making product handles and collection handles as clean and keyword-rich as possible.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Keep URL handles short and descriptive — /products/organic-green-tea not /products/product-1234",
+          "Avoid stop words in handles ('the', 'and', 'of')",
+          "If you change a URL, always set up a 301 redirect — Shopify's Online Store > Navigation > URL Redirects",
+          "Build a logical internal link structure: homepage → collections → products → blog posts → back to collections",
+          "Include links to relevant products and collections within every blog post",
+        ],
+      },
+      { type: "h2", text: "6. Link Building & Off-Page SEO" },
+      {
+        type: "p",
+        text: "Backlinks from authoritative external sites remain one of Google's strongest ranking signals. You don't need thousands of links — a handful of high-quality, relevant links outperforms hundreds of low-quality ones.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Earn links through genuinely useful content — comprehensive guides, original research, and comparison posts attract natural backlinks",
+          "Partner with complementary brands for co-marketing and mutual links",
+          "Get listed in niche directories relevant to your products",
+          "PR and media coverage — a mention in a respected publication can drive significant domain authority",
+          "Supplier and manufacturer pages — ask if they list retailers; many do",
+          "Avoid link farms, PBNs, or paid link schemes — Google penalties can tank your rankings for months",
+        ],
+      },
+      { type: "h2", text: "7. Tracking & Measurement" },
+      {
+        type: "ul",
+        items: [
+          "Google Search Console — free, essential; shows impressions, clicks, rankings, crawl errors",
+          "Google Analytics 4 — track organic traffic, conversion rates, and revenue by landing page",
+          "Ahrefs or Semrush — track keyword rankings over time, identify link opportunities, audit competitors",
+          "Core Web Vitals monitoring — set up alerts for LCP/CLS/INP regressions after theme or app changes",
+        ],
+      },
+      {
+        type: "tip",
+        text: "Don't obsess over rankings in isolation. A keyword ranking #3 with 500 monthly searches and high buyer intent is more valuable than ranking #1 for a keyword with 5,000 searches and no commercial intent.",
+      },
+      {
+        type: "cta",
+        text: "Want an SEO-specialist agency to audit and grow your Shopify store's organic traffic?",
+        href: "/agencies?specialization=SEO",
+        label: "Find an SEO Agency →",
+      },
+    ],
+  },
+
+  // ─── Post 10 ───────────────────────────────────────────────────────────────
+  {
+    slug: "how-to-hire-a-shopify-seo-agency",
+    title: "How to Hire a Shopify SEO Agency: 10 Questions to Ask Before You Sign",
+    excerpt:
+      "Hiring the wrong SEO agency is an expensive mistake. Here are the 10 questions every Shopify merchant should ask before signing a contract — and what good answers look like.",
+    date: "2026-02-17",
+    readingTime: 8,
+    author: "Shopify Agency Directory",
+    category: "SEO",
+    tags: ["hire seo agency", "shopify seo agency", "ecommerce seo", "agency vetting"],
+    content: [
+      {
+        type: "p",
+        text: "There's no shortage of agencies claiming to 'do Shopify SEO'. But the quality gap between the best and worst providers is enormous. A good SEO agency compounds your organic traffic month over month; a bad one burns your budget on low-impact tactics while your rankings stagnate — or worse, decline. Asking the right questions upfront separates genuine experts from generalist agencies who have added 'Shopify SEO' to their service list.",
+      },
+      { type: "h2", text: "Before You Start: Define What Success Looks Like" },
+      {
+        type: "p",
+        text: "Before you interview any agency, be clear on your own goals. Are you trying to reduce reliance on paid ads? Break into a competitive product category? Recover from a Google algorithm penalty? The more specific your objective, the better you can evaluate whether an agency's approach is right for you.",
+      },
+      { type: "h2", text: "The 10 Questions to Ask Every Agency" },
+      {
+        type: "h3",
+        text: "1. How do you define SEO success for an ecommerce client?",
+      },
+      {
+        type: "p",
+        text: "If the agency's primary answer is 'improved keyword rankings', be cautious. Rankings are an input, not an outcome. Strong agencies define success in business terms: organic revenue, qualified traffic, reduced customer acquisition cost, and conversion rate improvements tied to SEO changes.",
+      },
+      {
+        type: "h3",
+        text: "2. Can you show me results from a Shopify client in a similar category?",
+      },
+      {
+        type: "p",
+        text: "Any credible agency will have case studies. Look for specifics: what was the starting position, what was done, and what measurably changed? Be wary of agencies who claim NDA restrictions prevent them sharing any examples — that's often a sign of a thin portfolio.",
+      },
+      {
+        type: "h3",
+        text: "3. How do you handle Shopify's technical SEO limitations?",
+      },
+      {
+        type: "p",
+        text: "Shopify has known SEO constraints — forced URL structures (/products/, /collections/), duplicate content from collection filters, and limited control over robots.txt. A Shopify-specialist agency will have concrete answers for how they work within these constraints, including canonical tag strategies and structured data implementation.",
+      },
+      {
+        type: "h3",
+        text: "4. What does your onboarding and audit process look like?",
+      },
+      {
+        type: "p",
+        text: "A good agency starts with a comprehensive technical and content audit before doing anything else. They should be able to describe what they audit, what tools they use (Google Search Console, Screaming Frog, Ahrefs/Semrush), and how they prioritise findings. Agencies that jump straight to 'we'll write content and build links' without auditing first are not thinking strategically.",
+      },
+      {
+        type: "h3",
+        text: "5. How do you approach keyword research for ecommerce?",
+      },
+      {
+        type: "p",
+        text: "Ecommerce SEO keyword research should separate transactional queries (product/collection pages), informational queries (blog content), and navigational queries (branded search). Ask how they map keywords to different page types and how they balance short-tail commercial terms with long-tail buyer-intent queries.",
+      },
+      {
+        type: "h3",
+        text: "6. What's your link building approach, and what do you consider off-limits?",
+      },
+      {
+        type: "p",
+        text: "This question reveals a lot. Reputable agencies build links through content, PR, and outreach. Red flags include: link farms, PBN (private blog network) links, bulk directory submissions, and any guarantee of a specific number of links per month. Ask explicitly: 'Have any of your clients ever received a Google manual action?' If yes, ask how it was resolved.",
+      },
+      {
+        type: "h3",
+        text: "7. How often will we meet, and what does reporting look like?",
+      },
+      {
+        type: "p",
+        text: "Good agencies offer monthly reporting tied to real business metrics, not just a screenshot of keyword rankings. Ask to see a sample report. It should show organic traffic trends, conversions, revenue attributed to organic search, and a clear account of work completed and planned.",
+      },
+      {
+        type: "h3",
+        text: "8. What happens to our rankings if we stop working together?",
+      },
+      {
+        type: "p",
+        text: "This question tests for ethical practice. Good SEO builds lasting assets — optimised pages, earned backlinks, well-structured site architecture — that you own. Some agencies use tactics that only maintain results for as long as you're paying (e.g., rented links). Make sure the work they do is yours to keep.",
+      },
+      {
+        type: "h3",
+        text: "9. How do you stay current with Google algorithm changes?",
+      },
+      {
+        type: "p",
+        text: "Google makes thousands of algorithm updates per year. In 2024–2026, major changes have included the Helpful Content system, AI Overviews, and Core Updates targeting E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness). Ask the agency to describe a recent algorithm change and how it affected their clients' strategies.",
+      },
+      {
+        type: "h3",
+        text: "10. What's your minimum contract length, and what are the exit terms?",
+      },
+      {
+        type: "p",
+        text: "SEO takes time — meaningful results typically take 3–6 months. Most reputable agencies require a 3–6 month minimum engagement. Be wary of month-to-month contracts with very low prices (they're likely selling you templates, not strategy) or 12-month lock-ins with no performance clauses. Aim for a 6-month agreement with clear deliverables and a review clause.",
+      },
+      { type: "h2", text: "Red Flags to Watch Out For" },
+      {
+        type: "ul",
+        items: [
+          "Guaranteed rankings — no one can guarantee Google rankings; any agency that does is being dishonest",
+          "Vague deliverables — 'we'll improve your SEO' is not a scope of work",
+          "No case studies or references — experience claims without evidence",
+          "Instant results promises — sustainable SEO takes 3–6 months minimum",
+          "Proprietary 'secret techniques' — legitimate SEO is transparent and follows Google's guidelines",
+          "Reporting that only shows rankings, not traffic or revenue",
+        ],
+      },
+      { type: "h2", text: "What Good Agencies Charge" },
+      {
+        type: "p",
+        text: "Shopify SEO retainers typically range from $1,000–$5,000/month for small to mid-size stores, rising to $5,000–$15,000+/month for enterprise accounts or competitive categories. One-off SEO audits run $500–$3,000. Be suspicious of agencies charging under $500/month — at that price point, you're unlikely to get meaningful strategic work.",
+      },
+      {
+        type: "tip",
+        text: "Ask for a paid discovery or audit engagement before committing to a full retainer. A $500–$1,000 audit will reveal the quality of the agency's thinking — and give you a prioritised action list you own regardless of whether you continue.",
+      },
+      {
+        type: "cta",
+        text: "Browse verified Shopify SEO agencies with proven ecommerce track records.",
+        href: "/agencies?specialization=SEO",
+        label: "Find an SEO Agency →",
+      },
+    ],
+  },
 ];
+
+// ---------------------------------------------------------------------------
+// Category slug utilities
+// ---------------------------------------------------------------------------
+
+export const CATEGORY_SLUGS: Record<string, string> = {
+  "Hiring Guide":    "hiring-guide",
+  "Platform Guide":  "platform-guide",
+  "Pricing Guide":   "pricing-guide",
+  "Migration Guide": "migration-guide",
+  "Tools & Apps":    "tools-apps",
+  "SEO":             "seo",
+};
+
+export const SLUG_TO_CATEGORY: Record<string, string> = Object.fromEntries(
+  Object.entries(CATEGORY_SLUGS).map(([k, v]) => [v, k])
+);
+
+export function getCategorySlug(category: string): string {
+  return (
+    CATEGORY_SLUGS[category] ??
+    category.toLowerCase().replace(/[^a-z0-9]+/g, "-")
+  );
+}
+
+export const CATEGORY_DESCRIPTIONS: Record<string, string> = {
+  "Hiring Guide":
+    "Expert guides to help you find, evaluate, and hire the right Shopify agency for your project.",
+  "Platform Guide":
+    "In-depth comparisons and guides on Shopify plans, features, and platform decisions.",
+  "Pricing Guide":
+    "Transparent breakdowns of Shopify development costs, agency pricing, and budget planning.",
+  "Migration Guide":
+    "Step-by-step guides for migrating to Shopify from WooCommerce, Magento, and other platforms.",
+  "Tools & Apps":
+    "Reviews and comparisons of the best Shopify apps, themes, and tools for your tech stack.",
+  "SEO":
+    "Technical SEO guides, audits, and strategies to grow organic traffic on your Shopify store.",
+};
 
 // ---------------------------------------------------------------------------
 // Helper functions — fetch from Supabase (async)
@@ -571,6 +1549,17 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | undefined>
   if (row) return toPost(row);
   // Fallback: find in hardcoded posts
   return posts.find((p) => p.slug === slug);
+}
+
+export async function getPostsByCategory(categorySlug: string): Promise<BlogPost[]> {
+  const all = await getAllPosts();
+  const category = SLUG_TO_CATEGORY[categorySlug];
+  if (!category) return [];
+  return all.filter((p) => p.category === category);
+}
+
+export function getAllCategoryPairs(): Array<{ slug: string; label: string }> {
+  return Object.entries(CATEGORY_SLUGS).map(([label, slug]) => ({ slug, label }));
 }
 
 export async function getRelatedPosts(slug: string, limit = 3): Promise<BlogPost[]> {

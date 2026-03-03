@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getAllPosts } from "@/lib/blog";
+import { getAllPosts, getAllCategoryPairs } from "@/lib/blog";
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
 
@@ -11,11 +11,12 @@ export const metadata: Metadata = {
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
-  "Hiring Guide": "bg-green-100 text-green-700",
-  "Platform Guide": "bg-blue-100 text-blue-700",
-  "Pricing Guide": "bg-purple-100 text-purple-700",
+  "Hiring Guide":    "bg-green-100 text-green-700",
+  "Platform Guide":  "bg-blue-100 text-blue-700",
+  "Pricing Guide":   "bg-purple-100 text-purple-700",
   "Migration Guide": "bg-orange-100 text-orange-700",
-  "Tools & Apps": "bg-yellow-100 text-yellow-700",
+  "Tools & Apps":    "bg-yellow-100 text-yellow-700",
+  "SEO":             "bg-red-100 text-red-700",
 };
 
 function formatDate(dateStr: string) {
@@ -27,7 +28,7 @@ function formatDate(dateStr: string) {
 }
 
 export default async function BlogPage() {
-  const posts = await getAllPosts();
+  const [posts, categories] = await Promise.all([getAllPosts(), Promise.resolve(getAllCategoryPairs())]);
   const [featured, ...rest] = posts;
 
   return (
@@ -37,12 +38,26 @@ export default async function BlogPage() {
       <main className="mx-auto max-w-6xl px-6 py-10">
         <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Blog", href: "/blog" }]} />
 
-        <div className="mb-8">
+        <div className="mb-6">
           <h1 className="text-3xl font-bold text-gray-900">Shopify Agency Blog</h1>
           <p className="mt-2 text-gray-500">
-            Guides, tips and advice for merchants working with Shopify agencies.
+            Guides, tips and advice for merchants working with Shopify agencies.{" "}
+            <span className="text-green-700 font-medium">New posts every week.</span>
           </p>
         </div>
+
+        {/* Category nav */}
+        <nav aria-label="Blog categories" className="mb-8 flex flex-wrap gap-2">
+          {categories.map(({ slug, label }) => (
+            <a
+              key={slug}
+              href={`/blog/category/${slug}`}
+              className={`rounded-full px-3 py-1 text-xs font-medium transition-opacity hover:opacity-80 ${CATEGORY_COLORS[label] ?? "bg-gray-100 text-gray-600"}`}
+            >
+              {label}
+            </a>
+          ))}
+        </nav>
 
         {/* Featured post */}
         {featured && (

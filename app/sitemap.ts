@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { supabase } from "@/lib/supabase";
-import { getAllPosts } from "@/lib/blog";
+import { getAllPosts, getAllCategoryPairs } from "@/lib/blog";
 
 // Always use HTTPS in production. Never let localhost leak into the sitemap.
 function getSiteUrl(): string {
@@ -93,5 +93,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...agencyRoutes, ...blogRoutes];
+  const categoryRoutes: MetadataRoute.Sitemap = getAllCategoryPairs().map(({ slug }) => ({
+    url: `${BASE_URL}/blog/category/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.65,
+  }));
+
+  return [...staticRoutes, ...agencyRoutes, ...blogRoutes, ...categoryRoutes];
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getAllPosts, getPostBySlug, getRelatedPosts, type ContentBlock } from "@/lib/blog";
+import { getAllPosts, getPostBySlug, getRelatedPosts, getCategorySlug, type ContentBlock } from "@/lib/blog";
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
 
@@ -192,9 +192,12 @@ export default async function BlogPostPage({
           {/* Article header */}
           <article>
             <div className="mb-2 flex flex-wrap items-center gap-2 text-sm text-gray-500">
-              <span className="rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-700">
+              <a
+                href={`/blog/category/${getCategorySlug(post.category)}`}
+                className="rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-700 hover:bg-green-200"
+              >
                 {post.category}
-              </span>
+              </a>
               <span>·</span>
               <span>{post.readingTime} min read</span>
               <span>·</span>
