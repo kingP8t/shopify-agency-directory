@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 const SPECIALIZATIONS = [
-  "Shopify Plus",
+  "Store Build",
   "Theme Development",
   "Migrations",
   "CRO",
@@ -66,12 +66,23 @@ async function getAverageRating(): Promise<number | null> {
   return Math.round(avg * 10) / 10;
 }
 
+async function getCountryCount(): Promise<number> {
+  const { data } = await supabase
+    .from("agencies")
+    .select("country")
+    .eq("status", "published")
+    .not("country", "is", null);
+  if (!data) return 0;
+  return new Set(data.map((r: { country: string }) => r.country).filter(Boolean)).size;
+}
+
 export default async function HomePage() {
-  const [featuredAgencies, agencyCount, reviewCount, avgRating] = await Promise.all([
+  const [featuredAgencies, agencyCount, reviewCount, avgRating, countryCount] = await Promise.all([
     getFeaturedAgencies(),
     getAgencyCount(),
     getReviewCount(),
     getAverageRating(),
+    getCountryCount(),
   ]);
 
   const orgSchema = generateOrganizationJsonLd();
@@ -90,7 +101,7 @@ export default async function HomePage() {
       <section className="bg-white px-6 py-20">
         <div className="mx-auto max-w-4xl text-center">
           <span className="mb-4 inline-block rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700">
-            {agencyCount > 0 ? `${agencyCount}+` : "100+"} Verified Agencies
+            {agencyCount > 0 ? `${agencyCount}+` : "100+"} Verified Agencies · Free Matching
           </span>
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
             Find the Perfect{" "}
@@ -99,17 +110,31 @@ export default async function HomePage() {
             for Your Business
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-gray-600">
-            Browse our curated directory of top Shopify agencies. Filter by
-            specialization, budget, and location to find your perfect match.
+            Tell us about your project and we&apos;ll personally match you with
+            the right Shopify agency — free, fast, and unbiased.
           </p>
 
-          {/* Live search */}
-          <HeroSearch />
-
-          <div className="mt-4 flex items-center justify-center gap-6 text-sm text-gray-500">
-            <a href="/get-matched" className="text-green-600 hover:underline">
-              Not sure where to start? Get matched →
+          {/* Primary CTA */}
+          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <a
+              href="/get-matched"
+              className="inline-flex items-center gap-2 rounded-xl bg-green-600 px-8 py-3.5 text-base font-semibold text-white shadow-sm hover:bg-green-700"
+            >
+              Get Matched — Free
+              <span aria-hidden="true">→</span>
             </a>
+            <a
+              href="/agencies"
+              className="inline-flex items-center gap-1 rounded-xl border border-gray-200 bg-white px-8 py-3.5 text-base font-medium text-gray-700 hover:border-gray-300 hover:bg-gray-50"
+            >
+              Browse Directory
+            </a>
+          </div>
+
+          {/* Secondary: direct search */}
+          <div className="mt-8 border-t pt-6">
+            <p className="mb-3 text-sm text-gray-400">Or search directly</p>
+            <HeroSearch />
           </div>
         </div>
       </section>
@@ -222,16 +247,30 @@ export default async function HomePage() {
             <p className="mt-1 text-green-100">Verified Agencies</p>
           </div>
           <div>
-            <p className="text-3xl font-bold">
-              {reviewCount > 0 ? `${reviewCount}+` : "0"}
-            </p>
-            <p className="mt-1 text-green-100">Verified Reviews</p>
+            {reviewCount > 0 ? (
+              <>
+                <p className="text-3xl font-bold">{reviewCount}+</p>
+                <p className="mt-1 text-green-100">Verified Reviews</p>
+              </>
+            ) : (
+              <>
+                <p className="text-3xl font-bold">{countryCount > 0 ? `${countryCount}` : "50+"}</p>
+                <p className="mt-1 text-green-100">Countries Served</p>
+              </>
+            )}
           </div>
           <div>
-            <p className="text-3xl font-bold">
-              {avgRating ? `${avgRating}★` : "—"}
-            </p>
-            <p className="mt-1 text-green-100">Average Rating</p>
+            {avgRating ? (
+              <>
+                <p className="text-3xl font-bold">{avgRating}★</p>
+                <p className="mt-1 text-green-100">Average Rating</p>
+              </>
+            ) : (
+              <>
+                <p className="text-3xl font-bold">100%</p>
+                <p className="mt-1 text-green-100">Free to List</p>
+              </>
+            )}
           </div>
         </div>
       </section>

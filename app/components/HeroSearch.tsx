@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 const POPULAR_SEARCHES = [
-  "Shopify Plus",
+  "Store Build",
   "CRO",
   "Migrations",
   "Headless",
