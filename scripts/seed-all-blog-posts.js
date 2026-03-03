@@ -155,57 +155,102 @@ const post2 = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// POST 3 — How Much Does a Shopify Website Cost
+// POST 3 — How Much Does a Shopify Website Cost (2026 Pricing Guide)
 // ─────────────────────────────────────────────────────────────────────────────
 const post3 = {
   slug: "how-much-does-a-shopify-website-cost",
-  title: "How Much Does a Shopify Website Cost in 2026?",
-  excerpt: "From $3,000 to $150,000+ — Shopify website costs vary enormously. Here's a transparent breakdown of what you'll actually pay and why.",
+  title: "How Much Does a Shopify Website Cost? (2026 Pricing Guide)",
+  excerpt: "Shopify website costs range from $2,000 to $150,000+. Here's a transparent breakdown of what you'll actually pay — from platform fees to agency quotes — and how to budget your build.",
   category: "Pricing Guide",
-  tags: ["shopify cost", "pricing", "budget", "web development"],
+  tags: ["shopify cost", "pricing", "budget", "web development", "shopify agency cost"],
   author: "Shopify Agency Directory",
-  reading_time: 6,
+  reading_time: 9,
   status: "published",
   featured: false,
   date: "2026-02-01",
+  updated_date: "2026-03-03",
   content: [
-    p("One of the most common questions merchants ask is: how much does a Shopify website cost? The honest answer is — it depends enormously on what you're building. A basic theme customisation might cost $2,000. A fully bespoke Shopify Plus store for an enterprise brand can run to $150,000 or more."),
-    p("Here's a transparent breakdown of real-world costs so you can set the right budget."),
-    h2("The Three Tiers of Shopify Projects"),
-    h3("Tier 1: Theme-Based Build ($2,000 – $8,000)"),
-    p("This is the most common starting point for new Shopify stores. An agency takes a premium theme (like Dawn, Impulse, or Prestige), customises it to match your brand, and sets up your products and collections."),
+    p("How much does a Shopify website cost? It's the most common question merchants ask before starting a project — and the answer genuinely depends on what you're building. A basic theme customisation for a small brand can cost $2,000–$4,000. A bespoke Shopify Plus store for an enterprise retailer can run to $150,000 or more."),
+    p("This guide breaks down every cost category clearly, with real-world price ranges, so you can set an accurate budget before you approach a single agency."),
+    h2("Quick Answer: Shopify Website Cost by Project Type"),
     ul(
-      "Best for: new stores, brands with a clear vision, businesses with straightforward product catalogues",
+      "DIY with a premium theme: $0 – $500 (theme licence only)",
+      "Theme-based agency build: $2,000 – $8,000",
+      "Custom design + development: $8,000 – $40,000",
+      "Shopify Plus / enterprise build: $40,000 – $150,000+"
+    ),
+    tip("If you build yourself using Shopify's theme editor, your main costs are the monthly Shopify plan and optionally a premium theme ($200–$380). DIY works for simple stores — but for established brands, agency expertise typically pays back through higher conversion rates."),
+    h2("Shopify Platform Monthly Costs"),
+    p("Before any build cost, budget for Shopify's subscription. Every store pays a monthly plan fee:"),
+    ul(
+      "Basic Shopify: $39/month — good for new stores with simple needs",
+      "Shopify: $105/month — adds more staff accounts and better reporting",
+      "Advanced Shopify: $399/month — unlocks advanced reporting and lower transaction fees",
+      "Shopify Plus: $2,300+/month — enterprise plan with checkout customisation, automation, and multi-store support"
+    ),
+    p("Transaction fees apply if you don't use Shopify Payments: 2% on Basic, 1% on Shopify, 0.5% on Advanced, 0.15% on Plus. For high-volume stores these fees add up quickly — factoring them into your platform decision matters."),
+    h2("Agency Build Costs: The Three Tiers"),
+    h3("Tier 1: Theme-Based Build ($2,000 – $8,000)"),
+    p("The most common starting point for new Shopify stores. An agency configures a premium theme (Dawn, Impulse, Prestige, or similar), customises it to match your brand, and sets up your product catalogue. Faster and more affordable than a custom build."),
+    ul(
+      "Best for: new stores, brands with a clear visual identity, straightforward product catalogues",
       "Typical timeline: 4–8 weeks",
-      "What's included: theme setup, colour/font customisation, homepage design, collection and product pages",
-      "What's not included: custom functionality, complex integrations, bespoke UX design"
+      "Includes: theme setup, colour and typography customisation, homepage layout, collection and product pages",
+      "Doesn't include: custom functionality, bespoke app integrations, original UX research or wireframing"
     ),
     h3("Tier 2: Custom Design Build ($8,000 – $40,000)"),
-    p("A fully designed-from-scratch Shopify store with custom UX, bespoke theme development, and thoughtful conversion optimisation."),
+    p("A fully designed-from-scratch Shopify store with custom UX, bespoke Liquid theme development, and strategic conversion optimisation. The right choice for established brands and mid-market retailers who need a differentiated online presence."),
     ul(
-      "Best for: established brands, stores with complex product ranges, businesses prioritising conversion rate",
+      "Best for: established brands, complex product ranges, stores where conversion rate is a priority",
       "Typical timeline: 8–16 weeks",
-      "What's included: UX/UI design, custom Liquid theme development, app integrations, basic SEO setup",
-      "What's not included: custom Shopify apps, advanced B2B features, headless architecture"
+      "Includes: UX/UI design, custom Liquid theme development, app integrations, technical SEO setup",
+      "Doesn't include: custom Shopify app development, advanced B2B features, headless architecture"
     ),
-    h3("Tier 3: Enterprise / Headless ($40,000 – $150,000+)"),
-    p("Enterprise Shopify Plus projects with headless architecture, custom app development, complex integrations (ERP, PIM, OMS), and multi-region setups."),
+    h3("Tier 3: Enterprise / Shopify Plus ($40,000 – $150,000+)"),
+    p("Enterprise-level builds on Shopify Plus, often involving headless architecture, custom app development, and deep third-party integrations (ERP, PIM, OMS). These projects are typically led by Shopify Plus Partners with specialist engineering teams."),
     ul(
       "Best for: large retailers, Shopify Plus merchants, businesses with complex operational requirements",
-      "Typical timeline: 4–12 months",
-      "What's included: everything above plus custom app development, API integrations, performance engineering"
+      "Typical timeline: 3–12 months",
+      "Includes: custom app development, ERP/OMS/PIM integrations, performance engineering, multi-region or multi-store setup"
     ),
-    h2("Ongoing Costs to Budget For"),
-    p("The build cost is just the start. Here's what you'll pay every month after launch:"),
+    h2("What Drives the Price Up?"),
+    p("Understanding the cost drivers helps you prioritise where to spend — and where to save. These factors most commonly push projects into a higher tier:"),
+    ol(
+      "Custom functionality — any feature not available in Shopify's native toolset or the app ecosystem requires custom development; typical agency rates are $100–$200/hour",
+      "Complex integrations — connecting Shopify to an ERP (NetSuite, SAP), PIM, or custom OMS is one of the biggest cost drivers at enterprise level",
+      "Product catalogue complexity — a store with 10 products builds faster than one with 10,000 SKUs, complex variants, and custom metafields",
+      "Bespoke UX design — full UX research, wireframing, and visual design adds $5,000–$15,000 but typically pays back through conversion rate improvements",
+      "Headless architecture — using Shopify as a headless backend (with a Next.js or Hydrogen frontend) adds significant development cost but unlocks top-tier performance and flexibility"
+    ),
+    h2("Ongoing Monthly Costs After Launch"),
+    p("The build is a one-off investment. These are the recurring costs you'll pay every month:"),
     ul(
       "Shopify plan: $39 – $399/month (or $2,300+/month for Plus)",
-      "Apps: $100 – $1,000+/month depending on your stack",
-      "Theme licence: $200 – $380 one-off for a premium theme",
-      "Ongoing support retainer: $500 – $3,000/month if you use an agency",
-      "Hosting: included in Shopify's monthly fee"
+      "Essential apps (reviews, email, SEO, forms): $50 – $300/month",
+      "Extended app stack (loyalty, upsells, subscriptions, helpdesk): $300 – $1,500+/month",
+      "Domain and email hosting: $15 – $50/month",
+      "Agency retainer for ongoing support or CRO: $500 – $5,000/month",
+      "Hosting: included in Shopify's monthly fee — no separate server costs"
     ),
-    tip("Get at least three quotes from agencies before committing. Prices for identical scopes can vary by 3x between agencies — and higher price doesn't always mean better quality."),
-    cta("Get matched with an agency that fits your budget", "/get-matched", "Get Free Matched →"),
+    tip("Total year-one cost for a mid-market Shopify store is typically $25,000–$70,000: build ($15k–$40k) + Shopify plan (~$1,260/year on Shopify plan) + apps ($3k–$6k/year) + agency support ($6k–$24k/year). Build this into your business case from day one."),
+    h2("Hidden Costs Most Merchants Miss"),
+    p("These costs frequently catch merchants off guard after launch:"),
+    ul(
+      "App subscriptions — easy to underestimate; a fully-featured app stack for a growing store can reach $500–$1,500/month",
+      "Content and photography — professional product photography costs $500–$3,000; copywriting for a full store adds $1,000–$5,000",
+      "Post-launch fixes and tweaks — even well-built stores need iteration; budget 10–15% of the build cost as a post-launch reserve",
+      "Theme maintenance — major Shopify updates occasionally require theme updates; budget $500–$2,000/year for a custom theme",
+      "App replacement costs — if a key app raises prices sharply or closes down, re-implementing the feature has a real development cost"
+    ),
+    h2("How to Get the Best Value from Your Budget"),
+    ol(
+      "Get at least three agency quotes — prices for identical scopes vary by 2–4x between agencies; use the range to negotiate and identify outliers",
+      "Separate must-haves from nice-to-haves — phase your build; launch with core functionality and add features in months 3–6",
+      "Use apps before custom development — always check if a $50/month app solves your problem before paying $5,000 for bespoke code",
+      "Match the build tier to your revenue stage — a custom $25,000 build is hard to justify on $200k revenue; a theme build often gets you 80% of the outcome at 20% of the cost",
+      "Ask for a fixed-price contract — T&M (time and materials) projects can run over budget; a fixed-price quote protects you from scope creep when requirements are clear"
+    ),
+    cta("Find an agency that fits your budget and requirements", "/get-matched", "Get Free Matched →"),
   ],
 };
 
@@ -735,9 +780,160 @@ const post10 = {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
+// POST 11 — Shopify Agency Red Flags
+// ─────────────────────────────────────────────────────────────────────────────
+const post11 = {
+  slug: "shopify-agency-red-flags",
+  title: "Shopify Agency Red Flags: 12 Warning Signs to Spot Before You Sign",
+  excerpt: "Not every agency that claims Shopify expertise has it. Here are 12 concrete warning signs that predict a bad project outcome — and how to spot them before you commit.",
+  category: "Hiring Guide",
+  tags: ["hiring", "shopify agency", "red flags", "agency vetting", "ecommerce"],
+  author: "Shopify Agency Directory",
+  reading_time: 9,
+  status: "published",
+  featured: false,
+  date: "2026-02-03",
+  content: [
+    p("Hiring the wrong Shopify agency is one of the most expensive mistakes an ecommerce business can make. A bad project doesn't just cost you money — it costs you months of momentum, opportunity, and sometimes SEO rankings you've spent years building. The frustrating reality is that most agencies look credible from the outside. Good websites, polished decks, and a confident sales process don't tell you much about execution quality."),
+    p("These 12 warning signs are the ones that most reliably predict a failed or disappointing engagement. Learn to spot them early."),
+    h2("1. They Quote Without Understanding Your Business"),
+    p("Any agency that sends you a proposal within 24 hours of your first conversation — without a proper discovery call or written brief — is not taking your project seriously. Good agencies ask questions. They want to understand your current tech stack, your customers, your business model, your growth goals, and your constraints before putting a number on anything."),
+    tip("A discovery call should last at least 45 minutes. If an agency skips this step or rushes through it, their proposal is a guess — and the scope creep will start from day one."),
+    h2("2. No Questions About Your Existing Tech Stack"),
+    p("Professional agencies investigate before prescribing. If they don't ask about your current apps, integrations, third-party systems, and any custom code before starting work, they'll be flying blind. This is how you end up with app conflicts, broken features, and emergency fixes a week after launch."),
+    h2("3. Every Portfolio Site Looks the Same"),
+    p("A strong agency portfolio shows range. If every site in their portfolio has an almost identical layout, colour palette, or structure, the agency is applying a template rather than solving each client's unique problem. Great design solves specific problems for specific audiences — it doesn't clone the same solution repeatedly."),
+    h2("4. They Guarantee SEO Rankings"),
+    p("No one can guarantee specific Google rankings. Any agency that promises 'page one in 30 days' or guarantees a specific number of keyword positions is either being dishonest or planning to use black-hat tactics that will harm your domain long-term. Ethical SEO takes 3–6 months minimum and comes with probability, not guarantees."),
+    h2("5. Vague or Padded Proposals"),
+    p("Watch out for proposals full of agency buzzwords ('omnichannel ecosystem', 'synergistic digital strategy', 'frictionless customer journeys') with no concrete deliverables. A good proposal names specific pages to be built, features to be developed, milestones to be hit, and acceptance criteria for each. If you can't point to exactly what you're paying for, renegotiate or walk away."),
+    h2("6. No Post-Launch Support Plan"),
+    p("Launches break things. Bugs appear. Apps conflict. Traffic spikes expose performance issues. Any agency that doesn't have a clear post-launch support offering — even a basic 30-day warranty period — is planning to hand over and disappear. Ask specifically: 'What is your process for bugs discovered in the first 30 days after launch?' A confident agency will have a clear answer."),
+    h2("7. Pressure to Sign Quickly"),
+    p("Legitimate agencies don't use high-pressure sales tactics. 'This slot is only available until Friday' or 'we have two other clients looking at the same timeline' are manipulation techniques, not genuine constraints. Good agencies plan their capacity carefully — they don't rush you into a contract."),
+    h2("8. They Can't Name Who Will Work on Your Project"),
+    p("Ask specifically: 'Who will be my day-to-day developer and project manager?' If the answer is vague — 'our team' or 'we'll assign the best people' — be cautious. Many agencies win work with senior people and deliver with juniors or offshore contractors. You have the right to know who will actually build your store and what their Shopify experience is."),
+    h2("9. No References From Comparable Projects"),
+    p("Any credible agency will connect you with 2–3 happy clients from comparable projects. If an agency claims NDA restrictions on all their clients, or can only offer references from very small or very different projects, that's a warning sign. Ask to speak to a client who ran a similar project — similar budget, similar complexity, similar category."),
+    h2("10. Unusual Payment Terms"),
+    p("Standard agency payment terms are typically 30–50% upfront, with the remainder tied to milestones or delivery. Be wary of agencies asking for 100% upfront, or agencies offering very low upfront fees that spike in the second half. Both structures can incentivise poor behaviour. Milestone-based payments keep the agency accountable throughout the project."),
+    h2("11. They Dismiss Your Concerns Rather Than Address Them"),
+    p("Pay close attention to how an agency handles your questions during the sales process. If you raise a concern and they dismiss it, deflect, or over-promise without substance, this is exactly how they'll behave when problems arise mid-project. A trustworthy agency acknowledges complexity, explains trade-offs, and gives you honest assessments rather than just telling you what you want to hear."),
+    h2("12. No Formal Handover or Documentation Process"),
+    p("When a project ends, you need to own it completely. This means receiving: all login credentials, custom code with comments, a list of all installed apps and their configurations, documentation of any custom integrations, and a theme backup. Agencies that don't have a documented handover process often leave clients locked out, dependent, or unable to onboard a new agency later."),
+    h2("What Good Looks Like"),
+    ul(
+      "A thorough discovery call before any proposal",
+      "A proposal with named deliverables, milestones, and acceptance criteria",
+      "Clear post-launch support terms in the contract",
+      "Named team members who you can meet before signing",
+      "2–3 references from comparable projects you can actually call",
+      "Milestone-based payment structure",
+      "A documented handover and offboarding process"
+    ),
+    cta("Browse verified Shopify agencies with transparent portfolios and real client reviews.", "/agencies", "Find a Verified Agency →"),
+  ],
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// POST 12 — How to Brief a Shopify Agency
+// ─────────────────────────────────────────────────────────────────────────────
+const post12 = {
+  slug: "how-to-brief-a-shopify-agency",
+  title: "How to Brief a Shopify Agency: The Exact Template We Use",
+  excerpt: "A well-written brief gets you better proposals, fewer surprises, and a project that actually delivers what you envisioned. Here's the exact framework to use.",
+  category: "Hiring Guide",
+  tags: ["hiring", "shopify agency", "project brief", "rfp", "ecommerce"],
+  author: "Shopify Agency Directory",
+  reading_time: 8,
+  status: "published",
+  featured: false,
+  date: "2026-02-24",
+  content: [
+    p("The quality of the brief you send an agency directly determines the quality of the proposal you receive. A vague brief gets vague proposals. A precise brief gets precise proposals — with accurate budgets, realistic timelines, and agencies who actually understand what they're getting into."),
+    p("Most merchants underinvest in their brief. They send a few bullet points or a short email and hope agencies will figure out the rest. The result is proposals that are incomparable (agencies have interpreted the brief differently), scopes that drift from day one, and costs that escalate unpredictably."),
+    p("Here is the exact framework for a Shopify agency brief that gets you better outcomes."),
+    h2("Section 1: Company Overview (1 page max)"),
+    p("Give agencies the context they need to understand your brand, your market, and your customers. This isn't marketing copy — it's background information to help the agency understand your world."),
+    ul(
+      "What your business does and what you sell",
+      "Your target audience — who buys from you and why",
+      "Your current annual revenue range (approximate is fine)",
+      "Key competitors — who do you respect in your category?",
+      "Your brand personality and any brand guidelines you have",
+      "Current platform — what are you migrating from, or is this a new build?"
+    ),
+    h2("Section 2: Project Objectives"),
+    p("Be specific about what success looks like. Agencies need to understand the business problem you're solving — not just the deliverable you want. Good objectives are measurable."),
+    ul(
+      "What is the primary business goal? (e.g. improve conversion rate from 1.8% to 2.5%, reduce cart abandonment, launch into 3 new markets)",
+      "What are the secondary goals? (e.g. reduce page load time, improve mobile experience, enable wholesale B2B)",
+      "What does failure look like? What outcome would make this project a disappointment?",
+      "What is the must-have outcome vs. nice-to-have outcome?"
+    ),
+    tip("The clearer you are about objectives, the better proposals you'll get. Agencies price and plan differently for 'improve conversion rate' vs 'build a new homepage' — even though the deliverable might be similar."),
+    h2("Section 3: Scope of Work"),
+    p("List every page, feature, and integration you need. Be exhaustive. Anything not in the brief risks becoming a change request later."),
+    ul(
+      "Pages required: homepage, collection pages, product pages, cart, checkout, about, contact, blog, custom pages",
+      "Custom features: product configurators, subscription logic, wholesale pricing, multi-currency, loyalty integration",
+      "Third-party integrations: ERP, CRM, email marketing, loyalty, reviews, returns management",
+      "Shopify plan: standard Shopify or Shopify Plus? (determines checkout customisation options)",
+      "Content: will you provide copy and images, or does the agency need to source/create them?",
+      "Data migration: what needs to move from your existing platform? (products, customers, orders, reviews)"
+    ),
+    h2("Section 4: Technical Requirements"),
+    ul(
+      "Current app stack: list every app you currently use and want to keep",
+      "Custom integrations: any existing API connections to other systems",
+      "Performance requirements: specific PageSpeed targets, if any",
+      "Accessibility requirements: WCAG 2.1 AA compliance, if required",
+      "Multi-language or multi-currency requirements",
+      "Any known technical constraints or legacy code issues"
+    ),
+    h2("Section 5: Design Direction"),
+    p("Even if you're using a theme rather than building from scratch, give agencies your design direction to help them scope correctly."),
+    ul(
+      "Brand assets: do you have a full brand identity (logo, fonts, colour palette, imagery guidelines)?",
+      "Inspiration sites: share 3–5 Shopify stores you admire and say specifically what you like about each",
+      "Existing assets: what photography, video, and copy do you already have vs. need created?",
+      "Theme preference: open to premium themes, or looking for a bespoke custom build?"
+    ),
+    h2("Section 6: Timeline & Budget"),
+    p("Be transparent about both. Agencies calibrate their proposals to your budget — if you hide your budget, you'll get proposals ranging from $5,000 to $150,000 with no way to compare them fairly."),
+    ul(
+      "Target launch date — is it fixed (e.g. tied to a product launch or sale period) or flexible?",
+      "Budget range — give a range rather than a single number (e.g. '$15,000–$25,000 for the initial build')",
+      "Ongoing budget — are you looking for ongoing support/retainer post-launch?",
+      "Payment preference — milestone-based is standard; note if you require specific terms"
+    ),
+    h2("Section 7: Selection Criteria"),
+    p("Tell agencies how you'll evaluate proposals. This signals professionalism and helps agencies tailor their response to what actually matters to you."),
+    ul(
+      "Relevant Shopify experience (specific industry or project type)",
+      "Team quality and named individuals who will work on the project",
+      "Proposed approach and methodology",
+      "References from comparable projects",
+      "Price and value",
+      "Communication style and cultural fit"
+    ),
+    h2("Section 8: Process & Next Steps"),
+    ul(
+      "Proposal deadline — give agencies at least 7–10 business days to respond properly",
+      "Proposal format — ask for: executive summary, proposed approach, team bios, timeline, itemised budget, references",
+      "Q&A process — will you hold a group briefing call, or answer questions by email?",
+      "Decision timeline — when will you notify the successful agency?",
+      "Contract terms — note any specific contract requirements upfront (e.g. IP ownership, confidentiality)"
+    ),
+    tip("Send your brief to 3–5 agencies maximum. More than that and you're wasting everyone's time, including your own. Use your brief quality and shortlisting process to get to the right 3–5."),
+    cta("Ready to send your brief? Browse our directory of verified Shopify agencies.", "/agencies", "Browse Agencies →"),
+  ],
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Seed runner
 // ─────────────────────────────────────────────────────────────────────────────
-const allPosts = [post1, post2, post3, post4, post5, post6, post7, post8, post9, post10];
+const allPosts = [post1, post2, post3, post4, post5, post6, post7, post8, post9, post10, post11, post12];
 
 async function seed() {
   console.log(`Seeding ${allPosts.length} blog posts to Supabase...`);
