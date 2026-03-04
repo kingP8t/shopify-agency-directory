@@ -44,11 +44,14 @@ export async function submitLeadAction(
   const email = formData.get("email")?.toString().trim();
   const company = formData.get("company")?.toString().trim() || null;
   const budget = formData.get("budget")?.toString().trim() || null;
+  const project_type = formData.get("project_type")?.toString().trim() || null;
+  const timeline = formData.get("timeline")?.toString().trim() || null;
+  const store_url = formData.get("store_url")?.toString().trim() || null;
   const message = formData.get("message")?.toString().trim();
   const agency_id = formData.get("agency_id")?.toString() || null;
 
   if (!name || !email || !message) {
-    return { success: false, error: "Name, email, and message are required." };
+    return { success: false, error: "Name, email, and project description are required." };
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -72,7 +75,7 @@ export async function submitLeadAction(
   }
 
   const { error } = await supabase.from("leads").insert([
-    { name, email, company, budget, message, agency_id },
+    { name, email, company, budget, project_type, timeline, store_url, message, agency_id },
   ]);
 
   if (error) {
