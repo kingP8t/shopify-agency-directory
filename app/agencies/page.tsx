@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import type { Agency } from "@/lib/supabase";
 import SiteNav from "@/app/components/SiteNav";
@@ -93,6 +94,12 @@ const COUNTRY_NAMES: Record<string, string> = {
 
 const PAGE_SIZE = 10;
 
+/** Coerce string | string[] | undefined → string[] */
+function toArray(v: string | string[] | undefined): string[] {
+  if (!v) return [];
+  return Array.isArray(v) ? v : [v];
+}
+
 // ─── Fetch distinct countries with agency counts ──────────────────────────────
 async function getCountries(): Promise<
   Array<{ code: string; name: string; count: number }>
@@ -120,8 +127,8 @@ async function getCountries(): Promise<
 // ─── Fetch agencies with all filters ─────────────────────────────────────────
 async function getAgencies(
   params: {
-    specialization?: string;
-    budget?: string;
+    specializations: string[];
+    budgets: string[];
     location?: string;
     country?: string;
     search?: string;
@@ -135,11 +142,12 @@ async function getAgencies(
     .order("featured", { ascending: false })
     .order("rating", { ascending: false });
 
-  if (params.specialization) {
-    query = query.contains("specializations", [params.specialization]);
+  if (params.specializations.length > 0) {
+    // overlaps = has ANY of the selected specializations (OR logic)
+    query = query.overlaps("specializations", params.specializations);
   }
-  if (params.budget) {
-    query = query.eq("budget_range", params.budget);
+  if (params.budgets.length > 0) {
+    query = query.in("budget_range", params.budgets);
   }
   if (params.country) {
     query = query.eq("country", params.country);
@@ -178,8 +186,8 @@ export default async function AgenciesPage({
   searchParams,
 }: {
   searchParams: Promise<{
-    specialization?: string;
-    budget?: string;
+    specialization?: string | string[];
+    budget?: string | string[];
     location?: string;
     country?: string;
     search?: string;
@@ -189,9 +197,21 @@ export default async function AgenciesPage({
   const params = await searchParams;
   const page = Math.max(1, parseInt(params.page ?? "1", 10));
 
+  const selectedSpecs = toArray(params.specialization);
+  const selectedBudgets = toArray(params.budget);
+
   // Fetch agencies + country list in parallel
   const [{ agencies, total }, countries] = await Promise.all([
-    getAgencies(params, page),
+    getAgencies(
+      {
+        specializations: selectedSpecs,
+        budgets: selectedBudgets,
+        location: params.location,
+        country: params.country,
+        search: params.search,
+      },
+      page
+    ),
     getCountries(),
   ]);
 
@@ -200,8 +220,8 @@ export default async function AgenciesPage({
   const hasNext = page < totalPages;
 
   const activeFilters = [
-    params.specialization,
-    params.budget,
+    ...selectedSpecs,
+    ...selectedBudgets,
     params.country,
     params.location,
     params.search,
@@ -210,8 +230,8 @@ export default async function AgenciesPage({
   // Build a query string preserving all current filters + new page
   function pageUrl(p: number) {
     const qs = new URLSearchParams();
-    if (params.specialization) qs.set("specialization", params.specialization);
-    if (params.budget) qs.set("budget", params.budget);
+    for (const s of selectedSpecs) qs.append("specialization", s);
+    for (const b of selectedBudgets) qs.append("budget", b);
     if (params.country) qs.set("country", params.country);
     if (params.location) qs.set("location", params.location);
     if (params.search) qs.set("search", params.search);
@@ -255,7 +275,7 @@ export default async function AgenciesPage({
                   />
                 </div>
 
-                {/* Specialization filter */}
+                {/* Specialization filter — multi-select checkboxes */}
                 <div className="mt-4 rounded-xl border bg-white p-5 shadow-sm">
                   <h2 className="font-semibold text-gray-900">Specialization</h2>
                   <div className="mt-3 space-y-2">
@@ -265,10 +285,10 @@ export default async function AgenciesPage({
                         className="flex cursor-pointer items-center gap-2 text-sm text-gray-700"
                       >
                         <input
-                          type="radio"
+                          type="checkbox"
                           name="specialization"
                           value={spec}
-                          defaultChecked={params.specialization === spec}
+                          defaultChecked={selectedSpecs.includes(spec)}
                           className="accent-green-600"
                         />
                         {spec}
@@ -277,7 +297,7 @@ export default async function AgenciesPage({
                   </div>
                 </div>
 
-                {/* Budget filter */}
+                {/* Budget filter — multi-select checkboxes */}
                 <div className="mt-4 rounded-xl border bg-white p-5 shadow-sm">
                   <h2 className="font-semibold text-gray-900">Budget Range</h2>
                   <div className="mt-3 space-y-2">
@@ -287,10 +307,10 @@ export default async function AgenciesPage({
                         className="flex cursor-pointer items-center gap-2 text-sm text-gray-700"
                       >
                         <input
-                          type="radio"
+                          type="checkbox"
                           name="budget"
                           value={budget}
-                          defaultChecked={params.budget === budget}
+                          defaultChecked={selectedBudgets.includes(budget)}
                           className="accent-green-600"
                         />
                         {budget}
@@ -336,12 +356,12 @@ export default async function AgenciesPage({
                 </button>
 
                 {activeFilters.length > 0 && (
-                  <a
+                  <Link
                     href="/agencies"
                     className="mt-2 block text-center text-sm text-gray-500 hover:text-gray-900"
                   >
                     Clear all filters
-                  </a>
+                  </Link>
                 )}
               </form>
             </aside>
@@ -370,16 +390,22 @@ export default async function AgenciesPage({
                 {/* Active filter chips */}
                 {activeFilters.length > 0 && (
                   <div className="flex flex-wrap gap-2">
-                    {params.specialization && (
-                      <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
-                        {params.specialization}
+                    {selectedSpecs.map((s) => (
+                      <span
+                        key={s}
+                        className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700"
+                      >
+                        {s}
                       </span>
-                    )}
-                    {params.budget && (
-                      <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
-                        {params.budget}
+                    ))}
+                    {selectedBudgets.map((b) => (
+                      <span
+                        key={b}
+                        className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700"
+                      >
+                        {b}
                       </span>
-                    )}
+                    ))}
                     {selectedCountryName && (
                       <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
                         {selectedCountryName}
@@ -405,17 +431,17 @@ export default async function AgenciesPage({
                   <p className="text-gray-500">
                     No agencies found matching your filters.
                   </p>
-                  <a
+                  <Link
                     href="/agencies"
                     className="mt-3 inline-block text-sm text-green-600 hover:underline"
                   >
                     Clear filters and browse all
-                  </a>
+                  </Link>
                 </div>
               ) : (
                 <div className="mt-5 space-y-4">
                   {agencies.map((agency) => (
-                    <a
+                    <Link
                       key={agency.id}
                       href={`/agencies/${agency.slug}`}
                       className="group flex gap-5 rounded-2xl border bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
@@ -483,7 +509,7 @@ export default async function AgenciesPage({
                             </div>
                           )}
                       </div>
-                    </a>
+                    </Link>
                   ))}
                 </div>
               )}
@@ -493,12 +519,12 @@ export default async function AgenciesPage({
                 <div className="mt-8 flex items-center justify-center gap-2">
                   {/* Previous */}
                   {hasPrev ? (
-                    <a
+                    <Link
                       href={pageUrl(page - 1)}
                       className="rounded-lg border bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
                     >
                       ← Previous
-                    </a>
+                    </Link>
                   ) : (
                     <span className="rounded-lg border bg-gray-50 px-4 py-2 text-sm font-medium text-gray-300 cursor-not-allowed">
                       ← Previous
@@ -527,7 +553,7 @@ export default async function AgenciesPage({
                             …
                           </span>
                         ) : (
-                          <a
+                          <Link
                             key={item}
                             href={pageUrl(item as number)}
                             className={`rounded-lg px-3 py-2 text-sm font-medium ${
@@ -537,19 +563,19 @@ export default async function AgenciesPage({
                             }`}
                           >
                             {item}
-                          </a>
+                          </Link>
                         )
                       )}
                   </div>
 
                   {/* Next */}
                   {hasNext ? (
-                    <a
+                    <Link
                       href={pageUrl(page + 1)}
                       className="rounded-lg border bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
                     >
                       Next →
-                    </a>
+                    </Link>
                   ) : (
                     <span className="rounded-lg border bg-gray-50 px-4 py-2 text-sm font-medium text-gray-300 cursor-not-allowed">
                       Next →

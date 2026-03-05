@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -73,13 +74,11 @@ export default function AgencyLogo({
 
       {/* Logo layer: loads invisibly, fades in on success, disappears on error */}
       {logoUrl && (
-        <img
+        <Image
           src={logoUrl}
           alt=""
-          aria-hidden="true"
-          width={80}
-          height={80}
-          className={`absolute inset-0 h-full w-full bg-white object-contain p-1.5 transition-opacity duration-300 ${
+          fill
+          className={`bg-white object-contain p-1.5 transition-opacity duration-300 ${
             logoLoaded ? "opacity-100" : "opacity-0"
           }`}
           onLoad={() => setLogoLoaded(true)}

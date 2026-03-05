@@ -4,7 +4,7 @@
 // kept as the seed source; once you run the seed SQL those rows live in DB.
 // ---------------------------------------------------------------------------
 
-import { getAllBlogPosts, getBlogPostBySlug } from "@/lib/supabase";
+import { getAllBlogPosts, getAllBlogPostsPaginated, getBlogPostBySlug } from "@/lib/supabase";
 import type { BlogPostDB } from "@/lib/supabase";
 
 export type { BlogPostDB };
@@ -54,7 +54,8 @@ export type ContentBlock =
   | { type: "ul"; items: string[] }
   | { type: "ol"; items: string[] }
   | { type: "tip"; text: string }       // highlighted tip box
-  | { type: "cta"; text: string; href: string; label: string }; // call to action
+  | { type: "cta"; text: string; href: string; label: string } // call to action
+  | { type: "table"; headers: string[]; rows: string[][] };    // comparison table
 
 // ---------------------------------------------------------------------------
 // Posts
@@ -1617,6 +1618,25 @@ export async function getAllPosts(): Promise<BlogPost[]> {
   return [...posts].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
+}
+
+export async function getPostsPaginated(
+  page: number,
+  limit = 12
+): Promise<{ posts: BlogPost[]; total: number }> {
+  const { posts: rows, total } = await getAllBlogPostsPaginated(page, limit);
+  if (total > 0) {
+    return { posts: rows.map(toPost), total };
+  }
+  // Fallback: paginate the hardcoded array
+  const sorted = [...posts].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+  const start = (page - 1) * limit;
+  return {
+    posts: sorted.slice(start, start + limit),
+    total: sorted.length,
+  };
 }
 
 export async function getPostBySlug(slug: string): Promise<BlogPost | undefined> {

@@ -4,6 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description: "Terms of Service for Shopify Agency Directory.",
+  robots: { index: false, follow: false },
 };
 
 const SITE = "Shopify Agency Directory";

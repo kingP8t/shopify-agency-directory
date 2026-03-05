@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import type { Agency } from "@/lib/supabase";
 import HeroSearch from "@/app/components/HeroSearch";
@@ -13,16 +14,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-const SPECIALIZATIONS = [
-  "Store Build",
-  "Theme Development",
-  "Migrations",
-  "CRO",
-  "Headless",
-  "App Development",
-  "SEO",
-  "Marketing",
-];
 
 async function getFeaturedAgencies(): Promise<Agency[]> {
   const { data, error } = await supabase
@@ -116,19 +107,29 @@ export default async function HomePage() {
 
           {/* Primary CTA */}
           <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <a
+            <Link
               href="/get-matched"
               className="inline-flex items-center gap-2 rounded-xl bg-green-600 px-8 py-3.5 text-base font-semibold text-white shadow-sm hover:bg-green-700"
             >
               Get Matched — Free
               <span aria-hidden="true">→</span>
-            </a>
-            <a
+            </Link>
+            <Link
               href="/agencies"
               className="inline-flex items-center gap-1 rounded-xl border border-gray-200 bg-white px-8 py-3.5 text-base font-medium text-gray-700 hover:border-gray-300 hover:bg-gray-50"
             >
               Browse Directory
-            </a>
+            </Link>
+          </div>
+
+          {/* Social proof */}
+          <div className="mt-6 flex items-center justify-center gap-2 text-sm text-gray-500">
+            <span className="flex gap-0.5 text-amber-400" aria-hidden="true">
+              {"★★★★★"}
+            </span>
+            <span>
+              Trusted by <span className="font-semibold text-gray-700">3,000+</span> merchants worldwide
+            </span>
           </div>
 
           {/* Secondary: direct search */}
@@ -139,22 +140,125 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Browse by specialization */}
-      <section className="px-6 py-12">
+      {/* Quick filters */}
+      <section className="border-y border-gray-100 bg-gray-50 px-6 py-5">
         <div className="mx-auto max-w-6xl">
-          <h2 className="text-xl font-semibold text-gray-900">
-            Browse by Specialization
-          </h2>
-          <div className="mt-4 flex flex-wrap gap-3">
-            {SPECIALIZATIONS.map((spec) => (
-              <a
-                key={spec}
-                href={`/agencies?specialization=${encodeURIComponent(spec)}`}
-                className="rounded-full border bg-white px-4 py-2 text-sm text-gray-700 shadow-sm hover:border-green-500 hover:text-green-700"
-              >
-                {spec}
-              </a>
-            ))}
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:gap-y-3">
+
+            {/* Region */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-medium uppercase tracking-wide text-gray-400">Region</span>
+              {(
+                [
+                  { label: "US Agencies",        href: "/agencies?country=US" },
+                  { label: "UK Agencies",        href: "/agencies?country=GB" },
+                  { label: "Australian Agencies",href: "/agencies?country=AU" },
+                  { label: "Canadian Agencies",  href: "/agencies?country=CA" },
+                ] as { label: string; href: string }[]
+              ).map(({ label, href }) => (
+                <a key={label} href={href}
+                  className="whitespace-nowrap rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-600 shadow-sm hover:border-green-500 hover:text-green-700">
+                  {label}
+                </a>
+              ))}
+            </div>
+
+            <div className="hidden h-5 w-px bg-gray-200 sm:block" aria-hidden="true" />
+
+            {/* Budget */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-medium uppercase tracking-wide text-gray-400">Budget</span>
+              {(
+                [
+                  { label: "Under $5k",     href: `/agencies?budget=${encodeURIComponent("Under $5,000")}` },
+                  { label: "Under $25k",    href: `/agencies?budget=${encodeURIComponent("$5,000 - $25,000")}` },
+                  { label: "Enterprise",    href: `/agencies?budget=${encodeURIComponent("$100,000+")}` },
+                ] as { label: string; href: string }[]
+              ).map(({ label, href }) => (
+                <a key={label} href={href}
+                  className="whitespace-nowrap rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-600 shadow-sm hover:border-green-500 hover:text-green-700">
+                  {label}
+                </a>
+              ))}
+            </div>
+
+            <div className="hidden h-5 w-px bg-gray-200 sm:block" aria-hidden="true" />
+
+            {/* Service */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-medium uppercase tracking-wide text-gray-400">Service</span>
+              {(
+                [
+                  { label: "Shopify Plus", href: "/agencies?specialization=Shopify+Plus" },
+                  { label: "Store Build",  href: "/agencies?specialization=Store+Build" },
+                  { label: "CRO",          href: "/agencies?specialization=CRO" },
+                  { label: "Migrations",   href: "/agencies?specialization=Migrations" },
+                  { label: "Headless",     href: "/agencies?specialization=Headless" },
+                ] as { label: string; href: string }[]
+              ).map(({ label, href }) => (
+                <a key={label} href={href}
+                  className="whitespace-nowrap rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-600 shadow-sm hover:border-green-500 hover:text-green-700">
+                  {label}
+                </a>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* How matching works */}
+      <section className="bg-white px-6 py-14">
+        <div className="mx-auto max-w-4xl">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-gray-900">How the free matching works</h2>
+            <p className="mt-2 text-sm text-gray-500">Takes 2 minutes · No obligation · Results in 24 hours</p>
+          </div>
+
+          <div className="relative mt-10">
+            {/* Connecting line (desktop only) */}
+            <div className="absolute left-0 right-0 top-6 hidden h-px bg-gray-200 sm:block" aria-hidden="true" />
+
+            <ol className="relative grid gap-8 sm:grid-cols-3">
+              {(
+                [
+                  {
+                    step: "1",
+                    title: "Tell us your needs",
+                    body: "Share your budget, timeline, and what you're building. The form takes about 2 minutes.",
+                  },
+                  {
+                    step: "2",
+                    title: "We review your brief",
+                    body: "Our team matches your project against 900+ verified agencies — by specialization, budget, and location.",
+                  },
+                  {
+                    step: "3",
+                    title: "Get 3 curated picks",
+                    body: "You receive 3 hand-picked agency introductions within 24 hours. No spam, no cold calls.",
+                  },
+                ] as { step: string; title: string; body: string }[]
+              ).map(({ step, title, body }) => (
+                <li key={step} className="flex flex-col items-center text-center">
+                  <span className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-green-600 text-base font-bold text-white shadow-sm">
+                    {step}
+                  </span>
+                  <h3 className="mt-4 font-semibold text-gray-900">{title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-gray-500">{body}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <div className="mt-10 text-center">
+            <a
+              href="/get-matched"
+              className="inline-flex items-center gap-2 rounded-xl bg-green-600 px-8 py-3.5 text-base font-semibold text-white shadow-sm hover:bg-green-700"
+            >
+              Get Matched — Free
+              <span aria-hidden="true">→</span>
+            </a>
+            <p className="mt-3 text-xs text-gray-400">Free service · We never share your details without permission</p>
           </div>
         </div>
       </section>
@@ -166,17 +270,17 @@ export default async function HomePage() {
             <h2 className="text-xl font-semibold text-gray-900">
               Featured Agencies
             </h2>
-            <a
+            <Link
               href="/agencies"
               className="text-sm text-green-600 hover:underline"
             >
               View all →
-            </a>
+            </Link>
           </div>
 
           <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {featuredAgencies.map((agency) => (
-              <a
+              <Link
                 key={agency.id}
                 href={`/agencies/${agency.slug}`}
                 className="group rounded-2xl border bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
@@ -223,16 +327,16 @@ export default async function HomePage() {
                     </span>
                   )}
                 </div>
-              </a>
+              </Link>
             ))}
 
             {/* Filler card */}
-            <a
+            <Link
               href="/agencies"
               className="flex items-center justify-center rounded-2xl border-2 border-dashed border-gray-200 bg-white p-6 text-center text-sm text-gray-400 hover:border-green-300 hover:text-green-600"
             >
               Browse all agencies →
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -323,13 +427,13 @@ export default async function HomePage() {
             <h2 className="text-xl font-semibold text-gray-900">
               From the Blog
             </h2>
-            <a href="/blog" className="text-sm text-green-600 hover:underline">
+            <Link href="/blog" className="text-sm text-green-600 hover:underline">
               View all articles →
-            </a>
+            </Link>
           </div>
           <div className="mt-6 grid gap-5 sm:grid-cols-3">
             {recentPosts.map((post) => (
-              <a
+              <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
                 className="group rounded-2xl border bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
@@ -346,7 +450,7 @@ export default async function HomePage() {
                 <p className="mt-3 text-xs text-gray-400">
                   {post.readingTime} min read
                 </p>
-              </a>
+              </Link>
             ))}
           </div>
         </div>
@@ -358,10 +462,10 @@ export default async function HomePage() {
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
             <p className="font-medium text-gray-900">Shopify Agency Directory</p>
             <div className="flex flex-wrap justify-center gap-6">
-              <a href="/agencies" className="hover:text-gray-900">Browse Agencies</a>
-              <a href="/blog" className="hover:text-gray-900">Blog</a>
-              <a href="/submit" className="hover:text-gray-900">List Your Agency</a>
-              <a href="/get-matched" className="hover:text-gray-900">Get Matched</a>
+              <Link href="/agencies" className="hover:text-gray-900">Browse Agencies</Link>
+              <Link href="/blog" className="hover:text-gray-900">Blog</Link>
+              <Link href="/submit" className="hover:text-gray-900">List Your Agency</Link>
+              <Link href="/get-matched" className="hover:text-gray-900">Get Matched</Link>
             </div>
           </div>
           <div className="flex flex-col items-center gap-2 border-t pt-4 sm:flex-row sm:justify-between">

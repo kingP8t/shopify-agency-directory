@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { adminLoginAction } from "@/app/actions/admin-auth";
 
 export const metadata: Metadata = {
@@ -59,9 +60,9 @@ export default function AdminLoginPage({
         </div>
 
         <p className="mt-4 text-center text-xs text-gray-400">
-          <a href="/" className="hover:text-gray-600">
+          <Link href="/" className="hover:text-gray-600">
             ← Back to site
-          </a>
+          </Link>
         </p>
       </div>
     </div>

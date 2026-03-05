@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getAdminClient } from "@/lib/supabase";
 import type { Agency, Lead, BlogPostDB } from "@/lib/supabase";
 import AdminAgencyRow from "@/app/components/AdminAgencyRow";
@@ -28,16 +29,54 @@ function getSupabaseDashboardUrl(table: string): string | null {
   }
 }
 
-async function getAllAgencies(): Promise<Agency[]> {
+const AGENCIES_PAGE_SIZE = 50;
+
+async function getAgenciesPage(
+  page: number
+): Promise<{ agencies: Agency[]; total: number }> {
+  const db = getAdminClient();
+  const from = (page - 1) * AGENCIES_PAGE_SIZE;
+  const to = from + AGENCIES_PAGE_SIZE - 1;
+
+  const { data, error, count } = await db
+    .from("agencies")
+    .select("*", { count: "exact" })
+    .order("status", { ascending: true })
+    .order("created_at", { ascending: false })
+    .range(from, to);
+
+  if (error) return { agencies: [], total: 0 };
+  return { agencies: (data as Agency[]) ?? [], total: count ?? 0 };
+}
+
+async function getPendingAgencies(): Promise<Agency[]> {
   const db = getAdminClient();
   const { data, error } = await db
     .from("agencies")
     .select("*")
-    .order("status", { ascending: true }) // pending first
+    .eq("status", "pending")
     .order("created_at", { ascending: false });
 
   if (error) return [];
   return (data as Agency[]) ?? [];
+}
+
+async function getAgencyCounts(): Promise<{
+  total: number;
+  published: number;
+}> {
+  const db = getAdminClient();
+  const [totalRes, publishedRes] = await Promise.all([
+    db.from("agencies").select("*", { count: "exact", head: true }),
+    db
+      .from("agencies")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "published"),
+  ]);
+  return {
+    total: totalRes.count ?? 0,
+    published: publishedRes.count ?? 0,
+  };
 }
 
 const LEADS_PAGE_SIZE = 50;
@@ -108,22 +147,35 @@ async function getAllReviews(): Promise<AdminReview[]> {
 export default async function AdminPage({
   searchParams,
 }: {
-  searchParams: Promise<{ leadsPage?: string }>;
+  searchParams: Promise<{ leadsPage?: string; agenciesPage?: string }>;
 }) {
-  const { leadsPage } = await searchParams;
+  const { leadsPage, agenciesPage } = await searchParams;
   const currentLeadsPage = Math.max(1, parseInt(leadsPage ?? "1", 10) || 1);
+  const currentAgenciesPage = Math.max(
+    1,
+    parseInt(agenciesPage ?? "1", 10) || 1
+  );
 
-  const [agencies, { leads, total: leadsTotal }, blogPosts, reviews] = await Promise.all([
-    getAllAgencies(),
+  const [
+    { agencies, total: agenciesTotal },
+    agencyCounts,
+    pendingAgencies,
+    { leads, total: leadsTotal },
+    blogPosts,
+    reviews,
+  ] = await Promise.all([
+    getAgenciesPage(currentAgenciesPage),
+    getAgencyCounts(),
+    getPendingAgencies(),
     getLeads(currentLeadsPage),
     getAllBlogPostsAdmin(),
     getAllReviews(),
   ]);
+
+  const totalAgenciesPages = Math.ceil(agenciesTotal / AGENCIES_PAGE_SIZE);
   const totalLeadsPages = Math.ceil(leadsTotal / LEADS_PAGE_SIZE);
   const leadsTableUrl = getSupabaseDashboardUrl("leads");
 
-  const published = agencies.filter((a) => a.status === "published").length;
-  const pendingAgencies = agencies.filter((a) => a.status === "pending");
   const publishedPosts = blogPosts.filter((p) => p.status === "published").length;
   const pendingReviews = reviews.filter((r) => !r.approved);
 
@@ -133,17 +185,17 @@ export default async function AdminPage({
       <nav className="border-b bg-white px-6 py-4">
         <div className="mx-auto flex max-w-6xl items-center justify-between">
           <div className="flex items-center gap-3">
-            <a href="/" className="text-lg font-bold text-gray-900">
+            <Link href="/" className="text-lg font-bold text-gray-900">
               Shopify Agency Directory
-            </a>
+            </Link>
             <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
               Admin
             </span>
           </div>
           <div className="flex items-center gap-3 text-sm">
-            <a href="/" className="text-gray-500 hover:text-gray-900">
+            <Link href="/" className="text-gray-500 hover:text-gray-900">
               View Site ↗
-            </a>
+            </Link>
             <AdminLogoutButton />
           </div>
         </div>
@@ -158,8 +210,8 @@ export default async function AdminPage({
         {/* Stats */}
         <div className="mt-6 grid gap-4 sm:grid-cols-3 lg:grid-cols-6">
           {[
-            { label: "Total Agencies", value: agencies.length, color: "bg-gray-100 text-gray-900" },
-            { label: "Published", value: published, color: "bg-green-100 text-green-800" },
+            { label: "Total Agencies", value: agencyCounts.total, color: "bg-gray-100 text-gray-900" },
+            { label: "Published", value: agencyCounts.published, color: "bg-green-100 text-green-800" },
             { label: "Pending Agencies", value: pendingAgencies.length, color: pendingAgencies.length > 0 ? "bg-orange-100 text-orange-800" : "bg-gray-100 text-gray-600" },
             { label: "Pending Reviews", value: pendingReviews.length, color: pendingReviews.length > 0 ? "bg-yellow-100 text-yellow-800" : "bg-gray-100 text-gray-600" },
             { label: "Lead Enquiries", value: leadsTotal, color: "bg-blue-100 text-blue-800" },
@@ -218,11 +270,19 @@ export default async function AdminPage({
 
         {/* ── All agencies ── */}
         <div className="mt-8">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-            All Agencies ({agencies.length})
-          </h2>
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
+                All Agencies ({agencyCounts.total})
+              </h2>
+              <p className="mt-1 text-sm text-gray-400">
+                Showing {agencies.length} of {agenciesTotal} — page{" "}
+                {currentAgenciesPage} of {totalAgenciesPages || 1}
+              </p>
+            </div>
+          </div>
 
-          {agencies.length === 0 ? (
+          {agenciesTotal === 0 ? (
             <div className="mt-4 rounded-2xl border-2 border-dashed border-gray-200 bg-white p-12 text-center text-gray-400">
               No agencies yet. Click &ldquo;+ Add Agency&rdquo; to get started.
             </div>
@@ -232,6 +292,43 @@ export default async function AdminPage({
                 <AdminAgencyRow key={agency.id} agency={agency} />
               ))}
             </ul>
+          )}
+
+          {/* Agencies pagination */}
+          {totalAgenciesPages > 1 && (
+            <div className="mt-4 flex items-center justify-between">
+              <Link
+                href={
+                  currentAgenciesPage > 1
+                    ? `?agenciesPage=${currentAgenciesPage - 1}${leadsPage ? `&leadsPage=${leadsPage}` : ""}`
+                    : "#"
+                }
+                className={`rounded-lg border px-4 py-2 text-sm ${
+                  currentAgenciesPage <= 1
+                    ? "pointer-events-none text-gray-300"
+                    : "text-gray-600 hover:bg-gray-50"
+                }`}
+              >
+                ← Previous
+              </Link>
+              <span className="text-sm text-gray-500">
+                Page {currentAgenciesPage} of {totalAgenciesPages}
+              </span>
+              <Link
+                href={
+                  currentAgenciesPage < totalAgenciesPages
+                    ? `?agenciesPage=${currentAgenciesPage + 1}${leadsPage ? `&leadsPage=${leadsPage}` : ""}`
+                    : "#"
+                }
+                className={`rounded-lg border px-4 py-2 text-sm ${
+                  currentAgenciesPage >= totalAgenciesPages
+                    ? "pointer-events-none text-gray-300"
+                    : "text-gray-600 hover:bg-gray-50"
+                }`}
+              >
+                Next →
+              </Link>
+            </div>
           )}
         </div>
 
@@ -281,8 +378,12 @@ export default async function AdminPage({
           {/* Pagination */}
           {totalLeadsPages > 1 && (
             <div className="mt-4 flex items-center justify-between">
-              <a
-                href={currentLeadsPage > 1 ? `?leadsPage=${currentLeadsPage - 1}` : "#"}
+              <Link
+                href={
+                  currentLeadsPage > 1
+                    ? `?leadsPage=${currentLeadsPage - 1}${agenciesPage ? `&agenciesPage=${agenciesPage}` : ""}`
+                    : "#"
+                }
                 className={`rounded-lg border px-4 py-2 text-sm ${
                   currentLeadsPage <= 1
                     ? "pointer-events-none text-gray-300"
@@ -290,12 +391,16 @@ export default async function AdminPage({
                 }`}
               >
                 ← Previous
-              </a>
+              </Link>
               <span className="text-sm text-gray-500">
                 Page {currentLeadsPage} of {totalLeadsPages}
               </span>
-              <a
-                href={currentLeadsPage < totalLeadsPages ? `?leadsPage=${currentLeadsPage + 1}` : "#"}
+              <Link
+                href={
+                  currentLeadsPage < totalLeadsPages
+                    ? `?leadsPage=${currentLeadsPage + 1}${agenciesPage ? `&agenciesPage=${agenciesPage}` : ""}`
+                    : "#"
+                }
                 className={`rounded-lg border px-4 py-2 text-sm ${
                   currentLeadsPage >= totalLeadsPages
                     ? "pointer-events-none text-gray-300"
@@ -303,7 +408,7 @@ export default async function AdminPage({
                 }`}
               >
                 Next →
-              </a>
+              </Link>
             </div>
           )}
         </div>

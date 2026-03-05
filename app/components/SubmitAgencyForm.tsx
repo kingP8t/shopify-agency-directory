@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import Link from "next/link";
 import { submitAgencyAction } from "@/app/actions/submit-agency";
 
 const SPECIALIZATION_OPTIONS = [
@@ -50,12 +51,12 @@ export default function SubmitAgencyForm() {
         <p className="mt-4 text-sm text-gray-500">
           We&apos;ll contact you at your email address once it&apos;s live.
         </p>
-        <a
+        <Link
           href="/"
           className="mt-6 inline-block rounded-lg bg-green-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-green-700"
         >
           Back to Homepage
-        </a>
+        </Link>
       </div>
     );
   }

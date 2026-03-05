@@ -1,13 +1,19 @@
 import type { Metadata } from "next";
-import { getAllPosts, getAllCategoryPairs } from "@/lib/blog";
+import Link from "next/link";
+import { getPostsPaginated, getAllCategoryPairs } from "@/lib/blog";
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
+
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://shopifyagencydirectory.com";
+
+const POSTS_PER_PAGE = 12;
 
 export const metadata: Metadata = {
   title: "Shopify Blog — Guides, Tips & Agency Advice",
   description:
     "Expert guides on hiring Shopify agencies, platform comparisons, migration advice, and ecommerce growth strategies.",
-  alternates: { canonical: "https://shopifyagencydirectory.com/blog" },
+  alternates: { canonical: `${SITE_URL}/blog` },
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -27,9 +33,21 @@ function formatDate(dateStr: string) {
   });
 }
 
-export default async function BlogPage() {
-  const [posts, categories] = await Promise.all([getAllPosts(), Promise.resolve(getAllCategoryPairs())]);
-  const [featured, ...rest] = posts;
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
+  const { page: pageParam } = await searchParams;
+  const currentPage = Math.max(1, parseInt(pageParam ?? "1", 10) || 1);
+
+  const [{ posts, total }, categories] = await Promise.all([
+    getPostsPaginated(currentPage, POSTS_PER_PAGE),
+    Promise.resolve(getAllCategoryPairs()),
+  ]);
+
+  const totalPages = Math.ceil(total / POSTS_PER_PAGE);
+  const [featured, ...rest] = currentPage === 1 ? posts : [null, ...posts];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -49,19 +67,19 @@ export default async function BlogPage() {
         {/* Category nav */}
         <nav aria-label="Blog categories" className="mb-8 flex flex-wrap gap-2">
           {categories.map(({ slug, label }) => (
-            <a
+            <Link
               key={slug}
               href={`/blog/category/${slug}`}
               className={`rounded-full px-3 py-1 text-xs font-medium transition-opacity hover:opacity-80 ${CATEGORY_COLORS[label] ?? "bg-gray-100 text-gray-600"}`}
             >
               {label}
-            </a>
+            </Link>
           ))}
         </nav>
 
-        {/* Featured post */}
+        {/* Featured post — only on page 1 */}
         {featured && (
-          <a
+          <Link
             href={`/blog/${featured.slug}`}
             className="group mb-10 flex flex-col gap-6 overflow-hidden rounded-2xl border bg-white shadow-sm transition-shadow hover:shadow-md sm:flex-row"
           >
@@ -90,45 +108,79 @@ export default async function BlogPage() {
               </p>
               <p className="mt-4 text-xs text-gray-400">{formatDate(featured.date)}</p>
             </div>
-          </a>
+          </Link>
         )}
 
-        {/* Rest of posts grid */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {rest.map((post) => (
-            <a
-              key={post.slug}
-              href={`/blog/${post.slug}`}
-              className="group flex flex-col overflow-hidden rounded-2xl border bg-white shadow-sm transition-shadow hover:shadow-md"
-            >
-              {/* Colour banner */}
-              <div className="flex h-32 items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
-                <span className="text-4xl font-black text-gray-300">
-                  {post.title.charAt(0)}
-                </span>
-              </div>
-              <div className="flex flex-1 flex-col p-5">
-                <div className="flex items-center gap-2">
-                  <span
-                    className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${CATEGORY_COLORS[post.category] ?? "bg-gray-100 text-gray-600"}`}
-                  >
-                    {post.category}
-                  </span>
-                  <span className="text-xs text-gray-400">
-                    {post.readingTime} min read
+        {/* Post grid */}
+        {rest.length > 0 && (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {rest.map((post) => post && (
+              <Link
+                key={post.slug}
+                href={`/blog/${post.slug}`}
+                className="group flex flex-col overflow-hidden rounded-2xl border bg-white shadow-sm transition-shadow hover:shadow-md"
+              >
+                {/* Colour banner */}
+                <div className="flex h-32 items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+                  <span className="text-4xl font-black text-gray-300">
+                    {post.title.charAt(0)}
                   </span>
                 </div>
-                <h2 className="mt-3 font-semibold text-gray-900 group-hover:text-green-700">
-                  {post.title}
-                </h2>
-                <p className="mt-2 line-clamp-2 flex-1 text-sm text-gray-500">
-                  {post.excerpt}
-                </p>
-                <p className="mt-4 text-xs text-gray-400">{formatDate(post.date)}</p>
-              </div>
-            </a>
-          ))}
-        </div>
+                <div className="flex flex-1 flex-col p-5">
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${CATEGORY_COLORS[post.category] ?? "bg-gray-100 text-gray-600"}`}
+                    >
+                      {post.category}
+                    </span>
+                    <span className="text-xs text-gray-400">
+                      {post.readingTime} min read
+                    </span>
+                  </div>
+                  <h2 className="mt-3 font-semibold text-gray-900 group-hover:text-green-700">
+                    {post.title}
+                  </h2>
+                  <p className="mt-2 line-clamp-2 flex-1 text-sm text-gray-500">
+                    {post.excerpt}
+                  </p>
+                  <p className="mt-4 text-xs text-gray-400">{formatDate(post.date)}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-10 flex items-center justify-between">
+            <Link
+              href={currentPage > 1 ? `/blog?page=${currentPage - 1}` : "#"}
+              aria-disabled={currentPage <= 1}
+              className={`rounded-lg border px-5 py-2.5 text-sm font-medium ${
+                currentPage <= 1
+                  ? "pointer-events-none border-gray-200 text-gray-300"
+                  : "border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-white"
+              }`}
+            >
+              ← Previous
+            </Link>
+            <p className="text-sm text-gray-500">
+              Page {currentPage} of {totalPages}
+              <span className="ml-2 text-gray-400">({total} articles)</span>
+            </p>
+            <Link
+              href={currentPage < totalPages ? `/blog?page=${currentPage + 1}` : "#"}
+              aria-disabled={currentPage >= totalPages}
+              className={`rounded-lg border px-5 py-2.5 text-sm font-medium ${
+                currentPage >= totalPages
+                  ? "pointer-events-none border-gray-200 text-gray-300"
+                  : "border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-white"
+              }`}
+            >
+              Next →
+            </Link>
+          </div>
+        )}
       </main>
 
       {/* Footer */}
@@ -136,8 +188,8 @@ export default async function BlogPage() {
         <div className="mx-auto flex max-w-6xl flex-col gap-2 sm:flex-row sm:justify-between">
           <p>© {new Date().getFullYear()} Shopify Agency Directory</p>
           <div className="flex gap-4">
-            <a href="/privacy" className="hover:text-gray-900">Privacy</a>
-            <a href="/terms" className="hover:text-gray-900">Terms</a>
+            <Link href="/privacy" className="hover:text-gray-900">Privacy</Link>
+            <Link href="/terms" className="hover:text-gray-900">Terms</Link>
           </div>
         </div>
       </footer>

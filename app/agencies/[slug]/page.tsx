@@ -3,11 +3,92 @@ import { notFound } from "next/navigation";
 import { generateAgencyMetadata, generateAgencyJsonLd } from "@/lib/seo";
 import { supabase } from "@/lib/supabase";
 import type { Agency } from "@/lib/supabase";
+import { getSegment, SEGMENT_SLUGS } from "@/lib/segments";
+import SegmentPage from "./SegmentPage";
 import LeadForm from "@/app/components/LeadForm";
 import SiteNav from "@/app/components/SiteNav";
 import ReviewForm from "@/app/components/ReviewForm";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
 import AgencyLogo from "@/app/components/AgencyLogo";
+
+// ---------------------------------------------------------------------------
+// Service metadata + "best for" inference
+// ---------------------------------------------------------------------------
+
+const SPEC_META: Record<string, { icon: string; description: string }> = {
+  "Store Build": {
+    icon: "🏗️",
+    description: "End-to-end Shopify store design and development from scratch.",
+  },
+  "Theme Development": {
+    icon: "🎨",
+    description: "Custom theme creation, modification, and performance tuning.",
+  },
+  Migrations: {
+    icon: "🔄",
+    description:
+      "Platform migration from WooCommerce, Magento, BigCommerce, and others.",
+  },
+  "App Development": {
+    icon: "⚙️",
+    description: "Custom Shopify app development and third-party integrations.",
+  },
+  CRO: {
+    icon: "📈",
+    description: "Conversion rate optimization, A/B testing, checkout improvements.",
+  },
+  Marketing: {
+    icon: "📣",
+    description: "Email marketing, paid ads, and ecommerce growth strategy.",
+  },
+  SEO: {
+    icon: "🔍",
+    description: "Technical SEO, content strategy, and organic traffic growth.",
+  },
+  Headless: {
+    icon: "💻",
+    description:
+      "Headless Shopify builds with Next.js, Hydrogen, or custom frontends.",
+  },
+  "Shopify Plus": {
+    icon: "⭐",
+    description:
+      "Enterprise Shopify Plus, checkout extensibility, B2B, and Shopify Functions.",
+  },
+};
+
+const BEST_FOR_MAP: Record<string, string[]> = {
+  "Shopify Plus": ["Enterprise brands", "B2B merchants", "High-volume stores"],
+  Migrations: ["Merchants switching platforms", "WooCommerce / Magento exits"],
+  Headless: ["Custom frontend needs", "High-traffic stores"],
+  CRO: ["Stores optimizing revenue", "Checkout improvement"],
+  SEO: ["Organic growth focus", "Content-first brands"],
+  "App Development": ["Custom integrations", "Unique functionality"],
+  "Store Build": ["New Shopify launches", "Full store projects"],
+  "Theme Development": ["Custom design work", "UI/UX overhauls"],
+  Marketing: ["DTC growth brands", "Paid + email acquisition"],
+};
+
+const BUDGET_BEST_FOR: Record<string, string> = {
+  "Under $5,000": "Starter & small projects",
+  "$5,000 - $25,000": "Growth-stage brands",
+  "$25,000 - $100,000": "Established mid-market",
+  "$100,000+": "Enterprise projects",
+};
+
+function inferBestFor(
+  specs: string[] | null,
+  budget: string | null
+): string[] {
+  const tags = new Set<string>();
+  for (const spec of specs ?? []) {
+    for (const tag of BEST_FOR_MAP[spec] ?? []) tags.add(tag);
+  }
+  if (budget && BUDGET_BEST_FOR[budget]) tags.add(BUDGET_BEST_FOR[budget]);
+  return Array.from(tags).slice(0, 6);
+}
+
+// ---------------------------------------------------------------------------
 
 interface Review {
   id: string;
@@ -58,7 +139,10 @@ async function getAllSlugs(): Promise<string[]> {
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
-  return slugs.map((slug) => ({ slug }));
+  return [
+    ...slugs.map((slug) => ({ slug })),
+    ...SEGMENT_SLUGS.map((slug) => ({ slug })),
+  ];
 }
 
 // ---------------------------------------------------------------------------
@@ -71,8 +155,17 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const agency = await getAgency(slug);
 
+  const segment = getSegment(slug);
+  if (segment) {
+    return {
+      title: segment.metaTitle,
+      description: segment.metaDescription,
+      alternates: { canonical: `/agencies/${segment.slug}` },
+    };
+  }
+
+  const agency = await getAgency(slug);
   if (!agency) return { title: "Agency Not Found" };
 
   return generateAgencyMetadata({
@@ -94,8 +187,14 @@ export default async function AgencyPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const agency = await getAgency(slug);
 
+  // Programmatic landing pages — check before agency profile lookup
+  const segment = getSegment(slug);
+  if (segment) {
+    return <SegmentPage segment={segment} />;
+  }
+
+  const agency = await getAgency(slug);
   if (!agency) notFound();
 
   const reviews = await getApprovedReviews(agency.id);
@@ -221,38 +320,104 @@ export default async function AgencyPage({
           </div>
 
           {/* Stats grid */}
-          <div className="mt-5 grid gap-4 sm:grid-cols-3">
-            {agency.founded && (
-              <div className="rounded-xl border bg-white p-5 shadow-sm">
-                <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
-                  Founded
-                </p>
-                <p className="mt-1 text-xl font-semibold text-gray-900">
-                  {agency.founded}
-                </p>
+          {(agency.founded || agency.team_size || agency.budget_range) && (
+            <div className="mt-5 grid gap-4 sm:grid-cols-3">
+              {agency.founded && (
+                <div className="flex items-center gap-4 rounded-xl border bg-white p-5 shadow-sm">
+                  <span className="text-2xl">📅</span>
+                  <div>
+                    <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                      Founded
+                    </p>
+                    <p className="mt-0.5 text-lg font-semibold text-gray-900">
+                      {agency.founded}
+                    </p>
+                  </div>
+                </div>
+              )}
+              {agency.team_size && (
+                <div className="flex items-center gap-4 rounded-xl border bg-white p-5 shadow-sm">
+                  <span className="text-2xl">👥</span>
+                  <div>
+                    <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                      Team Size
+                    </p>
+                    <p className="mt-0.5 text-lg font-semibold text-gray-900">
+                      {agency.team_size}
+                    </p>
+                  </div>
+                </div>
+              )}
+              {agency.budget_range && (
+                <div className="flex items-center gap-4 rounded-xl border bg-white p-5 shadow-sm">
+                  <span className="text-2xl">💰</span>
+                  <div>
+                    <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                      Project Budget
+                    </p>
+                    <p className="mt-0.5 text-lg font-semibold text-gray-900">
+                      {agency.budget_range}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Services grid */}
+          {agency.specializations && agency.specializations.length > 0 && (
+            <div className="mt-5 rounded-2xl border bg-white p-8 shadow-sm">
+              <h2 className="text-lg font-semibold text-gray-900">Services</h2>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                {agency.specializations.map((spec) => {
+                  const meta = SPEC_META[spec];
+                  return (
+                    <div
+                      key={spec}
+                      className="flex gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4"
+                    >
+                      <span className="mt-0.5 text-xl leading-none">
+                        {meta?.icon ?? "⚡"}
+                      </span>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-900">
+                          {spec}
+                        </p>
+                        <p className="mt-0.5 text-xs leading-relaxed text-gray-500">
+                          {meta?.description ?? spec}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-            )}
-            {agency.team_size && (
-              <div className="rounded-xl border bg-white p-5 shadow-sm">
-                <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
-                  Team Size
-                </p>
-                <p className="mt-1 text-xl font-semibold text-gray-900">
-                  {agency.team_size}
-                </p>
-              </div>
-            )}
-            {agency.budget_range && (
-              <div className="rounded-xl border bg-white p-5 shadow-sm">
-                <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
-                  Project Budget
-                </p>
-                <p className="mt-1 text-xl font-semibold text-gray-900">
-                  {agency.budget_range}
-                </p>
-              </div>
-            )}
-          </div>
+
+              {/* Best for tags */}
+              {(() => {
+                const tags = inferBestFor(
+                  agency.specializations,
+                  agency.budget_range
+                );
+                return tags.length > 0 ? (
+                  <div className="mt-6 border-t pt-5">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                      Best suited for
+                    </p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ) : null;
+              })()}
+            </div>
+          )}
 
           {/* About / long description */}
           {agency.long_description && (
@@ -340,14 +505,17 @@ export default async function AgencyPage({
           </div>
 
           {/* Contact / Lead form */}
-          <div className="mt-5 rounded-2xl border bg-white p-8 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-900">
-              Contact {agency.name}
-            </h2>
-            <p className="mt-1 text-sm text-gray-500">
-              Fill in your details and we&apos;ll connect you directly.
-            </p>
-            <div className="mt-6">
+          <div className="mt-5 overflow-hidden rounded-2xl border bg-white shadow-sm">
+            <div className="bg-green-600 px-8 py-5">
+              <h2 className="text-lg font-bold text-white">
+                Contact {agency.name}
+              </h2>
+              <p className="mt-1 text-sm text-green-100">
+                Send your brief directly — typical response within 1–2 business
+                days.
+              </p>
+            </div>
+            <div className="p-8">
               <LeadForm agencyId={agency.id} agencyName={agency.name} />
             </div>
           </div>

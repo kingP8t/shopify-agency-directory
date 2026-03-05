@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug, getRelatedPosts, getCategorySlug, type ContentBlock } from "@/lib/blog";
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
 
-const SITE_URL = "https://shopifyagencydirectory.com";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://shopifyagencydirectory.com";
 
 // ---------------------------------------------------------------------------
 // Static generation
@@ -110,12 +112,45 @@ function RenderBlock({ block }: { block: ContentBlock }) {
       return (
         <div className="my-8 rounded-2xl bg-green-600 p-8 text-center text-white">
           <p className="text-lg font-semibold">{block.text}</p>
-          <a
+          <Link
             href={block.href}
             className="mt-4 inline-block rounded-lg bg-white px-6 py-2.5 text-sm font-semibold text-green-700 hover:bg-green-50"
           >
             {block.label}
-          </a>
+          </Link>
+        </div>
+      );
+    case "table":
+      return (
+        <div className="mb-6 overflow-x-auto rounded-xl border border-gray-200">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="bg-gray-50">
+                {block.headers.map((h, i) => (
+                  <th
+                    key={i}
+                    className="px-4 py-3 text-left font-semibold text-gray-700 first:rounded-tl-xl last:rounded-tr-xl"
+                  >
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {block.rows.map((row, ri) => (
+                <tr key={ri} className="border-t border-gray-100 odd:bg-white even:bg-gray-50">
+                  {row.map((cell, ci) => (
+                    <td
+                      key={ci}
+                      className={`px-4 py-3 leading-snug text-gray-700 ${ci === 0 ? "font-medium text-gray-900" : ""}`}
+                    >
+                      {cell}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       );
     default:
@@ -192,12 +227,12 @@ export default async function BlogPostPage({
           {/* Article header */}
           <article>
             <div className="mb-2 flex flex-wrap items-center gap-2 text-sm text-gray-500">
-              <a
+              <Link
                 href={`/blog/category/${getCategorySlug(post.category)}`}
                 className="rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-700 hover:bg-green-200"
               >
                 {post.category}
-              </a>
+              </Link>
               <span>·</span>
               <span>{post.readingTime} min read</span>
               <span>·</span>
@@ -240,7 +275,7 @@ export default async function BlogPostPage({
               </h2>
               <div className="grid gap-4 sm:grid-cols-3">
                 {related.map((p) => (
-                  <a
+                  <Link
                     key={p.slug}
                     href={`/blog/${p.slug}`}
                     className="group rounded-xl border bg-white p-5 shadow-sm hover:shadow-md"
@@ -254,7 +289,7 @@ export default async function BlogPostPage({
                     <p className="mt-1 text-xs text-gray-400">
                       {p.readingTime} min read
                     </p>
-                  </a>
+                  </Link>
                 ))}
               </div>
             </section>
@@ -269,18 +304,18 @@ export default async function BlogPostPage({
               Browse our directory of verified agencies or get personally matched.
             </p>
             <div className="mt-5 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <a
+              <Link
                 href="/get-matched"
                 className="rounded-lg bg-green-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-green-700"
               >
                 Get Matched Free
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/agencies"
                 className="rounded-lg border px-6 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
               >
                 Browse Agencies →
-              </a>
+              </Link>
             </div>
           </div>
         </main>
@@ -289,8 +324,8 @@ export default async function BlogPostPage({
           <div className="mx-auto flex max-w-3xl flex-col gap-2 sm:flex-row sm:justify-between">
             <p>© {new Date().getFullYear()} Shopify Agency Directory</p>
             <div className="flex gap-4">
-              <a href="/privacy" className="hover:text-gray-900">Privacy</a>
-              <a href="/terms" className="hover:text-gray-900">Terms</a>
+              <Link href="/privacy" className="hover:text-gray-900">Privacy</Link>
+              <Link href="/terms" className="hover:text-gray-900">Terms</Link>
             </div>
           </div>
         </footer>

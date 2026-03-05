@@ -84,6 +84,9 @@ export interface Lead {
   email: string;
   company: string | null;
   budget: string | null;
+  project_type: string | null;
+  timeline: string | null;
+  store_url: string | null;
   message: string;
   agency_id: string | null;
   created_at?: string;
@@ -180,6 +183,24 @@ export async function getAllBlogPosts(): Promise<BlogPostDB[]> {
 
   if (error) return [];
   return (data as BlogPostDB[]) ?? [];
+}
+
+export async function getAllBlogPostsPaginated(
+  page: number,
+  limit: number
+): Promise<{ posts: BlogPostDB[]; total: number }> {
+  const from = (page - 1) * limit;
+  const to = from + limit - 1;
+
+  const { data, error, count } = await supabase
+    .from("blog_posts")
+    .select("*", { count: "exact" })
+    .eq("status", "published")
+    .order("date", { ascending: false })
+    .range(from, to);
+
+  if (error) return { posts: [], total: 0 };
+  return { posts: (data as BlogPostDB[]) ?? [], total: count ?? 0 };
 }
 
 export async function getBlogPostBySlug(

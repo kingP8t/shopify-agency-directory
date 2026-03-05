@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   getAllCategoryPairs,
@@ -10,7 +11,8 @@ import {
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
 
-const SITE_URL = "https://shopifyagencydirectory.com";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://shopifyagencydirectory.com";
 
 const CATEGORY_COLORS: Record<string, string> = {
   "Hiring Guide":    "bg-green-100 text-green-700",
@@ -120,7 +122,7 @@ export default async function CategoryPage({
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {posts.map((post) => (
-                <a
+                <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
                   className="group flex flex-col overflow-hidden rounded-2xl border bg-white shadow-sm transition-shadow hover:shadow-md"
@@ -151,18 +153,18 @@ export default async function CategoryPage({
                       {formatDate(post.date)}
                     </p>
                   </div>
-                </a>
+                </Link>
               ))}
             </div>
           )}
 
           <div className="mt-10">
-            <a
+            <Link
               href="/blog"
               className="text-sm font-medium text-green-700 hover:underline"
             >
               ← All articles
-            </a>
+            </Link>
           </div>
         </main>
 
@@ -170,8 +172,8 @@ export default async function CategoryPage({
           <div className="mx-auto flex max-w-6xl flex-col gap-2 sm:flex-row sm:justify-between">
             <p>© {new Date().getFullYear()} Shopify Agency Directory</p>
             <div className="flex gap-4">
-              <a href="/privacy" className="hover:text-gray-900">Privacy</a>
-              <a href="/terms" className="hover:text-gray-900">Terms</a>
+              <Link href="/privacy" className="hover:text-gray-900">Privacy</Link>
+              <Link href="/terms" className="hover:text-gray-900">Terms</Link>
             </div>
           </div>
         </footer>

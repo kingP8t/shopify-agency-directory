@@ -26,7 +26,6 @@ async function verifyToken(token: string, secret: string): Promise<boolean> {
     encoder.encode(value)
   );
 
-  // Convert buffer to hex string
   const expected = Array.from(new Uint8Array(signatureBuffer))
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
@@ -40,7 +39,7 @@ async function verifyToken(token: string, secret: string): Promise<boolean> {
   return diff === 0;
 }
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Only protect /admin routes (but not /admin/login itself)

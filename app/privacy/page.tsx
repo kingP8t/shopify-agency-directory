@@ -4,6 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: "Privacy Policy for Shopify Agency Directory — how we collect, use, and protect your data.",
+  robots: { index: false, follow: false },
 };
 
 const SITE = "Shopify Agency Directory";
@@ -75,7 +76,7 @@ export default function PrivacyPage() {
             <section>
               <h2 className="text-lg font-semibold text-gray-900">5. Cookies</h2>
               <p className="mt-2 leading-relaxed">
-                We use a single session cookie (<code className="rounded bg-gray-100 px-1 text-sm">admin_session</code>) for admin authentication only. We do not use tracking cookies or third-party advertising cookies. We do not use Google Analytics or Facebook Pixel.
+                We use a single session cookie (<code className="rounded bg-gray-100 px-1 text-sm">admin_session</code>) for admin authentication. We use Google Analytics (GA4) to collect anonymised usage data such as page views and traffic sources — no personally identifiable information is collected. We do not use advertising cookies or Facebook Pixel.
               </p>
             </section>
 

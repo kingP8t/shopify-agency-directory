@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
+import SiteFooter from "@/app/components/SiteFooter";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,7 +14,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const SITE_URL = "https://shopifyagencydirectory.com";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://shopifyagencydirectory.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -71,6 +74,21 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <SiteFooter />
+
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-FBXDCWGZKS"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-FBXDCWGZKS');
+          `}
+        </Script>
       </body>
     </html>
   );

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import SubmitAgencyForm from "@/app/components/SubmitAgencyForm";
 
 export const metadata: Metadata = {
@@ -14,12 +15,12 @@ export default function SubmitAgencyPage() {
       {/* Nav */}
       <nav className="border-b bg-white px-6 py-4">
         <div className="mx-auto flex max-w-4xl items-center justify-between">
-          <a href="/" className="text-lg font-bold text-gray-900">
+          <Link href="/" className="text-lg font-bold text-gray-900">
             Shopify Agency Directory
-          </a>
-          <a href="/agencies" className="text-sm text-gray-500 hover:text-gray-900">
+          </Link>
+          <Link href="/agencies" className="text-sm text-gray-500 hover:text-gray-900">
             Browse Agencies
-          </a>
+          </Link>
         </div>
       </nav>
 

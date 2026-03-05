@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { BASE_URL } from "@/lib/seo";
 
 interface BreadcrumbItem {
@@ -45,9 +46,9 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
                     {item.name}
                   </span>
                 ) : (
-                  <a href={item.href} className="hover:text-green-600 hover:underline">
+                  <Link href={item.href} className="hover:text-green-600 hover:underline">
                     {item.name}
-                  </a>
+                  </Link>
                 )}
               </li>
             );

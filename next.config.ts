@@ -12,8 +12,8 @@ const cspHeader = [
   "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
   // Styles: same-origin + inline (Tailwind injects inline styles)
   "style-src 'self' 'unsafe-inline'",
-  // Images: self + Supabase storage + data URIs
-  `img-src 'self' data: https://${supabaseHost}`,
+  // Images: self + Supabase storage + data URIs + Google favicon service
+  `img-src 'self' data: https://${supabaseHost} https://www.google.com`,
   // Fonts: same-origin
   "font-src 'self'",
   // API/data fetches: same-origin + Supabase
@@ -41,6 +41,12 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "*.supabase.co",
         pathname: "/storage/v1/object/public/**",
+      },
+      // Allow Google's favicon service (used by AgencyLogo)
+      {
+        protocol: "https",
+        hostname: "www.google.com",
+        pathname: "/s2/favicons",
       },
     ],
   },

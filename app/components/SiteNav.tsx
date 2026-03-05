@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 interface NavLink {
   href: string;
@@ -22,29 +23,29 @@ export default function SiteNav() {
     <nav className="border-b bg-white px-6 py-4">
       <div className="mx-auto flex max-w-6xl items-center justify-between">
         {/* Logo */}
-        <a href="/" className="text-lg font-bold text-gray-900">
+        <Link href="/" className="text-lg font-bold text-gray-900">
           Shopify Agency Directory
-        </a>
+        </Link>
 
         {/* Desktop links */}
         <div className="hidden items-center gap-6 text-sm sm:flex">
           {NAV_LINKS.map((link) =>
             link.highlight ? (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 className="rounded-lg bg-green-600 px-4 py-2 font-medium text-white hover:bg-green-700"
               >
                 {link.label}
-              </a>
+              </Link>
             ) : (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 className="text-gray-600 hover:text-gray-900"
               >
                 {link.label}
-              </a>
+              </Link>
             )
           )}
         </div>
@@ -75,23 +76,23 @@ export default function SiteNav() {
         <div className="mx-auto mt-3 max-w-6xl space-y-1 border-t pt-3 sm:hidden">
           {NAV_LINKS.map((link) =>
             link.highlight ? (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 className="block rounded-lg bg-green-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-green-700"
                 onClick={() => setOpen(false)}
               >
                 {link.label}
-              </a>
+              </Link>
             ) : (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 className="block rounded-lg px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
                 onClick={() => setOpen(false)}
               >
                 {link.label}
-              </a>
+              </Link>
             )
           )}
         </div>
