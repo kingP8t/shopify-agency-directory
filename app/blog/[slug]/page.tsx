@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getAllPosts, getPostBySlug, getRelatedPosts, getCategorySlug, type ContentBlock } from "@/lib/blog";
+import { getAllPosts, getPostBySlug, getRelatedPosts, getCategorySlug, getDirectoryLinks, extractFaqItems, type ContentBlock, type DirectoryLink } from "@/lib/blog";
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
 
@@ -153,9 +153,113 @@ function RenderBlock({ block }: { block: ContentBlock }) {
           </table>
         </div>
       );
+    case "faq":
+      return (
+        <section className="my-10 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+          <h2 className="mb-5 text-xl font-bold text-gray-900">
+            Frequently Asked Questions
+          </h2>
+          <dl className="divide-y divide-gray-100">
+            {block.items.map((item, idx) => (
+              <div key={idx} className="py-4 first:pt-0 last:pb-0">
+                <dt className="text-sm font-semibold text-gray-900">{item.q}</dt>
+                <dd className="mt-1.5 text-sm leading-relaxed text-gray-600">{item.a}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      );
     default:
       return null;
   }
+}
+
+// ---------------------------------------------------------------------------
+// Mid-article directory CTA — injected ~40% through the article
+// ---------------------------------------------------------------------------
+
+function MidArticleCTA({ links }: { links: DirectoryLink[] }) {
+  const primary = links[0];
+  if (!primary) return null;
+
+  return (
+    <aside className="my-10 rounded-2xl border border-green-200 bg-gradient-to-br from-green-50 to-white p-6">
+      <p className="text-xs font-semibold uppercase tracking-wider text-green-600">
+        From the Directory
+      </p>
+      <p className="mt-1 text-base font-semibold text-gray-900">
+        Need help with this? Browse verified agencies.
+      </p>
+      <div className="mt-4 flex flex-wrap gap-2">
+        {links.slice(0, 3).map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="inline-flex items-center gap-1 rounded-lg border border-green-200 bg-white px-4 py-2 text-sm font-medium text-green-700 shadow-sm transition-colors hover:border-green-400 hover:bg-green-50"
+          >
+            {link.label}
+            <span aria-hidden="true" className="text-green-400">→</span>
+          </Link>
+        ))}
+      </div>
+    </aside>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Contextual bottom CTA — replaces generic "find your agency" block
+// ---------------------------------------------------------------------------
+
+function BottomDirectoryCTA({ links, category }: { links: DirectoryLink[]; category: string }) {
+  return (
+    <div className="mt-12 rounded-2xl border bg-white p-8 shadow-sm">
+      <p className="text-lg font-semibold text-gray-900">
+        Find the Right Agency for Your Project
+      </p>
+      <p className="mt-2 text-sm text-gray-500">
+        Based on this {category.toLowerCase()} article, these directory pages are most relevant to you:
+      </p>
+
+      {/* Contextual directory links */}
+      <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        {links.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="group flex items-start gap-3 rounded-xl border border-gray-100 p-4 transition-all hover:border-green-200 hover:bg-green-50/50"
+          >
+            <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-sm text-green-600 group-hover:bg-green-200">
+              →
+            </span>
+            <div>
+              <p className="text-sm font-semibold text-gray-900 group-hover:text-green-700">
+                {link.label}
+              </p>
+              <p className="mt-0.5 text-xs text-gray-500">
+                {link.description}
+              </p>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {/* Always include Get Matched as final CTA */}
+      <div className="mt-6 flex flex-col items-center gap-3 border-t pt-6 sm:flex-row sm:justify-center">
+        <Link
+          href="/get-matched"
+          className="rounded-lg bg-green-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-green-700"
+        >
+          Get Matched Free — Takes 2 Minutes
+        </Link>
+        <Link
+          href="/agencies"
+          className="rounded-lg border px-6 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        >
+          Browse All Agencies →
+        </Link>
+      </div>
+    </div>
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -172,6 +276,8 @@ export default async function BlogPostPage({
   if (!post) notFound();
 
   const related = await getRelatedPosts(slug);
+  const directoryLinks = getDirectoryLinks(post);
+  const faqItems = extractFaqItems(post);
 
   // BlogPosting JSON-LD structured data
   const jsonLd = {
@@ -220,6 +326,25 @@ export default async function BlogPostPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {/* FAQPage schema — only rendered when post contains faq content blocks.
+          Data is static/hardcoded in lib/blog.ts — no user input. */}
+      {faqItems.length > 0 && (() => {
+        const faqSchema = JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqItems.map((item) => ({
+            "@type": "Question",
+            name: item.q,
+            acceptedAnswer: { "@type": "Answer", text: item.a },
+          })),
+        });
+        return (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: faqSchema }}
+          />
+        );
+      })()}
 
       <div className="min-h-screen bg-gray-50">
         <SiteNav />
@@ -268,11 +393,18 @@ export default async function BlogPostPage({
             {/* Divider */}
             <hr className="my-8 border-gray-200" />
 
-            {/* Article body */}
+            {/* Article body with mid-article directory CTA */}
             <div>
-              {post.content.map((block, i) => (
-                <RenderBlock key={i} block={block} />
-              ))}
+              {(() => {
+                // Insert a mid-article CTA ~40% through the content blocks
+                const midPoint = Math.floor(post.content.length * 0.4);
+                return post.content.map((block, i) => (
+                  <span key={i}>
+                    <RenderBlock block={block} />
+                    {i === midPoint && <MidArticleCTA links={directoryLinks} />}
+                  </span>
+                ));
+              })()}
             </div>
           </article>
 
@@ -304,29 +436,8 @@ export default async function BlogPostPage({
             </section>
           )}
 
-          {/* Bottom CTA */}
-          <div className="mt-12 rounded-2xl border bg-white p-8 text-center shadow-sm">
-            <p className="text-lg font-semibold text-gray-900">
-              Ready to find your perfect Shopify agency?
-            </p>
-            <p className="mt-2 text-sm text-gray-500">
-              Browse our directory of verified agencies or get personally matched.
-            </p>
-            <div className="mt-5 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-              <Link
-                href="/get-matched"
-                className="rounded-lg bg-green-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-green-700"
-              >
-                Get Matched Free
-              </Link>
-              <Link
-                href="/agencies"
-                className="rounded-lg border px-6 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
-                Browse Agencies →
-              </Link>
-            </div>
-          </div>
+          {/* Contextual bottom CTA — links to relevant directory filter pages */}
+          <BottomDirectoryCTA links={directoryLinks} category={post.category} />
         </main>
 
         <footer className="mt-12 border-t bg-white px-6 py-8 text-sm text-gray-500">

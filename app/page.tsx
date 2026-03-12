@@ -100,10 +100,9 @@ export default async function HomePage() {
             {agencyCount > 0 ? `${agencyCount}+` : "100+"} Verified Agencies · Free Matching
           </span>
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-            Find the Perfect{" "}
-            <span className="text-green-600">Shopify Agency</span>
+            The Shopify Agency Directory
             <br />
-            for Your Business
+            <span className="text-green-600">Find Your Perfect Partner</span>
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg text-gray-600">
             Tell us about your project and we&apos;ll personally match you with
