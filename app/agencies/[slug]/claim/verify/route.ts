@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getAdminClient } from "@/lib/supabase";
-import { signOwnerToken, OWNER_SESSION_MAX_AGE } from "@/lib/owner-session";
+import { signOwnerToken, OWNER_SESSION_MAX_AGE, ownerCookieName } from "@/lib/owner-session";
 import { sendClaimNotificationEmail } from "@/lib/email";
+import { logError, silentCatch } from "@/lib/logger";
 
 // Route Handler — handles GET /agencies/[slug]/claim/verify?token=…&email=…
 // Route Handlers are allowed to call cookies().set(); Server Component renders are not.
@@ -32,7 +33,7 @@ export async function GET(
   // Look up agency by slug + token together (single query, no timing leak)
   const { data: agency } = await db
     .from("agencies")
-    .select("id, name, slug, claim_token, claim_token_expires_at")
+    .select("id, name, slug, claimed_at, claim_token, claim_token_expires_at")
     .eq("slug", slug)
     .eq("claim_token", token)
     .single();
@@ -52,23 +53,47 @@ export async function GET(
     );
   }
 
-  // Mark as claimed and consume the one-time token
-  const { error: claimError } = await db
-    .from("agencies")
-    .update({
-      claimed_email: email,
-      claimed_at: new Date().toISOString(),
-      claim_token: null,
-      claim_token_expires_at: null,
-    })
-    .eq("id", agency.id);
+  const isReLogin = !!agency.claimed_at;
 
-  if (claimError) {
-    console.error("Claim verification error:", claimError);
-    return fail("Something went wrong. Please try again.");
+  if (isReLogin) {
+    // Re-login: consume the token but don't overwrite claim data
+    const { error: tokenError } = await db
+      .from("agencies")
+      .update({
+        claim_token: null,
+        claim_token_expires_at: null,
+      })
+      .eq("id", agency.id);
+
+    if (tokenError) {
+      logError("relogin-verify", tokenError);
+      return fail("Something went wrong. Please try again.");
+    }
+  } else {
+    // First-time claim: mark as claimed and consume the token
+    const { error: claimError } = await db
+      .from("agencies")
+      .update({
+        claimed_email: email,
+        claimed_at: new Date().toISOString(),
+        claim_token: null,
+        claim_token_expires_at: null,
+      })
+      .eq("id", agency.id);
+
+    if (claimError) {
+      logError("claim-verify", claimError);
+      return fail("Something went wrong. Please try again.");
+    }
   }
 
-  // Create a persistent owner session
+  // Revoke any existing sessions for this agency (prevents stale sessions)
+  await db
+    .from("agency_owner_sessions")
+    .delete()
+    .eq("agency_id", agency.id);
+
+  // Create a fresh owner session
   const sessionExpiresAt = new Date(
     Date.now() + OWNER_SESSION_MAX_AGE * 1000
   ).toISOString();
@@ -80,14 +105,14 @@ export async function GET(
     .single();
 
   if (sessionError || !session) {
-    console.error("Owner session creation error:", sessionError);
+    logError("owner-session-create", sessionError);
     return fail("Something went wrong. Please try again.");
   }
 
   // Set signed httpOnly session cookie — allowed in Route Handlers
   const signed = signOwnerToken(session.id);
   const cookieStore = await cookies();
-  cookieStore.set("owner_session", signed, {
+  cookieStore.set(ownerCookieName(slug), signed, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
@@ -95,12 +120,14 @@ export async function GET(
     path: "/",
   });
 
-  // Notify admin (fire-and-forget — never block the redirect)
-  sendClaimNotificationEmail({
-    agencyName: agency.name,
-    agencySlug: agency.slug,
-    claimedEmail: email,
-  }).catch(console.error);
+  // Notify admin on first-time claims only (fire-and-forget)
+  if (!isReLogin) {
+    sendClaimNotificationEmail({
+      agencyName: agency.name,
+      agencySlug: agency.slug,
+      claimedEmail: email,
+    }).catch(silentCatch);
+  }
 
   // Redirect to owner dashboard
   return NextResponse.redirect(

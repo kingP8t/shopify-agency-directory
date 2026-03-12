@@ -8,6 +8,7 @@
  */
 
 import { getAdminClient } from "@/lib/supabase";
+import { logError } from "@/lib/logger";
 
 /**
  * Check if a key has exceeded its rate limit.
@@ -36,7 +37,7 @@ export async function isRateLimited(
 
     if (countError) {
       // Fail open — don't block users if the rate limit table is unavailable
-      console.error("[rate-limit] count error:", countError.message);
+      logError("rate-limit-count", countError.message);
       return false;
     }
 
@@ -58,7 +59,7 @@ export async function isRateLimited(
     return false; // Not rate limited
   } catch (err) {
     // Never block a request due to rate-limit infrastructure failure
-    console.error("[rate-limit] unexpected error:", err);
+    logError("rate-limit-unexpected", err);
     return false;
   }
 }

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { supabase } from "@/lib/supabase";
 import { getAllPosts, getAllCategoryPairs } from "@/lib/blog";
+import { SEGMENT_SLUGS } from "@/lib/segments";
 
 // Always use HTTPS in production. Never let localhost leak into the sitemap.
 function getSiteUrl(): string {
@@ -11,7 +12,7 @@ function getSiteUrl(): string {
   if (!clean || clean.includes("localhost")) {
     const vercelUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
     if (vercelUrl) return `https://${vercelUrl}`;
-    return "";
+    return "https://shopifyagencydirectory.com";
   }
   // Force https:// in production
   if (process.env.NODE_ENV === "production" && clean.startsWith("http://")) {
@@ -22,9 +23,6 @@ function getSiteUrl(): string {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const BASE_URL = getSiteUrl();
-
-  // If we can't resolve a real production URL, return empty sitemap
-  if (!BASE_URL) return [];
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
@@ -58,16 +56,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
-      url: `${BASE_URL}/privacy`,
+      url: `${BASE_URL}/about`,
       lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    {
-      url: `${BASE_URL}/terms`,
-      lastModified: new Date(),
-      changeFrequency: "yearly",
-      priority: 0.3,
+      changeFrequency: "monthly",
+      priority: 0.7,
     },
   ];
 
@@ -100,5 +92,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.65,
   }));
 
-  return [...staticRoutes, ...agencyRoutes, ...blogRoutes, ...categoryRoutes];
+  const segmentRoutes: MetadataRoute.Sitemap = SEGMENT_SLUGS.map((slug) => ({
+    url: `${BASE_URL}/agencies/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  }));
+
+  return [...staticRoutes, ...segmentRoutes, ...agencyRoutes, ...blogRoutes, ...categoryRoutes];
 }

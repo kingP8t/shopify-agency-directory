@@ -204,11 +204,21 @@ export default async function AgencyPage({
     slug: agency.slug,
     description: agency.description,
     location: agency.location ?? undefined,
+    country: agency.country ?? undefined,
     website: agency.website ?? undefined,
+    phone: agency.phone ?? undefined,
+    logoUrl: agency.logo_url ?? undefined,
     founded: agency.founded ?? undefined,
+    budgetRange: agency.budget_range ?? undefined,
     specializations: agency.specializations ?? undefined,
-    rating: agency.rating ?? undefined,
-    reviewCount: agency.review_count ?? undefined,
+    rating:
+      reviews.length > 0
+        ? Math.round(
+            (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length) * 10
+          ) / 10
+        : (agency.rating ?? undefined),
+    reviewCount:
+      reviews.length > 0 ? reviews.length : (agency.review_count ?? undefined),
     // Pass approved reviews so they appear in structured data
     reviews: reviews.map((r) => ({
       reviewer_name: r.reviewer_name,
@@ -261,14 +271,28 @@ export default async function AgencyPage({
                   {agency.location && (
                     <p className="mt-1 text-gray-500">📍 {agency.location}</p>
                   )}
-                  {agency.rating && (
-                    <p className="mt-1 text-sm text-gray-600">
-                      ⭐ {agency.rating}{" "}
-                      <span className="text-gray-400">
-                        ({agency.review_count} reviews)
-                      </span>
-                    </p>
-                  )}
+                  <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+                    {agency.rating && (
+                      <p className="text-sm text-gray-600">
+                        ⭐ {agency.rating}/5{" "}
+                        <span className="text-gray-400">on Shopify</span>
+                      </p>
+                    )}
+                    {reviews.length > 0 && (
+                      <p className="text-sm text-gray-600">
+                        ★{" "}
+                        {(
+                          reviews.reduce((sum, r) => sum + r.rating, 0) /
+                          reviews.length
+                        ).toFixed(1)}
+                        /5{" "}
+                        <span className="text-gray-400">
+                          ({reviews.length}{" "}
+                          {reviews.length === 1 ? "review" : "reviews"})
+                        </span>
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -442,10 +466,15 @@ export default async function AgencyPage({
                   </span>
                 )}
               </h2>
-              {agency.rating && (
+              {reviews.length > 0 && (
                 <div className="flex items-center gap-1 text-sm">
                   <span className="text-yellow-400 text-lg">★</span>
-                  <span className="font-semibold text-gray-900">{agency.rating}</span>
+                  <span className="font-semibold text-gray-900">
+                    {(
+                      reviews.reduce((sum, r) => sum + r.rating, 0) /
+                      reviews.length
+                    ).toFixed(1)}
+                  </span>
                   <span className="text-gray-400">/ 5</span>
                 </div>
               )}
@@ -458,10 +487,11 @@ export default async function AgencyPage({
                     <div className="flex items-start justify-between gap-4">
                       <div>
                         <p className="font-medium text-gray-900">{review.reviewer_name}</p>
-                        <div className="mt-0.5 flex gap-0.5">
+                        <div className="mt-0.5 flex gap-0.5" role="img" aria-label={`${review.rating} out of 5 stars`}>
                           {[1, 2, 3, 4, 5].map((star) => (
                             <span
                               key={star}
+                              aria-hidden="true"
                               className={star <= review.rating ? "text-yellow-400" : "text-gray-200"}
                             >
                               ★
@@ -470,7 +500,7 @@ export default async function AgencyPage({
                         </div>
                       </div>
                       <time className="shrink-0 text-xs text-gray-400">
-                        {new Date(review.created_at).toLocaleDateString("en-GB", {
+                        {new Date(review.created_at).toLocaleDateString(undefined, {
                           day: "numeric",
                           month: "short",
                           year: "numeric",

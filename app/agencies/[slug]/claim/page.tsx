@@ -4,6 +4,7 @@ import { supabase } from "@/lib/supabase";
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
 import ClaimForm from "@/app/components/ClaimForm";
+import ReLoginForm from "@/app/components/ReLoginForm";
 
 export const metadata: Metadata = {
   title: "Claim Your Listing",
@@ -65,15 +66,29 @@ export default async function ClaimPage({
           )}
 
           {agency.claimed_at ? (
-            <div className="mt-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-4 text-sm text-amber-800">
-              <p className="font-medium">This listing has already been claimed.</p>
-              <p className="mt-1 text-amber-700">
-                If you believe this is an error, please{" "}
-                <a href="/get-matched" className="underline hover:text-amber-900">
-                  contact us
-                </a>
-                .
-              </p>
+            <div className="mt-6 space-y-5">
+              <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-4 text-sm text-amber-800">
+                <p className="font-medium">This listing has already been claimed.</p>
+                <p className="mt-1 text-amber-700">
+                  If you believe this is an error, please{" "}
+                  <a href="/get-matched" className="underline hover:text-amber-900">
+                    contact us
+                  </a>
+                  .
+                </p>
+              </div>
+
+              <div className="border-t pt-5">
+                <h2 className="text-sm font-semibold text-gray-900">
+                  Already the owner?
+                </h2>
+                <p className="mt-1 text-sm text-gray-500">
+                  Enter the email you originally claimed with to receive a new login link.
+                </p>
+                <div className="mt-4">
+                  <ReLoginForm slug={slug} agencyName={agency.name} />
+                </div>
+              </div>
             </div>
           ) : (
             <div className="mt-6">

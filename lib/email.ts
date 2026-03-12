@@ -3,6 +3,7 @@
 // Add RESEND_API_KEY and ADMIN_EMAIL to your .env.local and Vercel env vars
 
 import { Resend } from "resend";
+import { silentCatch } from "@/lib/logger";
 
 let resend: Resend | null = null;
 
@@ -64,7 +65,7 @@ export async function sendNewLeadEmail(lead: {
         </p>
       </div>
     `,
-  }).catch(console.error); // Never let email failure break the form
+  }).catch(silentCatch); // Never let email failure break the form
 }
 
 // ─── Send claim verification email to agency owner ───────────────────────────
@@ -87,7 +88,7 @@ export async function sendClaimVerificationEmail(params: {
         <p>Click the button below to verify your email and access your owner dashboard.
            This link expires in <strong>24 hours</strong>.</p>
         <p style="margin-top: 24px;">
-          <a href="${params.verifyUrl}"
+          <a href="${esc(params.verifyUrl)}"
              style="background: #16a34a; color: white; padding: 12px 24px;
                     border-radius: 6px; text-decoration: none; font-weight: bold;
                     display: inline-block;">
@@ -98,7 +99,7 @@ export async function sendClaimVerificationEmail(params: {
           If you didn't request this, ignore this email — no action is needed.
         </p>
         <p style="margin-top: 8px; font-size: 12px; color: #9ca3af; word-break: break-all;">
-          Link: ${params.verifyUrl}
+          Link: ${esc(params.verifyUrl)}
         </p>
         <p style="margin-top: 24px; color: #6b7280; font-size: 14px;">
           Sent from ${SITE_NAME}
@@ -143,7 +144,7 @@ export async function sendClaimNotificationEmail(params: {
         </p>
       </div>
     `,
-  }).catch(console.error);
+  }).catch(silentCatch);
 }
 
 // ─── Notify agency owner of a new lead enquiry ───────────────────────────────
@@ -194,7 +195,7 @@ export async function sendLeadToOwnerEmail(params: {
         </p>
       </div>
     `,
-  }).catch(console.error); // Fire-and-forget — never block the user response
+  }).catch(silentCatch); // Fire-and-forget — never block the user response
 }
 
 // ─── Notify admin of a new agency self-submission ─────────────────────────────
@@ -237,5 +238,5 @@ export async function sendNewAgencySubmissionEmail(agency: {
         </p>
       </div>
     `,
-  }).catch(console.error);
+  }).catch(silentCatch);
 }

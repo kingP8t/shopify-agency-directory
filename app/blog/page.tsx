@@ -26,7 +26,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 };
 
 function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("en-GB", {
+  return new Date(dateStr).toLocaleDateString(undefined, {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -49,7 +49,27 @@ export default async function BlogPage({
   const totalPages = Math.ceil(total / POSTS_PER_PAGE);
   const [featured, ...rest] = currentPage === 1 ? posts : [null, ...posts];
 
+  const blogSchema = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "Shopify Agency Blog",
+    description:
+      "Expert guides on hiring Shopify agencies, platform comparisons, migration advice, and ecommerce growth strategies.",
+    url: `${SITE_URL}/blog`,
+    publisher: {
+      "@type": "Organization",
+      name: "Shopify Agency Directory",
+      url: SITE_URL,
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/opengraph-image` },
+    },
+  };
+
   return (
+    <>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
+    />
     <div className="min-h-screen bg-gray-50">
       <SiteNav />
 
@@ -194,5 +214,6 @@ export default async function BlogPage({
         </div>
       </footer>
     </div>
+    </>
   );
 }

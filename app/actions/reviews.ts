@@ -3,6 +3,7 @@
 import { supabase, getAdminClient } from "@/lib/supabase";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { logError } from "@/lib/logger";
 import { isRateLimited } from "@/lib/rate-limit";
 
 export interface ReviewState {
@@ -58,11 +59,45 @@ export async function submitReviewAction(
   ]);
 
   if (error) {
-    console.error("Review insert error:", error);
+    logError("review-insert", error);
     return { success: false, error: "Something went wrong. Please try again." };
   }
 
   return { success: true };
+}
+
+// ── Shared helpers ───────────────────────────────────────────────────────────
+
+/** Extract slug from Supabase joined `agencies(slug)` — handles both array and object form */
+function extractAgencySlug(agencies: unknown): string | undefined {
+  const data = agencies as { slug: string } | { slug: string }[] | null;
+  if (!data) return undefined;
+  if (Array.isArray(data)) return data[0]?.slug;
+  return data.slug;
+}
+
+/** Recalculate agency rating + review_count from all approved reviews */
+async function recalcAgencyRating(agencyId: string) {
+  const db = getAdminClient();
+  const { data: approved } = await db
+    .from("reviews")
+    .select("rating")
+    .eq("agency_id", agencyId)
+    .eq("approved", true);
+
+  const count = approved?.length ?? 0;
+  const avg =
+    count > 0
+      ? (approved as { rating: number }[]).reduce((sum, r) => sum + r.rating, 0) / count
+      : null;
+
+  await db
+    .from("agencies")
+    .update({
+      rating: avg !== null ? Math.round(avg * 10) / 10 : null,
+      review_count: count,
+    })
+    .eq("id", agencyId);
 }
 
 // ── Admin: approve a pending review ──────────────────────────────────────────
@@ -71,10 +106,9 @@ export async function approveReviewAction(
 ): Promise<ReviewState> {
   const db = getAdminClient();
 
-  // Fetch the review + agency slug in one query
   const { data: review } = await db
     .from("reviews")
-    .select("agency_id, rating, agencies(slug)")
+    .select("agency_id, agencies(slug)")
     .eq("id", reviewId)
     .single();
 
@@ -87,31 +121,9 @@ export async function approveReviewAction(
 
   if (error) return { success: false, error: error.message };
 
-  // Recalculate agency rating + review_count from all approved reviews
-  const { data: approved } = await db
-    .from("reviews")
-    .select("rating")
-    .eq("agency_id", review.agency_id)
-    .eq("approved", true);
+  await recalcAgencyRating(review.agency_id);
 
-  if (approved && approved.length > 0) {
-    const avg =
-      approved.reduce((sum: number, r: { rating: number }) => sum + r.rating, 0) /
-      approved.length;
-    await db
-      .from("agencies")
-      .update({
-        rating: Math.round(avg * 10) / 10,
-        review_count: approved.length,
-      })
-      .eq("id", review.agency_id);
-  }
-
-  const agencyData = review.agencies as unknown;
-  const slug = Array.isArray(agencyData)
-    ? (agencyData[0] as { slug: string } | undefined)?.slug
-    : (agencyData as { slug: string } | null)?.slug;
-
+  const slug = extractAgencySlug(review.agencies);
   revalidatePath("/admin");
   if (slug) {
     revalidatePath(`/agencies/${slug}`);
@@ -127,7 +139,6 @@ export async function deleteReviewAction(
 ): Promise<ReviewState> {
   const db = getAdminClient();
 
-  // Grab agency info before deleting so we can revalidate
   const { data: review } = await db
     .from("reviews")
     .select("agency_id, approved, agencies(slug)")
@@ -137,35 +148,10 @@ export async function deleteReviewAction(
   const { error } = await db.from("reviews").delete().eq("id", reviewId);
   if (error) return { success: false, error: error.message };
 
-  // Only recalculate if the deleted review was approved (affected public counts)
   if (review?.approved) {
-    const { data: remaining } = await db
-      .from("reviews")
-      .select("rating")
-      .eq("agency_id", review.agency_id)
-      .eq("approved", true);
+    await recalcAgencyRating(review.agency_id);
 
-    const count = remaining?.length ?? 0;
-    const avg =
-      count > 0
-        ? (remaining as { rating: number }[]).reduce(
-            (sum, r) => sum + r.rating,
-            0
-          ) / count
-        : null;
-
-    await db
-      .from("agencies")
-      .update({
-        rating: avg !== null ? Math.round(avg * 10) / 10 : null,
-        review_count: count,
-      })
-      .eq("id", review.agency_id);
-
-    const agencyData = review.agencies as unknown;
-    const slug = Array.isArray(agencyData)
-      ? (agencyData[0] as { slug: string } | undefined)?.slug
-      : (agencyData as { slug: string } | null)?.slug;
+    const slug = extractAgencySlug(review.agencies);
     if (slug) {
       revalidatePath(`/agencies/${slug}`);
       revalidatePath("/agencies");

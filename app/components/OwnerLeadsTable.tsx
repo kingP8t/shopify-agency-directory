@@ -58,7 +58,7 @@ export default function OwnerLeadsTable({ leads }: OwnerLeadsTableProps) {
                 <p className="line-clamp-2">{lead.message}</p>
               </td>
               <td className="py-3 text-xs text-gray-400 whitespace-nowrap">
-                {new Date(lead.created_at).toLocaleDateString("en-GB", {
+                {new Date(lead.created_at).toLocaleDateString(undefined, {
                   day: "numeric",
                   month: "short",
                   year: "numeric",

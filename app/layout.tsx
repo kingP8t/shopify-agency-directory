@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import SiteFooter from "@/app/components/SiteFooter";
@@ -50,6 +50,11 @@ export const metadata: Metadata = {
     description:
       "Find and compare the best Shopify agencies and experts. Browse verified Shopify partners by specialization, budget, and location.",
   },
+  verification: {
+    other: {
+      "msvalidate.01": "F72CD963C2CD2497EC945555605F6B1E",
+    },
+  },
   robots: {
     index: true,
     follow: true,
@@ -63,6 +68,14 @@ export const metadata: Metadata = {
   },
 };
 
+/** Explicit viewport export — required for CWV / Lighthouse (Next.js 14+) */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#16a34a",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -70,6 +83,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Preconnect to critical third-party origins — reduces TTFB for CWV */}
+        <link rel="preconnect" href="https://xsvdnqqddspzmokcnzyv.supabase.co" />
+        <link rel="dns-prefetch" href="https://xsvdnqqddspzmokcnzyv.supabase.co" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

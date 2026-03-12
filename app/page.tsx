@@ -4,7 +4,7 @@ import { supabase } from "@/lib/supabase";
 import type { Agency } from "@/lib/supabase";
 import HeroSearch from "@/app/components/HeroSearch";
 import SiteNav from "@/app/components/SiteNav";
-import { generateOrganizationJsonLd } from "@/lib/seo";
+import { generateWebSiteJsonLd, generateOrganizationJsonLd } from "@/lib/seo";
 import { getAllPosts } from "@/lib/blog";
 
 export const metadata: Metadata = {
@@ -76,11 +76,16 @@ export default async function HomePage() {
     getCountryCount(),
   ]);
 
+  const webSiteSchema = generateWebSiteJsonLd();
   const orgSchema = generateOrganizationJsonLd();
   const recentPosts = (await getAllPosts()).slice(0, 3);
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
@@ -314,9 +319,7 @@ export default async function HomePage() {
                   {agency.rating ? (
                     <span className="text-gray-500">
                       ⭐ {agency.rating}{" "}
-                      <span className="text-gray-400">
-                        ({agency.review_count})
-                      </span>
+                      <span className="text-gray-400">on Shopify</span>
                     </span>
                   ) : (
                     <span />
@@ -456,27 +459,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t bg-white px-6 py-8 text-sm text-gray-500">
-        <div className="mx-auto max-w-6xl space-y-4">
-          <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
-            <p className="font-medium text-gray-900">Shopify Agency Directory</p>
-            <div className="flex flex-wrap justify-center gap-6">
-              <Link href="/agencies" className="hover:text-gray-900">Browse Agencies</Link>
-              <Link href="/blog" className="hover:text-gray-900">Blog</Link>
-              <Link href="/submit" className="hover:text-gray-900">List Your Agency</Link>
-              <Link href="/get-matched" className="hover:text-gray-900">Get Matched</Link>
-            </div>
-          </div>
-          <div className="flex flex-col items-center gap-2 border-t pt-4 sm:flex-row sm:justify-between">
-            <p>© {new Date().getFullYear()} Shopify Agency Directory</p>
-            <div className="flex gap-4">
-              <a href="/privacy" className="hover:text-gray-900">Privacy Policy</a>
-              <a href="/terms" className="hover:text-gray-900">Terms of Service</a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
     </>
   );

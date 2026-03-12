@@ -55,7 +55,7 @@ export async function generateMetadata({
 }
 
 function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("en-GB", {
+  return new Date(dateStr).toLocaleDateString(undefined, {
     day: "numeric",
     month: "long",
     year: "numeric",

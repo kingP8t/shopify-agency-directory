@@ -3,6 +3,7 @@
 import { supabase } from "@/lib/supabase";
 import { headers } from "next/headers";
 import { sendNewLeadEmail, sendLeadToOwnerEmail } from "@/lib/email";
+import { logError } from "@/lib/logger";
 import { isRateLimited } from "@/lib/rate-limit";
 
 export interface LeadFormState {
@@ -79,7 +80,7 @@ export async function submitLeadAction(
   ]);
 
   if (error) {
-    console.error("Lead insert error:", error);
+    logError("lead-insert", error);
     return { success: false, error: "Something went wrong. Please try again." };
   }
 

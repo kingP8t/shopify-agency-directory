@@ -3,6 +3,7 @@
 import { useState, useActionState } from "react";
 import {
   respondToReviewAction,
+  deleteReplyAction,
   type OwnerReplyState,
 } from "@/app/actions/claim";
 
@@ -31,22 +32,57 @@ function ReviewReplyForm({
   slug: string;
   existingReply: string | null;
 }) {
-  // Track the textarea value so we can display it after successful submission
-  // without relying on document.querySelector (which reads stale/missing DOM).
-  const [replyText, setReplyText] = useState("");
+  const [replyText, setReplyText] = useState(existingReply ?? "");
+  const [isEditing, setIsEditing] = useState(false);
   const initialState: OwnerReplyState = { success: false };
   const [state, formAction, isPending] = useActionState(
     respondToReviewAction,
     initialState
   );
+  const [deleteState, deleteAction, isDeleting] = useActionState(
+    deleteReplyAction,
+    initialState
+  );
 
-  if (state.success || existingReply) {
+  // After a successful delete, show the empty reply form
+  const currentReply = deleteState.success ? null : (state.success ? replyText : existingReply);
+
+  // Show the existing reply with edit/delete options
+  if (currentReply && !isEditing) {
     return (
       <div className="mt-3 rounded-lg border-l-2 border-green-400 bg-gray-50 px-4 py-3">
-        <p className="text-xs font-medium text-gray-500">Your response</p>
-        <p className="mt-1 text-sm text-gray-700">
-          {state.success ? replyText : existingReply}
-        </p>
+        <div className="flex items-start justify-between gap-2">
+          <div>
+            <p className="text-xs font-medium text-gray-500">Your response</p>
+            <p className="mt-1 text-sm text-gray-700">{currentReply}</p>
+          </div>
+          <div className="flex shrink-0 gap-1">
+            <button
+              type="button"
+              onClick={() => {
+                setReplyText(currentReply);
+                setIsEditing(true);
+              }}
+              className="rounded px-2 py-1 text-xs text-gray-500 hover:bg-gray-200 hover:text-gray-700"
+            >
+              Edit
+            </button>
+            <form action={deleteAction}>
+              <input type="hidden" name="slug" value={slug} />
+              <input type="hidden" name="review_id" value={reviewId} />
+              <button
+                type="submit"
+                disabled={isDeleting}
+                className="rounded px-2 py-1 text-xs text-red-500 hover:bg-red-50 hover:text-red-700 disabled:opacity-60"
+              >
+                {isDeleting ? "..." : "Delete"}
+              </button>
+            </form>
+          </div>
+        </div>
+        {deleteState.error && (
+          <p className="mt-1 text-xs text-red-600">{deleteState.error}</p>
+        )}
       </div>
     );
   }
@@ -66,13 +102,24 @@ function ReviewReplyForm({
       {state.error && (
         <p className="text-xs text-red-600">{state.error}</p>
       )}
-      <button
-        type="submit"
-        disabled={isPending}
-        className="rounded-lg bg-green-600 px-4 py-1.5 text-xs font-medium text-white hover:bg-green-700 disabled:opacity-60"
-      >
-        {isPending ? "Saving..." : "Post Response"}
-      </button>
+      <div className="flex gap-2">
+        <button
+          type="submit"
+          disabled={isPending}
+          className="rounded-lg bg-green-600 px-4 py-1.5 text-xs font-medium text-white hover:bg-green-700 disabled:opacity-60"
+        >
+          {isPending ? "Saving..." : isEditing ? "Update Response" : "Post Response"}
+        </button>
+        {isEditing && (
+          <button
+            type="button"
+            onClick={() => setIsEditing(false)}
+            className="rounded-lg border border-gray-300 px-4 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50"
+          >
+            Cancel
+          </button>
+        )}
+      </div>
     </form>
   );
 }
@@ -103,10 +150,11 @@ export default function OwnerReviewList({
                   </span>
                 )}
               </div>
-              <div className="mt-0.5 flex gap-0.5">
+              <div className="mt-0.5 flex gap-0.5" role="img" aria-label={`${review.rating} out of 5 stars`}>
                 {[1, 2, 3, 4, 5].map((star) => (
                   <span
                     key={star}
+                    aria-hidden="true"
                     className={
                       star <= review.rating
                         ? "text-yellow-400"
@@ -119,7 +167,7 @@ export default function OwnerReviewList({
               </div>
             </div>
             <time className="shrink-0 text-xs text-gray-400">
-              {new Date(review.created_at).toLocaleDateString("en-GB", {
+              {new Date(review.created_at).toLocaleDateString(undefined, {
                 day: "numeric",
                 month: "short",
                 year: "numeric",

@@ -173,10 +173,14 @@ export default async function BlogPostPage({
 
   const related = await getRelatedPosts(slug);
 
-  // Article JSON-LD structured data
+  // BlogPosting JSON-LD structured data
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${SITE_URL}/blog/${post.slug}`,
+    },
     headline: post.title,
     description: post.excerpt,
     author: {
@@ -184,10 +188,15 @@ export default async function BlogPostPage({
       name: post.author,
       url: SITE_URL,
     },
+    image: `${SITE_URL}/opengraph-image`,
     publisher: {
       "@type": "Organization",
       name: "Shopify Agency Directory",
       url: SITE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/opengraph-image`,
+      },
     },
     datePublished: post.date,
     dateModified: post.updatedDate ?? post.date,
@@ -198,7 +207,7 @@ export default async function BlogPostPage({
   };
 
   function formatDate(d: string) {
-    return new Date(d).toLocaleDateString("en-GB", {
+    return new Date(d).toLocaleDateString(undefined, {
       day: "numeric",
       month: "long",
       year: "numeric",

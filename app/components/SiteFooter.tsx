@@ -15,6 +15,7 @@ const FOOTER_LINKS = {
     { href: "/blog", label: "Blog" },
     { href: "/get-matched", label: "Get Matched — Free" },
     { href: "/submit", label: "List Your Agency" },
+    { href: "/about", label: "How We Verify Agencies" },
   ],
   Locations: [
     { href: "/agencies/united-states", label: "United States" },

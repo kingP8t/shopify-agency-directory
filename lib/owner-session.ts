@@ -2,12 +2,21 @@ import { createHmac } from "crypto";
 import { cookies } from "next/headers";
 import { getAdminClient } from "@/lib/supabase";
 
-const ADMIN_SECRET = process.env.ADMIN_SECRET!;
-const COOKIE_NAME = "owner_session";
 export const OWNER_SESSION_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
 
+function getSecret(): string {
+  const secret = process.env.ADMIN_SECRET;
+  if (!secret) throw new Error("ADMIN_SECRET env var is required for owner sessions");
+  return secret;
+}
+
+/** Cookie name scoped to a specific agency slug */
+export function ownerCookieName(slug: string): string {
+  return `owner_session_${slug}`;
+}
+
 export function signOwnerToken(sessionId: string): string {
-  const hmac = createHmac("sha256", ADMIN_SECRET);
+  const hmac = createHmac("sha256", getSecret());
   hmac.update(sessionId);
   return `${sessionId}.${hmac.digest("hex")}`;
 }
@@ -34,12 +43,14 @@ export interface OwnerSession {
 
 // Call at the top of any owner-protected Server Component or Action.
 // Returns null if the cookie is missing, forged, expired, or revoked.
-// Pass slug to also verify the session belongs to that specific agency.
+// `slug` is required to locate the per-agency cookie and verify ownership.
 export async function getOwnerSession(
   slug?: string
 ): Promise<OwnerSession | null> {
+  if (!slug) return null;
+
   const cookieStore = await cookies();
-  const raw = cookieStore.get(COOKIE_NAME)?.value;
+  const raw = cookieStore.get(ownerCookieName(slug))?.value;
   if (!raw) return null;
 
   const sessionId = verifyOwnerToken(raw);
@@ -57,12 +68,12 @@ export async function getOwnerSession(
   // Check expiry
   if (new Date(data.expires_at) < new Date()) return null;
 
-  // If a slug is provided, ensure this session belongs to that agency
+  // Ensure this session belongs to the correct agency
   const agencyData = data.agencies as unknown;
   const agencySlug = Array.isArray(agencyData)
     ? (agencyData[0] as { slug: string } | undefined)?.slug
     : (agencyData as { slug: string } | null)?.slug;
-  if (slug && agencySlug !== slug) return null;
+  if (agencySlug !== slug) return null;
 
   return { sessionId, agencyId: data.agency_id, email: data.email };
 }

@@ -3,27 +3,15 @@
 import { getAdminClient } from "@/lib/supabase";
 import { headers } from "next/headers";
 import { sendNewAgencySubmissionEmail } from "@/lib/email";
+import { isRateLimited } from "@/lib/rate-limit";
 
 export interface SubmitAgencyState {
   success: boolean;
   error?: string;
 }
 
-// ─── Simple in-process rate limiter ──────────────────────────────────────────
-const agencyRateMap = new Map<string, { count: number; resetAt: number }>();
-const WINDOW_MS = 60_000;
-const MAX_REQUESTS = 3; // stricter — max 3 agency submissions per IP per minute
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = agencyRateMap.get(ip);
-  if (!entry || now > entry.resetAt) {
-    agencyRateMap.set(ip, { count: 1, resetAt: now + WINDOW_MS });
-    return false;
-  }
-  entry.count += 1;
-  return entry.count > MAX_REQUESTS;
-}
+const SUBMIT_MAX = 3;
+const SUBMIT_WINDOW_MS = 60_000;
 
 function slugify(text: string): string {
   return text
@@ -49,7 +37,7 @@ export async function submitAgencyAction(
     headersList.get("x-real-ip") ??
     "unknown";
 
-  if (isRateLimited(ip)) {
+  if (await isRateLimited(`submit-agency:${ip}`, SUBMIT_MAX, SUBMIT_WINDOW_MS)) {
     return {
       success: false,
       error: "Too many submissions. Please wait a moment and try again.",
@@ -126,12 +114,13 @@ export async function submitAgencyAction(
   }
 
   // Send admin notification email (fire-and-forget)
+  // name, email, description are guaranteed non-null by the validation above
   await sendNewAgencySubmissionEmail({
-    name: name!,
-    email: email!,
+    name,
+    email,
     website,
     location,
-    description: description!,
+    description,
   });
 
   return { success: true };

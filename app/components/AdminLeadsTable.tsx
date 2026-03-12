@@ -55,7 +55,7 @@ export default function AdminLeadsTable({ leads }: AdminLeadsTableProps) {
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap text-gray-400">
                   {lead.created_at
-                    ? new Date(lead.created_at).toLocaleDateString("en-GB", {
+                    ? new Date(lead.created_at).toLocaleDateString(undefined, {
                         day: "numeric",
                         month: "short",
                         year: "numeric",

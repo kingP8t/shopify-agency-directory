@@ -6,6 +6,8 @@ import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
 import AgencyLogo from "@/app/components/AgencyLogo";
 import LeadForm from "@/app/components/LeadForm";
+import { generateSegmentJsonLd } from "@/lib/seo";
+import { logError } from "@/lib/logger";
 
 // ---------------------------------------------------------------------------
 // Data fetching
@@ -38,7 +40,7 @@ async function getSegmentAgencies(
 
   const { data, error, count } = await query;
   if (error) {
-    console.error("Segment agency fetch error:", error);
+    logError("segment-fetch", error);
     return { agencies: [], total: 0 };
   }
   return { agencies: (data as Agency[]) ?? [], total: count ?? 0 };
@@ -65,27 +67,22 @@ export default async function SegmentPage({
     dirParams.set("budget", segment.filter.budgets[0]);
   const directoryUrl = `/agencies${dirParams.toString() ? `?${dirParams.toString()}` : ""}`;
 
-  // FAQ JSON-LD
-  const faqSchema = segment.faq
-    ? {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        mainEntity: segment.faq.map((item) => ({
-          "@type": "Question",
-          name: item.q,
-          acceptedAnswer: { "@type": "Answer", text: item.a },
-        })),
-      }
-    : null;
+  // FAQPage schema removed — deprecated by Google (Sept 2023).
+  // FAQ section is still rendered as visible HTML for users.
+
+  const segmentSchema = generateSegmentJsonLd({
+    name: segment.h1,
+    slug: segment.slug,
+    description: segment.metaDescription,
+    agencies: agencies.map((a) => ({ name: a.name, slug: a.slug })),
+  });
 
   return (
     <>
-      {faqSchema && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-        />
-      )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(segmentSchema) }}
+      />
 
       <div className="min-h-screen bg-gray-50">
         <SiteNav />
@@ -163,8 +160,7 @@ export default async function SegmentPage({
                           <p className="text-sm font-medium text-gray-900">
                             ⭐ {agency.rating}
                             <span className="font-normal text-gray-400">
-                              {" "}
-                              ({agency.review_count})
+                              {" "}on Shopify
                             </span>
                           </p>
                         )}

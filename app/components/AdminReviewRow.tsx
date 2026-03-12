@@ -79,7 +79,7 @@ export default function AdminReviewRow({ review }: AdminReviewRowProps) {
             </span>
           </span>
           <time className="text-xs text-gray-400">
-            {new Date(review.created_at).toLocaleDateString("en-GB", {
+            {new Date(review.created_at).toLocaleDateString(undefined, {
               day: "numeric",
               month: "short",
               year: "numeric",

@@ -5,14 +5,23 @@ import type { Agency } from "@/lib/supabase";
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
 import AgencyLogo from "@/app/components/AgencyLogo";
-import { generateAgencyListJsonLd } from "@/lib/seo";
+import { generateAgencyListJsonLd, generateDirectoryMetadata } from "@/lib/seo";
+import { logError } from "@/lib/logger";
 
-export const metadata: Metadata = {
-  title: "Browse Shopify Agencies",
-  description:
-    "Browse and compare the best Shopify agencies. Filter by specialization, budget, and location to find your perfect match.",
-  alternates: { canonical: "/agencies" },
-};
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  const page = Number(params.page) || 1;
+  const specialization = typeof params.specialization === "string" ? params.specialization : undefined;
+  const country = typeof params.country === "string" ? params.country : undefined;
+  return generateDirectoryMetadata(page, {
+    specialization,
+    location: country,
+  });
+}
 
 const SPECIALIZATIONS = [
   "Store Build",
@@ -175,7 +184,7 @@ async function getAgencies(
 
   const { data, error, count } = await query;
   if (error) {
-    console.error("Error fetching agencies:", error);
+    logError("agencies-fetch", error);
     return { agencies: [], total: 0 };
   }
   return { agencies: (data as Agency[]) ?? [], total: count ?? 0 };
@@ -479,7 +488,7 @@ export default async function AgenciesPage({
                               <p className="text-sm font-medium text-gray-900">
                                 ⭐ {agency.rating}
                                 <span className="font-normal text-gray-400">
-                                  {" "}({agency.review_count})
+                                  {" "}on Shopify
                                 </span>
                               </p>
                             )}

@@ -28,7 +28,7 @@ export default function PrivacyPage() {
         <div className="rounded-2xl border bg-white p-10 shadow-sm">
           <h1 className="text-3xl font-bold text-gray-900">Privacy Policy</h1>
           <p className="mt-2 text-sm text-gray-400">
-            Last updated: {new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
+            Last updated: {new Date().toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" })}
           </p>
 
           <div className="prose prose-gray mt-8 max-w-none space-y-8 text-gray-700">

@@ -8,16 +8,16 @@ const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
 // Content-Security-Policy — tighten per environment
 const cspHeader = [
   "default-src 'self'",
-  // Scripts: only same-origin (Next.js inline scripts use nonces in prod, but we keep unsafe-inline for now)
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  // Scripts: same-origin + Google Tag Manager for GA4
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com",
   // Styles: same-origin + inline (Tailwind injects inline styles)
   "style-src 'self' 'unsafe-inline'",
   // Images: self + Supabase storage + data URIs + Google favicon service
   `img-src 'self' data: https://${supabaseHost} https://www.google.com`,
   // Fonts: same-origin
   "font-src 'self'",
-  // API/data fetches: same-origin + Supabase
-  `connect-src 'self' https://${supabaseHost}`,
+  // API/data fetches: same-origin + Supabase + Google Analytics
+  `connect-src 'self' https://${supabaseHost} https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com`,
   // No plugins, objects, or frames from external sources
   "object-src 'none'",
   "frame-ancestors 'none'",
@@ -52,8 +52,24 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
+      // Crawler-accessible files — lightweight caching, no restrictive headers
       {
-        source: "/(.*)",
+        source: "/robots.txt",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=3600, s-maxage=86400" },
+          { key: "X-Robots-Tag", value: "nosnippet" },
+        ],
+      },
+      {
+        source: "/sitemap.xml",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=3600, s-maxage=86400" },
+          { key: "X-Robots-Tag", value: "nosnippet" },
+        ],
+      },
+      // All other routes — full security headers
+      {
+        source: "/((?!robots\\.txt|sitemap\\.xml).*)",
         headers: [
           // Existing headers
           { key: "X-Content-Type-Options", value: "nosniff" },
