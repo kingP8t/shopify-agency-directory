@@ -35,6 +35,18 @@ async function getSegmentAgencies(
   if (filter.location) {
     query = query.ilike("location", `%${filter.location}%`);
   }
+  // Keywords filter — uses Supabase .or() which is top-level (not AND-scoped).
+  // Currently all keyword segments use keywords as the *only* filter field.
+  // Do NOT combine keywords with other filter fields without restructuring the query.
+  if (filter.keywords && filter.keywords.length > 0) {
+    const orClauses = filter.keywords
+      .flatMap((kw) => [
+        `description.ilike.%${kw}%`,
+        `long_description.ilike.%${kw}%`,
+      ])
+      .join(",");
+    query = query.or(orClauses);
+  }
 
   query = query.limit(20);
 
@@ -65,6 +77,10 @@ export default async function SegmentPage({
   if (segment.filter.location) dirParams.set("location", segment.filter.location);
   if (segment.filter.budgets && segment.filter.budgets.length === 1)
     dirParams.set("budget", segment.filter.budgets[0]);
+  // Only the first keyword is forwarded to the directory search — the directory
+  // does not support multi-keyword OR search. First keyword is the broadest term.
+  if (segment.filter.keywords && segment.filter.keywords.length > 0)
+    dirParams.set("search", segment.filter.keywords[0]);
   const directoryUrl = `/agencies${dirParams.toString() ? `?${dirParams.toString()}` : ""}`;
 
   // FAQPage schema removed — deprecated by Google (Sept 2023).
@@ -201,6 +217,62 @@ export default async function SegmentPage({
               >
                 See all {total} agencies →
               </Link>
+            </div>
+          )}
+
+          {/* Industry content: Why Shopify, Tips, Related Posts */}
+          {segment.industryContent && (
+            <div className="mt-12 space-y-10">
+              {/* Why Shopify */}
+              <section>
+                <h2 className="text-xl font-bold text-gray-900">
+                  Why Shopify for {segment.breadcrumbLabel}?
+                </h2>
+                <p className="mt-3 leading-relaxed text-gray-600">
+                  {segment.industryContent.whyShopify}
+                </p>
+              </section>
+
+              {/* Tips */}
+              {segment.industryContent.tips.length > 0 && (
+                <section>
+                  <h2 className="text-xl font-bold text-gray-900">
+                    Tips for {segment.breadcrumbLabel} on Shopify
+                  </h2>
+                  <ol className="mt-4 space-y-3">
+                    {segment.industryContent.tips.map((tip, i) => (
+                      <li key={i} className="flex gap-3 text-sm leading-relaxed text-gray-600">
+                        <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-100 text-xs font-semibold text-green-700">
+                          {i + 1}
+                        </span>
+                        <span>{tip}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </section>
+              )}
+
+              {/* Related blog posts */}
+              {segment.industryContent.relatedPosts &&
+                segment.industryContent.relatedPosts.length > 0 && (
+                  <section>
+                    <h2 className="text-xl font-bold text-gray-900">
+                      Related Reading
+                    </h2>
+                    <ul className="mt-4 space-y-2">
+                      {segment.industryContent.relatedPosts.map((post) => (
+                        <li key={post.slug}>
+                          <Link
+                            href={`/blog/${post.slug}`}
+                            className="text-sm font-medium text-green-700 hover:underline"
+                          >
+                            {post.title} →
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+                )}
             </div>
           )}
 
