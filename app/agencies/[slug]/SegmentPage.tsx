@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { SegmentConfig } from "@/lib/segments";
+import { getRelatedSegments } from "@/lib/segments";
 import { supabase } from "@/lib/supabase";
 import type { Agency } from "@/lib/supabase";
 import SiteNav from "@/app/components/SiteNav";
@@ -317,6 +318,30 @@ export default async function SegmentPage({
               </div>
             </div>
           )}
+
+          {/* Related segment pages — cross-links for internal linking */}
+          {(() => {
+            const related = getRelatedSegments(segment.slug);
+            return related.length > 0 ? (
+              <div className="mt-12">
+                <h2 className="text-xl font-bold text-gray-900">
+                  Explore More Agencies
+                </h2>
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                  {related.map((r) => (
+                    <Link
+                      key={r.slug}
+                      href={`/agencies/${r.slug}`}
+                      className="flex items-center gap-3 rounded-xl border bg-white px-5 py-4 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:border-green-300 hover:text-green-700"
+                    >
+                      <span className="text-green-600">→</span>
+                      {r.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ) : null;
+          })()}
         </div>
       </div>
     </>

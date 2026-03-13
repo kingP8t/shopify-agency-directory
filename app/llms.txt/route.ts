@@ -34,18 +34,43 @@ Each agency has a profile at ${SITE}/agencies/{slug} with:
 
 ## Blog posts
 
+Guides:
 - [How to Choose a Shopify Agency](${SITE}/blog/how-to-choose-a-shopify-agency)
 - [Shopify vs Shopify Plus](${SITE}/blog/shopify-vs-shopify-plus-which-is-right-for-your-business)
 - [How Much Does a Shopify Website Cost?](${SITE}/blog/how-much-does-a-shopify-website-cost)
 - [Shopify Migration Guide](${SITE}/blog/shopify-migration-guide-woocommerce-magento)
-- [Best Shopify Review Apps 2026](${SITE}/blog/best-shopify-review-apps-2026)
-- [Best Shopify Loyalty Apps 2026](${SITE}/blog/best-shopify-loyalty-apps-2026)
-- [Best Shopify Themes 2026](${SITE}/blog/best-shopify-themes-2026-review)
-- [Best Shopify Apps 2026](${SITE}/blog/best-shopify-apps-2026)
 - [Shopify Agency Red Flags](${SITE}/blog/shopify-agency-red-flags)
 - [How to Brief a Shopify Agency](${SITE}/blog/how-to-brief-a-shopify-agency)
 - [Shopify SEO Guide 2026](${SITE}/blog/shopify-seo-guide-2026)
 - [How to Hire a Shopify SEO Agency](${SITE}/blog/how-to-hire-a-shopify-seo-agency)
+- [Questions to Ask Before Hiring a Shopify Developer](${SITE}/blog/questions-to-ask-before-hiring-a-shopify-developer)
+- [Shopify Developer Interview Questions](${SITE}/blog/shopify-developer-interview-questions-what-answers-reveal)
+- [Shopify Website Cost Breakdown](${SITE}/blog/how-much-does-a-shopify-store-cost-complete-breakdown)
+- [Shopify Website Cost: What You'll Actually Pay](${SITE}/blog/shopify-website-cost-what-you-will-actually-pay)
+- [WooCommerce vs Magento](${SITE}/blog/woocommerce-vs-magento)
+
+Tools & Apps:
+- [Best Shopify Review Apps 2026](${SITE}/blog/best-shopify-review-apps-2026)
+- [Best Shopify Loyalty Apps 2026](${SITE}/blog/best-shopify-loyalty-apps-2026)
+- [Best Shopify Themes 2026](${SITE}/blog/best-shopify-themes-2026-review)
+- [Best Shopify Apps 2026](${SITE}/blog/best-shopify-apps-2026)
+
+Location guides:
+- [Shopify Plus Agencies in London](${SITE}/blog/shopify-plus-agency-london)
+- [Shopify Store Build Agencies in New York](${SITE}/blog/shopify-store-build-agency-new-york)
+- [Shopify CRO Agencies in Sydney](${SITE}/blog/shopify-cro-agency-sydney)
+- [Shopify Migration Agencies in Toronto](${SITE}/blog/shopify-migration-agency-toronto)
+- [Shopify Headless Agencies in Berlin](${SITE}/blog/shopify-headless-agency-berlin)
+- [Shopify Theme Development in Manchester](${SITE}/blog/shopify-theme-development-agency-manchester)
+- [Shopify Plus Agencies in Texas](${SITE}/blog/shopify-plus-agency-texas)
+- [Shopify Store Build Agencies in Dubai](${SITE}/blog/shopify-store-build-agency-dubai)
+- [Shopify SEO Agencies in New Delhi](${SITE}/blog/shopify-seo-agency-new-delhi)
+- [Shopify Store Build Agencies in Islamabad](${SITE}/blog/shopify-store-build-agency-islamabad)
+- [Shopify Plus Agencies in Amsterdam](${SITE}/blog/shopify-plus-agency-amsterdam)
+- [Shopify Store Build Agencies in Singapore](${SITE}/blog/shopify-store-build-agency-singapore)
+- [Shopify Store Build Agencies in Lagos](${SITE}/blog/shopify-store-build-agency-lagos)
+- [Shopify Migration Agencies in Mexico City](${SITE}/blog/shopify-migration-agency-mexico-city)
+- [Shopify CRO Agencies in Melbourne](${SITE}/blog/shopify-cro-agency-melbourne)
 
 ## Directory segments — by location
 

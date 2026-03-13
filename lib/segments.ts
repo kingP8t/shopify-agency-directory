@@ -25,6 +25,76 @@ export interface SegmentConfig {
   };
 }
 
+// ---------------------------------------------------------------------------
+// Segment categorisation — used by getRelatedSegments() to pick cross-links
+// ---------------------------------------------------------------------------
+
+type SegmentCategory = "location" | "service" | "budget" | "industry";
+
+const SEGMENT_CATEGORIES: Record<string, SegmentCategory> = {
+  // Locations
+  london: "location", "united-states": "location", "new-york": "location",
+  "los-angeles": "location", chicago: "location", austin: "location",
+  miami: "location", australia: "location", canada: "location",
+  // Services
+  "shopify-plus": "service", migration: "service", headless: "service",
+  "theme-development": "service", "ecommerce-seo": "service",
+  "store-build": "service", "app-development": "service", cro: "service",
+  "shopify-marketing": "service", branding: "service", analytics: "service",
+  "ongoing-support": "service", internationalization: "service",
+  "checkout-upgrade": "service", "systems-integration": "service",
+  performance: "service",
+  // Budgets
+  "under-5k": "budget", "under-10k": "budget", "under-25k": "budget",
+  "mid-budget": "budget", "enterprise-budget": "budget", "100k-plus": "budget",
+  // Industry verticals
+  "fashion-brands": "industry", "beauty-cosmetics": "industry",
+  "health-wellness": "industry", "food-beverage": "industry",
+  "home-furniture": "industry", "sports-outdoors": "industry",
+  "luxury-brands": "industry", "b2b-wholesale": "industry",
+  "electronics-tech": "industry", pets: "industry",
+};
+
+/**
+ * Return up to 4 related segment pages for cross-linking.
+ * Strategy: 2 from the same category + 2 from complementary categories.
+ */
+export function getRelatedSegments(
+  currentSlug: string
+): Array<{ slug: string; label: string }> {
+  const cat = SEGMENT_CATEGORIES[currentSlug];
+  if (!cat) return [];
+
+  const allSlugs = Object.keys(SEGMENTS).filter((s) => s !== currentSlug);
+
+  // Same-category siblings (e.g. other locations if this is a location page)
+  const sameCategory = allSlugs.filter(
+    (s) => SEGMENT_CATEGORIES[s] === cat
+  );
+
+  // Complementary categories — pick the most useful cross-category links
+  const COMPLEMENTS: Record<SegmentCategory, SegmentCategory[]> = {
+    location: ["service", "budget"],
+    service: ["budget", "industry"],
+    budget: ["service", "location"],
+    industry: ["service", "budget"],
+  };
+  const complementary = allSlugs.filter((s) =>
+    COMPLEMENTS[cat].includes(SEGMENT_CATEGORIES[s])
+  );
+
+  // Pick 2 same-category + 2 complementary (deterministic, not random)
+  const picks = [
+    ...sameCategory.slice(0, 2),
+    ...complementary.slice(0, 2),
+  ];
+
+  return picks.map((slug) => ({
+    slug,
+    label: SEGMENTS[slug].breadcrumbLabel,
+  }));
+}
+
 export const SEGMENTS: Record<string, SegmentConfig> = {
   london: {
     slug: "london",
