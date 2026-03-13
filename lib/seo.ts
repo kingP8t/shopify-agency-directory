@@ -214,7 +214,13 @@ export function generateOrganizationJsonLd() {
 
 /** Agencies listing page — ItemList schema */
 export function generateAgencyListJsonLd(
-  agencies: Array<{ name: string; slug: string; description: string }>
+  agencies: Array<{
+    name: string;
+    slug: string;
+    description: string;
+    rating?: number | null;
+    reviewCount?: number | null;
+  }>
 ) {
   return {
     "@context": "https://schema.org",
@@ -233,6 +239,16 @@ export function generateAgencyListJsonLd(
         name: agency.name,
         url: `${BASE_URL}/agencies/${agency.slug}`,
         description: agency.description,
+        ...(agency.rating &&
+          agency.reviewCount && {
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: agency.rating,
+              reviewCount: agency.reviewCount,
+              bestRating: 5,
+              worstRating: 1,
+            },
+          }),
       },
     })),
   };
@@ -243,7 +259,12 @@ export function generateSegmentJsonLd(segment: {
   name: string;
   slug: string;
   description: string;
-  agencies: Array<{ name: string; slug: string }>;
+  agencies: Array<{
+    name: string;
+    slug: string;
+    rating?: number | null;
+    reviewCount?: number | null;
+  }>;
 }) {
   return {
     "@context": "https://schema.org",
@@ -261,6 +282,16 @@ export function generateSegmentJsonLd(segment: {
           "@type": "Organization",
           name: agency.name,
           url: `${BASE_URL}/agencies/${agency.slug}`,
+          ...(agency.rating &&
+            agency.reviewCount && {
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: agency.rating,
+                reviewCount: agency.reviewCount,
+                bestRating: 5,
+                worstRating: 1,
+              },
+            }),
         },
       })),
     },

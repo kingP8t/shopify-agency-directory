@@ -255,7 +255,13 @@ export default async function AgenciesPage({
     : null;
 
   const listSchema = generateAgencyListJsonLd(
-    agencies.map((a) => ({ name: a.name, slug: a.slug, description: a.description }))
+    agencies.map((a) => ({
+      name: a.name,
+      slug: a.slug,
+      description: a.description,
+      rating: a.rating,
+      reviewCount: a.review_count,
+    }))
   );
 
   return (

@@ -90,7 +90,12 @@ export default async function SegmentPage({
     name: segment.h1,
     slug: segment.slug,
     description: segment.metaDescription,
-    agencies: agencies.map((a) => ({ name: a.name, slug: a.slug })),
+    agencies: agencies.map((a) => ({
+      name: a.name,
+      slug: a.slug,
+      rating: a.rating,
+      reviewCount: a.review_count,
+    })),
   });
 
   return (
