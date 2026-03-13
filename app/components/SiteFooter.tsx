@@ -96,6 +96,7 @@ export default function SiteFooter() {
               <Link href="/privacy" className="hover:text-gray-400">Privacy</Link>
               <Link href="/terms" className="hover:text-gray-400">Terms</Link>
               <Link href="/submit" className="hover:text-gray-400">Submit Agency</Link>
+              <Link href="/llms.txt" className="hover:text-gray-400">llms.txt</Link>
             </div>
           </div>
         </div>
