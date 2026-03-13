@@ -826,6 +826,430 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
       ],
     },
   },
+
+  // =========================================================================
+  // Budget-Based Pages
+  // =========================================================================
+
+  "under-5k": {
+    slug: "under-5k",
+    h1: "Shopify Agencies for Budgets Under $5,000",
+    metaTitle: "Shopify Agencies Under $5,000 | Affordable Store Builds",
+    metaDescription:
+      "Find affordable Shopify agencies for projects under $5,000. Perfect for new stores, theme setups, and small business owners getting started with Shopify.",
+    intro:
+      "You don't need a massive budget to get a great Shopify store. Hundreds of agencies work with budgets under $5,000 — handling everything from theme setup and product uploads to basic customisations and launch support. If you're just getting started or running a lean operation, these agencies can get you live without breaking the bank.",
+    breadcrumbLabel: "Under $5k",
+    filter: { budgets: ["Under $5,000"] },
+    faq: [
+      {
+        q: "What can I actually get for under $5,000?",
+        a: "For under $5,000, you can typically get a theme-based store build with your branding applied, product catalogue setup, basic payment and shipping configuration, and launch support. You won't get a fully custom design, but you'll get a professional, functional store.",
+      },
+      {
+        q: "Is it worth hiring an agency for under $5k, or should I DIY?",
+        a: "If your time is valuable and you're not technical, an agency saves you weeks of trial and error. They'll set up your theme properly, configure settings correctly the first time, and make sure your store actually converts. For many founders, that's worth every penny.",
+      },
+      {
+        q: "What should I watch out for with budget agencies?",
+        a: "Make sure the quote includes everything you need — some agencies quote low but charge extra for product uploads, payment gateway setup, or basic SEO. Get a clear scope of work in writing before you start.",
+      },
+    ],
+  },
+
+  "under-10k": {
+    slug: "under-10k",
+    h1: "Shopify Agencies for Budgets Under $10,000",
+    metaTitle: "Shopify Agencies Under $10,000 | Quality Store Builds on a Budget",
+    metaDescription:
+      "Find Shopify agencies for projects under $10,000. Get a professional store build with custom touches, without the enterprise price tag.",
+    intro:
+      "With a budget under $10,000, you're in a sweet spot — enough to get a thoughtfully customised Shopify store with real design work, not just a default theme with your logo slapped on. These agencies deliver polished, conversion-ready stores that look and feel like your brand.",
+    breadcrumbLabel: "Under $10k",
+    filter: { budgets: ["Under $5,000", "$5,000 - $25,000"] },
+    faq: [
+      {
+        q: "What's the difference between a $3k and a $10k Shopify build?",
+        a: "A $3k build typically means installing a premium theme and configuring it with your branding. A $10k build gets you meaningful design customisation — tailored homepage layouts, custom collection pages, branded email templates, and proper mobile optimisation. The store will feel much more 'you'.",
+      },
+      {
+        q: "Can I get a custom design for under $10,000?",
+        a: "You can get a customised premium theme, which looks and feels close to fully custom. True from-scratch custom design usually starts around $15,000-$20,000. But a well-customised theme can be just as effective for most growing brands.",
+      },
+      {
+        q: "What should be included in a $10k Shopify project?",
+        a: "Expect: theme selection and customisation, homepage and key page design, product catalogue setup, basic SEO configuration, payment and shipping setup, mobile testing, and at least one round of revisions. Some agencies also include basic analytics setup and a short post-launch support window.",
+      },
+    ],
+  },
+
+  "mid-budget": {
+    slug: "mid-budget",
+    h1: "Shopify Agencies for $5,000–$25,000 Budgets",
+    metaTitle: "Shopify Agencies $5,000–$25,000 | Professional Store Builds",
+    metaDescription:
+      "Find Shopify agencies for mid-range budgets of $5,000–$25,000. Professional custom builds, migrations, and redesigns from verified agencies.",
+    intro:
+      "The $5,000–$25,000 range is where most serious Shopify projects land. It's enough for a properly customised store, a platform migration, or a meaningful redesign — with real design work, app integrations, and the attention to detail that turns visitors into customers. These agencies specialise in delivering solid work at this price point.",
+    breadcrumbLabel: "$5k–$25k",
+    filter: { budgets: ["$5,000 - $25,000"] },
+    faq: [
+      {
+        q: "What can I expect from a $5k–$25k Shopify project?",
+        a: "At this budget, you should get: a customised theme tailored to your brand, professional product photography layout, SEO-optimised page structure, key app integrations (email, reviews, analytics), and a store that's genuinely optimised for conversions — not just 'live'.",
+      },
+      {
+        q: "Is $5k–$25k enough for a migration to Shopify?",
+        a: "Yes — this is the typical budget for migrating a small to mid-sized store from WooCommerce, Magento, or BigCommerce. It covers data migration, URL redirects, theme setup, and making sure your SEO rankings survive the move.",
+      },
+      {
+        q: "How long does a project in this budget range take?",
+        a: "Most projects at this level take 4–10 weeks from kickoff to launch. A straightforward theme build is closer to 4–6 weeks; a more complex project with custom features or migration is 8–10 weeks.",
+      },
+    ],
+  },
+
+  "enterprise-budget": {
+    slug: "enterprise-budget",
+    h1: "Shopify Agencies for $25,000–$100,000 Projects",
+    metaTitle: "Shopify Agencies $25k–$100k | Enterprise-Grade Builds",
+    metaDescription:
+      "Find Shopify agencies for enterprise-grade projects between $25,000 and $100,000. Custom development, complex integrations, and Shopify Plus implementations.",
+    intro:
+      "At the $25,000–$100,000 level, you're investing in a seriously powerful Shopify store. This budget covers custom design and development, complex integrations with your existing systems, Shopify Plus features, and the kind of strategic thinking that makes a store perform — not just look good. These agencies work at an enterprise level.",
+    breadcrumbLabel: "$25k–$100k",
+    filter: { budgets: ["$25,000 - $100,000"] },
+    faq: [
+      {
+        q: "What do I get at the $25k–$100k level that I don't get for less?",
+        a: "Custom-designed pages (not just a tweaked theme), complex ERP or CRM integrations, multi-currency and international setup, custom checkout flows on Shopify Plus, dedicated project management, and a team that includes a strategist — not just developers.",
+      },
+      {
+        q: "Is this budget right for Shopify Plus?",
+        a: "Yes. Shopify Plus projects typically start at $25,000 and can run to $100,000+ depending on complexity. This budget covers the custom checkout, B2B features, automation, and integrations that make Plus worth the investment.",
+      },
+      {
+        q: "How do I make sure I get value at this price point?",
+        a: "Insist on a detailed discovery phase, milestone-based payments (not all upfront), named team members on your project, and a clear post-launch plan. At this budget, you should be getting senior talent and strategic input, not just code.",
+      },
+    ],
+  },
+
+  "100k-plus": {
+    slug: "100k-plus",
+    h1: "Shopify Agencies for $100,000+ Projects",
+    metaTitle: "Shopify Agencies $100k+ | Large-Scale Enterprise Builds",
+    metaDescription:
+      "Find top-tier Shopify agencies for $100,000+ enterprise projects. Complex Shopify Plus builds, headless commerce, multi-store setups, and full digital transformation.",
+    intro:
+      "Six-figure Shopify projects are a different category entirely. We're talking custom headless builds, full platform migrations for large catalogues, multi-store architectures, deep ERP integration, and the kind of strategic partnership where the agency genuinely helps shape your ecommerce business. These are the agencies that operate at that level.",
+    breadcrumbLabel: "$100k+",
+    filter: { budgets: ["$100,000+", "$25,000 - $100,000"] },
+    faq: [
+      {
+        q: "What justifies a $100k+ Shopify build?",
+        a: "At this level, you're paying for: a fully bespoke frontend (often headless), deep integration with ERP, PIM, and OMS systems, multi-market or multi-brand store architecture, advanced checkout customisation, dedicated QA testing, and an ongoing strategic partnership — not just a one-off build.",
+      },
+      {
+        q: "Should I use Shopify Plus for a $100k+ project?",
+        a: "Almost certainly. At this budget, you need the checkout extensibility, automation (Shopify Flow), B2B channel, and API access that only Shopify Plus provides. The Plus subscription cost ($2,300+/month) is a rounding error at this project level.",
+      },
+      {
+        q: "How long do $100k+ Shopify projects take?",
+        a: "Expect 3–9 months depending on complexity. Large enterprise builds with multiple integrations, data migrations, and custom functionality typically take 4–6 months minimum. Rush timelines are possible but expensive.",
+      },
+    ],
+  },
+
+  // =========================================================================
+  // Service-Specific Pages
+  // =========================================================================
+
+  "store-build": {
+    slug: "store-build",
+    h1: "Shopify Store Build Agencies",
+    metaTitle: "Best Shopify Store Build Agencies | New Store Development",
+    metaDescription:
+      "Find agencies that specialise in building new Shopify stores from scratch. Compare verified Shopify store build experts by budget, location, and reviews.",
+    intro:
+      "Building a new Shopify store is the most common reason merchants hire an agency — and getting it right from the start saves you money, time, and headaches down the road. These agencies specialise in new store builds, from theme setup and product configuration to custom design and launch support.",
+    breadcrumbLabel: "Store Build",
+    filter: { specialization: "Store Build" },
+    faq: [
+      {
+        q: "How much does it cost to have an agency build a Shopify store?",
+        a: "Theme-based builds start around $2,000–$5,000. A customised store with real design work runs $5,000–$25,000. Fully custom builds with bespoke features start at $25,000+. The price depends on your design requirements, catalogue size, and integrations needed.",
+      },
+      {
+        q: "How long does a new Shopify store build take?",
+        a: "A straightforward theme-based build takes 3–6 weeks. A custom-designed store takes 6–12 weeks. The biggest variable isn't usually the agency's speed — it's how quickly you provide content, product data, and feedback.",
+      },
+      {
+        q: "What should I prepare before hiring a store build agency?",
+        a: "Have your branding ready (logo, colours, fonts), your product catalogue organised (descriptions, images, variants), your shipping and payment requirements clear, and a list of 3–5 competitor stores you like. The more prepared you are, the faster and cheaper the build.",
+      },
+    ],
+  },
+
+  "app-development": {
+    slug: "app-development",
+    h1: "Shopify App Development Agencies",
+    metaTitle: "Best Shopify App Development Agencies | Custom App Builds",
+    metaDescription:
+      "Find agencies specialising in custom Shopify app development. Build private apps, public apps, and custom integrations with verified Shopify app developers.",
+    intro:
+      "When off-the-shelf apps don't solve your problem, you need a custom Shopify app. These agencies specialise in building private apps for individual stores, public apps for the Shopify App Store, and custom integrations that connect Shopify with your other business systems.",
+    breadcrumbLabel: "App Development",
+    filter: { specialization: "App Development" },
+    faq: [
+      {
+        q: "How much does a custom Shopify app cost?",
+        a: "A simple private app (connecting Shopify to one external system) typically costs $3,000–$10,000. A more complex app with its own UI, multiple features, and ongoing maintenance runs $10,000–$50,000+. Public apps for the Shopify App Store cost significantly more due to review requirements and multi-merchant architecture.",
+      },
+      {
+        q: "Do I need a custom app or can I use an existing one?",
+        a: "Check the Shopify App Store first — there are thousands of apps covering most common needs. You need a custom app when your requirements are unique, you need to connect to a proprietary system, or existing apps don't meet your performance or security requirements.",
+      },
+      {
+        q: "What technologies do Shopify apps use?",
+        a: "Modern Shopify apps are typically built with Node.js or Ruby on Rails, using Shopify's Polaris design system for the admin interface and the GraphQL Admin API for data access. Embedded apps run inside the Shopify admin, while some functionality uses Shopify Functions or theme app extensions.",
+      },
+    ],
+  },
+
+  cro: {
+    slug: "cro",
+    h1: "Shopify CRO Agencies",
+    metaTitle: "Best Shopify CRO Agencies | Conversion Rate Optimisation",
+    metaDescription:
+      "Find Shopify agencies specialising in conversion rate optimisation (CRO). Data-driven experts who increase revenue from your existing traffic through testing and UX improvements.",
+    intro:
+      "Getting traffic to your Shopify store is only half the battle — converting those visitors into customers is where the real money is. CRO agencies use data, A/B testing, and UX expertise to systematically improve your conversion rate. Even a small uplift can dramatically increase revenue without spending more on ads.",
+    breadcrumbLabel: "CRO",
+    filter: { specialization: "CRO" },
+    faq: [
+      {
+        q: "How much does Shopify CRO cost?",
+        a: "CRO retainers typically range from $2,000–$10,000/month, with most mid-market Shopify stores spending $3,000–$6,000/month. Some agencies offer one-off CRO audits for $1,500–$5,000 as a starting point. The ROI usually justifies the investment within 2–3 months.",
+      },
+      {
+        q: "What does a CRO agency actually do?",
+        a: "They analyse your store data (heatmaps, session recordings, analytics), identify where visitors drop off, create hypotheses for improvement, run A/B tests on changes, and implement winners. Common areas include product pages, checkout flow, collection pages, and mobile experience.",
+      },
+      {
+        q: "How long does it take to see CRO results?",
+        a: "You'll typically see your first test results within 2–4 weeks. Meaningful, compounding conversion improvements take 3–6 months of consistent testing. CRO is a marathon, not a sprint — the gains compound over time as you learn what works for your specific audience.",
+      },
+    ],
+  },
+
+  "shopify-marketing": {
+    slug: "shopify-marketing",
+    h1: "Shopify Marketing Agencies",
+    metaTitle: "Best Shopify Marketing Agencies | Ecommerce Growth Experts",
+    metaDescription:
+      "Find Shopify agencies specialising in ecommerce marketing. Experts in paid ads, email marketing, social media, and growth strategy for Shopify stores.",
+    intro:
+      "A great Shopify store is useless without customers finding it. These agencies specialise in driving traffic and revenue for Shopify stores through paid advertising, email marketing, social media, and growth strategy. They understand the Shopify ecosystem and know which levers actually move the needle for ecommerce.",
+    breadcrumbLabel: "Marketing",
+    filter: { specialization: "Marketing" },
+    faq: [
+      {
+        q: "How much does Shopify marketing agency cost?",
+        a: "Marketing retainers typically range from $2,000–$15,000/month depending on channels and ad spend. A focused email marketing engagement might be $2,000–$4,000/month, while full-service (paid ads + email + social) runs $8,000–$15,000/month plus ad spend.",
+      },
+      {
+        q: "Should I hire a general marketing agency or a Shopify-specific one?",
+        a: "Shopify-specific agencies understand the platform's analytics, conversion tracking, email integrations, and sales attribution better than generalists. They know which Shopify apps work best for marketing and can make changes directly in your store without needing a separate developer.",
+      },
+      {
+        q: "What marketing channels work best for Shopify stores?",
+        a: "It depends on your product and audience, but the most common high-ROI channels are: email marketing (highest ROI for most stores), Meta/Instagram ads (great for discovery), Google Shopping (captures high-intent traffic), and TikTok (strong for younger audiences and viral products).",
+      },
+    ],
+  },
+
+  branding: {
+    slug: "branding",
+    h1: "Shopify Branding Agencies",
+    metaTitle: "Best Shopify Branding Agencies | Ecommerce Brand Identity",
+    metaDescription:
+      "Find Shopify agencies specialising in ecommerce branding. From brand strategy and visual identity to packaging and brand-driven store design.",
+    intro:
+      "Your brand is the reason people choose you over the next Shopify store selling something similar. These agencies don't just design logos — they build complete brand identities for ecommerce, from strategy and positioning to visual design, packaging, and a store experience that makes your brand unforgettable.",
+    breadcrumbLabel: "Branding",
+    filter: { specialization: "Branding" },
+    faq: [
+      {
+        q: "How much does ecommerce branding cost?",
+        a: "A basic brand identity package (logo, colour palette, typography, brand guidelines) typically costs $3,000–$10,000. A comprehensive branding engagement including strategy, naming, visual identity, packaging design, and store design can run $15,000–$50,000+.",
+      },
+      {
+        q: "Should I brand before or after building my Shopify store?",
+        a: "Before, ideally. Your brand identity informs every design decision in your store — from colour choices to photography style to tone of voice. Building the store first and branding second often means paying for a redesign later.",
+      },
+      {
+        q: "What's the difference between branding and just having a logo?",
+        a: "A logo is one element of a brand. A complete brand includes your positioning (why you exist and who you're for), visual identity (logo, colours, typography, imagery style), tone of voice, packaging, and the overall customer experience. Strong branding is the compound interest of ecommerce — it builds over time.",
+      },
+    ],
+  },
+
+  analytics: {
+    slug: "analytics",
+    h1: "Shopify Analytics Agencies",
+    metaTitle: "Best Shopify Analytics Agencies | Ecommerce Data & Reporting",
+    metaDescription:
+      "Find Shopify agencies specialising in analytics and data. Experts in GA4, server-side tracking, attribution, dashboards, and data-driven ecommerce decisions.",
+    intro:
+      "You can't improve what you don't measure. These agencies help Shopify stores set up proper tracking, build meaningful dashboards, fix attribution gaps, and turn data into decisions. If you're making business decisions based on vibes instead of numbers, an analytics agency pays for itself fast.",
+    breadcrumbLabel: "Analytics",
+    filter: { specialization: "Analytics" },
+    faq: [
+      {
+        q: "What does a Shopify analytics agency actually do?",
+        a: "They set up and configure GA4, implement server-side tracking for accurate attribution, build custom dashboards for the metrics that matter, fix tracking gaps between Shopify and your ad platforms, and provide analysis and recommendations based on your data.",
+      },
+      {
+        q: "How much does Shopify analytics setup cost?",
+        a: "A one-off analytics audit and setup typically costs $1,500–$5,000. Ongoing analytics retainers with regular reporting and analysis run $1,000–$5,000/month. Server-side tracking implementation (to recover data lost from ad blockers) is a separate project, usually $3,000–$8,000.",
+      },
+      {
+        q: "Why is Shopify's built-in analytics not enough?",
+        a: "Shopify's native analytics are decent for basic metrics, but they don't provide detailed attribution, custom event tracking, cohort analysis, or integration with your full marketing stack. Proper analytics setup recovers 15–30% of data that Shopify's basic tracking misses.",
+      },
+    ],
+  },
+
+  "ongoing-support": {
+    slug: "ongoing-support",
+    h1: "Shopify Ongoing Support & Maintenance Agencies",
+    metaTitle: "Shopify Support & Maintenance Agencies | Ongoing Management",
+    metaDescription:
+      "Find Shopify agencies offering ongoing support, maintenance, and management retainers. Keep your store updated, optimised, and running smoothly after launch.",
+    intro:
+      "Launching your Shopify store is just the beginning. Keeping it updated, optimised, and running smoothly requires ongoing attention — theme updates, app management, content changes, performance monitoring, and bug fixes. These agencies offer ongoing support retainers so you always have an expert on call.",
+    breadcrumbLabel: "Ongoing Support",
+    filter: { specialization: "Ongoing Website Management" },
+    faq: [
+      {
+        q: "How much does ongoing Shopify support cost?",
+        a: "Ongoing support retainers typically range from $500–$5,000/month depending on the hours included and scope. A basic plan (5–10 hours/month for updates and fixes) runs $500–$1,500/month. A comprehensive retainer with development, optimisation, and strategic support costs $2,000–$5,000/month.",
+      },
+      {
+        q: "Do I really need ongoing Shopify support after launch?",
+        a: "If your store is generating meaningful revenue, yes. Shopify themes and apps need regular updates, broken features cost you sales, and there are always improvements to make. Most stores benefit from at least a small monthly retainer for maintenance and quick fixes.",
+      },
+      {
+        q: "What's usually included in a Shopify support retainer?",
+        a: "Typical inclusions: theme and app updates, content changes (banners, products, collections), bug fixes, performance monitoring, monthly reporting, and a bank of development hours for small improvements. Some agencies also include basic SEO maintenance and conversion optimisation.",
+      },
+    ],
+  },
+
+  "internationalization": {
+    slug: "internationalization",
+    h1: "Shopify Internationalisation & Multi-Market Agencies",
+    metaTitle: "Shopify Internationalisation Agencies | Multi-Market & Global Expansion",
+    metaDescription:
+      "Find Shopify agencies specialising in international expansion. Experts in Shopify Markets, multi-currency, localisation, and cross-border ecommerce.",
+    intro:
+      "Selling internationally on Shopify is more than just turning on another currency. These agencies specialise in the full picture — Shopify Markets configuration, currency and pricing strategy, translations, local payment methods, international shipping, tax compliance, and making sure your store actually converts in every market you sell into.",
+    breadcrumbLabel: "Internationalisation",
+    filter: { specialization: "Internationalization" },
+    faq: [
+      {
+        q: "How much does international Shopify setup cost?",
+        a: "A basic Shopify Markets setup (multi-currency, basic translations) costs $3,000–$8,000. A comprehensive international expansion with multiple markets, full localisation, local payment methods, and duty/tax configuration runs $10,000–$40,000+ depending on the number of markets.",
+      },
+      {
+        q: "What is Shopify Markets?",
+        a: "Shopify Markets is Shopify's built-in internationalisation feature. It lets you manage multiple countries and regions from one store, with localised currencies, languages, pricing, domains, and duties/taxes. It's available on all Shopify plans, with advanced features on Plus.",
+      },
+      {
+        q: "Can I sell internationally without Shopify Plus?",
+        a: "Yes. Shopify Markets works on standard plans and covers multi-currency, basic translations, and international domains. Shopify Plus adds Shopify Markets Pro (powered by Global-e) for advanced features like guaranteed landed cost, local payment methods, and more granular market customisation.",
+      },
+    ],
+  },
+
+  "checkout-upgrade": {
+    slug: "checkout-upgrade",
+    h1: "Shopify Checkout Upgrade Agencies",
+    metaTitle: "Shopify Checkout Upgrade Agencies | Checkout Extensibility Experts",
+    metaDescription:
+      "Find Shopify agencies specialising in checkout upgrades and customisation. Experts in checkout extensibility, one-page checkout, upsells, and conversion optimisation.",
+    intro:
+      "Your checkout is where the money happens — and where a lot of it leaks away. These agencies specialise in Shopify checkout upgrades, including migration to checkout extensibility, custom checkout UI, post-purchase upsells, and the optimisation work that turns abandoned carts into completed orders.",
+    breadcrumbLabel: "Checkout Upgrade",
+    filter: { specialization: "Checkout Upgrade" },
+    faq: [
+      {
+        q: "What is Shopify checkout extensibility?",
+        a: "Checkout extensibility is Shopify's modern framework for customising the checkout experience. It replaces the old checkout.liquid (deprecated in 2025) with app-based extensions that are faster, more secure, and automatically maintained by Shopify. It's available on Shopify Plus.",
+      },
+      {
+        q: "How much does a checkout upgrade cost?",
+        a: "A basic checkout extensibility migration costs $3,000–$8,000. Custom checkout UI, upsells, trust badges, and advanced logic run $8,000–$25,000+. The investment usually pays back quickly — even a 1% improvement in checkout completion can be worth thousands in monthly revenue.",
+      },
+      {
+        q: "Do I need Shopify Plus for checkout customisation?",
+        a: "For meaningful checkout customisation, yes. Standard Shopify plans allow limited checkout branding (logo, colours), but custom checkout fields, upsells, conditional logic, and advanced UI changes require Shopify Plus and checkout extensibility.",
+      },
+    ],
+  },
+
+  "systems-integration": {
+    slug: "systems-integration",
+    h1: "Shopify Systems Integration Agencies",
+    metaTitle: "Shopify Integration Agencies | ERP, CRM & Systems Connectors",
+    metaDescription:
+      "Find Shopify agencies specialising in systems integration. Connect Shopify with your ERP, CRM, PIM, warehouse, and accounting systems for seamless operations.",
+    intro:
+      "As your business grows, your Shopify store can't live in isolation. It needs to talk to your ERP, CRM, warehouse management, accounting software, and other business systems. These agencies specialise in building the integrations that keep data flowing accurately between Shopify and the rest of your tech stack.",
+    breadcrumbLabel: "Systems Integration",
+    filter: { specialization: "Systems Integration" },
+    faq: [
+      {
+        q: "What systems can Shopify integrate with?",
+        a: "Shopify integrates with virtually any system that has an API — including NetSuite, SAP, Salesforce, HubSpot, Microsoft Dynamics, Xero, QuickBooks, ShipStation, and hundreds more. Integration can be done via middleware (like Celigo or MuleSoft), custom apps, or direct API connections.",
+      },
+      {
+        q: "How much does a Shopify integration project cost?",
+        a: "A single system integration (e.g. Shopify to NetSuite) typically costs $5,000–$25,000 depending on complexity and data volume. Multi-system integration projects with real-time syncing, error handling, and monitoring can run $25,000–$75,000+.",
+      },
+      {
+        q: "Should I use middleware or a custom integration?",
+        a: "Middleware platforms (Celigo, Make, Workato) are faster and cheaper for standard integrations and are a good default choice. Custom integrations make sense when you have unique business logic, very high data volumes, or requirements that off-the-shelf connectors don't handle.",
+      },
+    ],
+  },
+
+  performance: {
+    slug: "performance",
+    h1: "Shopify Performance Optimisation Agencies",
+    metaTitle: "Shopify Performance Agencies | Speed & Core Web Vitals",
+    metaDescription:
+      "Find Shopify agencies specialising in site speed and performance optimisation. Improve Core Web Vitals, page load times, and conversion rates for your Shopify store.",
+    intro:
+      "A slow Shopify store costs you money — literally. Every extra second of load time drops your conversion rate. These agencies specialise in making Shopify stores faster: optimising images, cleaning up bloated theme code, fixing render-blocking resources, improving Core Web Vitals scores, and squeezing every millisecond out of your storefront.",
+    breadcrumbLabel: "Performance",
+    filter: { specialization: "Performance" },
+    faq: [
+      {
+        q: "How much does Shopify speed optimisation cost?",
+        a: "A performance audit with fixes typically costs $2,000–$8,000 as a one-off project. Some agencies offer ongoing performance retainers for $1,000–$3,000/month to keep your store fast as you add products, apps, and content over time.",
+      },
+      {
+        q: "Why is my Shopify store slow?",
+        a: "The most common culprits are: too many Shopify apps (each one adds JavaScript), unoptimised images, bloated theme code, third-party tracking scripts, and render-blocking CSS. A performance agency will audit your store and identify exactly what's slowing it down.",
+      },
+      {
+        q: "What's a good page speed score for a Shopify store?",
+        a: "Aim for a Lighthouse performance score of 60+ on mobile (80+ on desktop). Perfect 100 scores aren't realistic for ecommerce stores with dynamic content and third-party scripts. Focus on Core Web Vitals (LCP, INP, CLS) passing thresholds rather than chasing a perfect number.",
+      },
+    ],
+  },
 };
 
 export function getSegment(slug: string): SegmentConfig | null {
