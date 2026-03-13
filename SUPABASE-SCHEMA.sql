@@ -56,14 +56,17 @@ CREATE OR REPLACE TRIGGER agencies_updated_at
 -- 2. Leads table (contact / "Get Matched" form submissions)
 -- ---------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS leads (
-  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name        TEXT NOT NULL,
-  email       TEXT NOT NULL,
-  company     TEXT,
-  budget      TEXT,
-  message     TEXT NOT NULL,
-  agency_id   UUID REFERENCES agencies(id) ON DELETE SET NULL,
-  created_at  TIMESTAMPTZ DEFAULT NOW()
+  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name          TEXT NOT NULL,
+  email         TEXT NOT NULL,
+  company       TEXT,
+  budget        TEXT,
+  project_type  TEXT,
+  timeline      TEXT,
+  store_url     TEXT,
+  message       TEXT NOT NULL,
+  agency_id     UUID REFERENCES agencies(id) ON DELETE SET NULL,
+  created_at    TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE INDEX IF NOT EXISTS leads_agency_idx ON leads (agency_id);
@@ -164,20 +167,8 @@ CREATE POLICY "Public can read published posts"
   USING (status = 'published');
 
 -- ---------------------------------------------------------------------------
--- 7. Seed data — one example agency to test with
+-- 7. Seed data
 -- ---------------------------------------------------------------------------
-INSERT INTO agencies (
-  name, slug, description, long_description, location, country,
-  website, founded, team_size, budget_range,
-  specializations, tags, rating, review_count, featured, status
-) VALUES (
-  'Elite Shopify Partners',
-  'elite-shopify-partners',
-  'Award-winning Shopify agency specializing in high-growth DTC brands. We build conversion-focused stores that scale.',
-  E'Elite Shopify Partners has been building exceptional Shopify experiences since 2015.\nOur team of 45+ certified Shopify experts has helped over 300 brands launch and scale their ecommerce operations.\n\nWe specialize in complex Shopify Plus migrations, custom theme development, and conversion rate optimization.\nOur clients typically see a 40% increase in conversion rates within 90 days of launch.',
-  'New York, NY', 'US',
-  'https://example.com', 2015, '50-100', '$10,000 - $100,000+',
-  ARRAY['Shopify Plus', 'Theme Development', 'CRO', 'Migrations'],
-  ARRAY['shopify', 'dtc', 'ecommerce', 'plus'],
-  4.9, 47, TRUE, 'published'
-) ON CONFLICT (slug) DO NOTHING;
+-- Use scripts/seed-agencies.sql or scripts/scrape-shopify-partners-firecrawl.js
+-- to populate agencies. No test data is included in the schema to prevent
+-- fake listings from appearing in production.

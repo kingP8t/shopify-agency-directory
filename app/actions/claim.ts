@@ -127,7 +127,7 @@ export async function requestClaimAction(
     return { success: false, error: "Something went wrong. Please try again." };
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://shopifyagencydirectory.com";
   const verifyUrl = `${siteUrl}/agencies/${encodeURIComponent(slug)}/claim/verify?token=${token}&email=${encodeURIComponent(email)}`;
 
   try {
@@ -188,7 +188,7 @@ export async function requestReLoginAction(
     return { success: false, error: "Something went wrong. Please try again." };
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://shopifyagencydirectory.com";
   const verifyUrl = `${siteUrl}/agencies/${encodeURIComponent(slug)}/claim/verify?token=${token}&email=${encodeURIComponent(email)}`;
 
   try {
