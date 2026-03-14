@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { submitLeadAction } from "@/app/actions/leads";
+import { trackEvent } from "@/lib/analytics";
 
 const BUDGET_OPTIONS = [
   "Under $5,000",
@@ -43,6 +44,16 @@ export default function LeadForm({ agencyId, agencyName }: LeadFormProps) {
     submitLeadAction,
     initialState
   );
+  const tracked = useRef(false);
+
+  useEffect(() => {
+    if (state.success && !tracked.current) {
+      tracked.current = true;
+      trackEvent("lead_submit", {
+        ...(agencyName ? { agency_name: agencyName } : {}),
+      });
+    }
+  }, [state.success, agencyName]);
 
   if (state.success) {
     return (

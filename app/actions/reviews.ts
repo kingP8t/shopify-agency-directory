@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { logError } from "@/lib/logger";
 import { isRateLimited } from "@/lib/rate-limit";
+import { sendNewReviewEmail, sendReviewApprovedEmail } from "@/lib/email";
 
 export interface ReviewState {
   success: boolean;
@@ -32,6 +33,7 @@ export async function submitReviewAction(
 
   const agency_id = formData.get("agency_id")?.toString();
   const reviewer_name = formData.get("reviewer_name")?.toString().trim();
+  const reviewer_email = formData.get("reviewer_email")?.toString().trim() || null;
   const body = formData.get("body")?.toString().trim();
   const ratingRaw = formData.get("rating")?.toString();
   const rating = ratingRaw ? parseInt(ratingRaw, 10) : 0;
@@ -48,10 +50,16 @@ export async function submitReviewAction(
     return { success: false, error: "Review must be at least 20 characters." };
   }
 
+  // Validate email format if provided
+  if (reviewer_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(reviewer_email)) {
+    return { success: false, error: "Please enter a valid email address." };
+  }
+
   const { error } = await supabase.from("reviews").insert([
     {
       agency_id,
       reviewer_name,
+      reviewer_email,
       body,
       rating,
       approved: false, // Requires admin approval before showing
@@ -61,6 +69,23 @@ export async function submitReviewAction(
   if (error) {
     logError("review-insert", error);
     return { success: false, error: "Something went wrong. Please try again." };
+  }
+
+  // Notify admin of new review pending moderation (fire-and-forget)
+  const { data: agency } = await supabase
+    .from("agencies")
+    .select("name, slug")
+    .eq("id", agency_id)
+    .single();
+
+  if (agency) {
+    await sendNewReviewEmail({
+      agencyName: agency.name,
+      agencySlug: agency.slug,
+      reviewerName: reviewer_name,
+      rating,
+      body,
+    });
   }
 
   return { success: true };
@@ -108,7 +133,7 @@ export async function approveReviewAction(
 
   const { data: review } = await db
     .from("reviews")
-    .select("agency_id, agencies(slug)")
+    .select("agency_id, reviewer_name, reviewer_email, agencies(slug, name)")
     .eq("id", reviewId)
     .single();
 
@@ -123,11 +148,24 @@ export async function approveReviewAction(
 
   await recalcAgencyRating(review.agency_id);
 
-  const slug = extractAgencySlug(review.agencies);
+  const agencyData = review.agencies as { slug: string; name: string } | { slug: string; name: string }[] | null;
+  const slug = Array.isArray(agencyData) ? agencyData[0]?.slug : agencyData?.slug;
+  const agencyName = Array.isArray(agencyData) ? agencyData[0]?.name : agencyData?.name;
+
   revalidatePath("/admin");
   if (slug) {
     revalidatePath(`/agencies/${slug}`);
     revalidatePath("/agencies");
+  }
+
+  // Notify reviewer that their review has been approved (fire-and-forget)
+  if (review.reviewer_email && slug && agencyName) {
+    await sendReviewApprovedEmail({
+      to: review.reviewer_email,
+      reviewerName: review.reviewer_name,
+      agencyName,
+      agencySlug: slug,
+    });
   }
 
   return { success: true };

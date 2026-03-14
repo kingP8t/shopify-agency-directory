@@ -14,6 +14,9 @@ import Breadcrumbs from "@/app/components/Breadcrumbs";
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://shopifyagencydirectory.com";
 
+// Revalidate category pages every hour
+export const revalidate = 3600;
+
 const CATEGORY_COLORS: Record<string, string> = {
   "Hiring Guide":    "bg-green-100 text-green-700",
   "Platform Guide":  "bg-blue-100 text-blue-700",

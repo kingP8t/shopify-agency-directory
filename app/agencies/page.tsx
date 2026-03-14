@@ -5,6 +5,7 @@ import type { Agency } from "@/lib/supabase";
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
 import AgencyLogo from "@/app/components/AgencyLogo";
+import MobileFilterDrawer from "@/app/components/MobileFilterDrawer";
 import { generateAgencyListJsonLd, generateDirectoryMetadata } from "@/lib/seo";
 import { logError } from "@/lib/logger";
 
@@ -131,6 +132,108 @@ async function getCountries(): Promise<
       count,
     }))
     .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+}
+
+// ─── Shared filter fields (used in desktop sidebar + mobile drawer) ──────────
+function FilterFields({
+  params,
+  selectedSpecs,
+  selectedBudgets,
+  countries,
+}: {
+  params: { search?: string; country?: string; location?: string };
+  selectedSpecs: string[];
+  selectedBudgets: string[];
+  countries: Array<{ code: string; name: string; count: number }>;
+}) {
+  return (
+    <>
+      {/* Search */}
+      <div className="rounded-xl border bg-white p-5 shadow-sm">
+        <h2 className="font-semibold text-gray-900">Search</h2>
+        <input
+          type="text"
+          name="search"
+          defaultValue={params.search}
+          placeholder="Agency name, service..."
+          className="mt-3 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
+        />
+      </div>
+
+      {/* Specialization */}
+      <div className="mt-4 rounded-xl border bg-white p-5 shadow-sm">
+        <h2 className="font-semibold text-gray-900">Specialization</h2>
+        <div className="mt-3 space-y-2">
+          {SPECIALIZATIONS.map((spec) => (
+            <label
+              key={spec}
+              className="flex cursor-pointer items-center gap-2 text-sm text-gray-700"
+            >
+              <input
+                type="checkbox"
+                name="specialization"
+                value={spec}
+                defaultChecked={selectedSpecs.includes(spec)}
+                className="accent-green-600"
+              />
+              {spec}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Budget */}
+      <div className="mt-4 rounded-xl border bg-white p-5 shadow-sm">
+        <h2 className="font-semibold text-gray-900">Budget Range</h2>
+        <div className="mt-3 space-y-2">
+          {BUDGET_RANGES.map((budget) => (
+            <label
+              key={budget}
+              className="flex cursor-pointer items-center gap-2 text-sm text-gray-700"
+            >
+              <input
+                type="checkbox"
+                name="budget"
+                value={budget}
+                defaultChecked={selectedBudgets.includes(budget)}
+                className="accent-green-600"
+              />
+              {budget}
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Country */}
+      <div className="mt-4 rounded-xl border bg-white p-5 shadow-sm">
+        <h2 className="font-semibold text-gray-900">Country</h2>
+        <select
+          name="country"
+          defaultValue={params.country ?? ""}
+          className="mt-3 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-700 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
+        >
+          <option value="">All countries</option>
+          {countries.map(({ code, name, count }) => (
+            <option key={code} value={code}>
+              {name} ({count})
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* City */}
+      <div className="mt-4 rounded-xl border bg-white p-5 shadow-sm">
+        <h2 className="font-semibold text-gray-900">City</h2>
+        <input
+          type="text"
+          name="location"
+          defaultValue={params.location}
+          placeholder="e.g. London, New York..."
+          className="mt-3 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
+        />
+      </div>
+    </>
+  );
 }
 
 // ─── Fetch agencies with all filters ─────────────────────────────────────────
@@ -274,95 +377,42 @@ export default async function AgenciesPage({
         <SiteNav />
 
         <div className="mx-auto max-w-6xl px-6 py-8">
+          {/* Mobile filter drawer — visible only below lg breakpoint */}
+          <MobileFilterDrawer activeFilterCount={activeFilters.length}>
+            <form method="GET" action="/agencies">
+              <FilterFields
+                params={params}
+                selectedSpecs={selectedSpecs}
+                selectedBudgets={selectedBudgets}
+                countries={countries}
+              />
+              <button
+                type="submit"
+                className="mt-4 w-full rounded-lg bg-green-600 py-2.5 text-sm font-medium text-white hover:bg-green-700"
+              >
+                Apply Filters
+              </button>
+              {activeFilters.length > 0 && (
+                <Link
+                  href="/agencies"
+                  className="mt-2 block text-center text-sm text-gray-500 hover:text-gray-900"
+                >
+                  Clear all filters
+                </Link>
+              )}
+            </form>
+          </MobileFilterDrawer>
+
           <div className="flex flex-col gap-8 lg:flex-row">
-            {/* ── Sidebar filters ── */}
-            <aside className="w-full shrink-0 lg:w-64">
+            {/* ── Sidebar filters (desktop only) ── */}
+            <aside className="hidden w-64 shrink-0 lg:block">
               <form method="GET" action="/agencies">
-                {/* Search */}
-                <div className="rounded-xl border bg-white p-5 shadow-sm">
-                  <h2 className="font-semibold text-gray-900">Search</h2>
-                  <input
-                    type="text"
-                    name="search"
-                    defaultValue={params.search}
-                    placeholder="Agency name, service..."
-                    className="mt-3 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
-                  />
-                </div>
-
-                {/* Specialization filter — multi-select checkboxes */}
-                <div className="mt-4 rounded-xl border bg-white p-5 shadow-sm">
-                  <h2 className="font-semibold text-gray-900">Specialization</h2>
-                  <div className="mt-3 space-y-2">
-                    {SPECIALIZATIONS.map((spec) => (
-                      <label
-                        key={spec}
-                        className="flex cursor-pointer items-center gap-2 text-sm text-gray-700"
-                      >
-                        <input
-                          type="checkbox"
-                          name="specialization"
-                          value={spec}
-                          defaultChecked={selectedSpecs.includes(spec)}
-                          className="accent-green-600"
-                        />
-                        {spec}
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Budget filter — multi-select checkboxes */}
-                <div className="mt-4 rounded-xl border bg-white p-5 shadow-sm">
-                  <h2 className="font-semibold text-gray-900">Budget Range</h2>
-                  <div className="mt-3 space-y-2">
-                    {BUDGET_RANGES.map((budget) => (
-                      <label
-                        key={budget}
-                        className="flex cursor-pointer items-center gap-2 text-sm text-gray-700"
-                      >
-                        <input
-                          type="checkbox"
-                          name="budget"
-                          value={budget}
-                          defaultChecked={selectedBudgets.includes(budget)}
-                          className="accent-green-600"
-                        />
-                        {budget}
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Country filter */}
-                <div className="mt-4 rounded-xl border bg-white p-5 shadow-sm">
-                  <h2 className="font-semibold text-gray-900">Country</h2>
-                  <select
-                    name="country"
-                    defaultValue={params.country ?? ""}
-                    className="mt-3 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-700 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
-                  >
-                    <option value="">All countries</option>
-                    {countries.map(({ code, name, count }) => (
-                      <option key={code} value={code}>
-                        {name} ({count})
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Location text filter */}
-                <div className="mt-4 rounded-xl border bg-white p-5 shadow-sm">
-                  <h2 className="font-semibold text-gray-900">City</h2>
-                  <input
-                    type="text"
-                    name="location"
-                    defaultValue={params.location}
-                    placeholder="e.g. London, New York..."
-                    className="mt-3 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
-                  />
-                </div>
-
+                <FilterFields
+                  params={params}
+                  selectedSpecs={selectedSpecs}
+                  selectedBudgets={selectedBudgets}
+                  countries={countries}
+                />
                 <button
                   type="submit"
                   className="mt-4 w-full rounded-lg bg-green-600 py-2.5 text-sm font-medium text-white hover:bg-green-700"

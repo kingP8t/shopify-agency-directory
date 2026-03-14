@@ -8,6 +8,9 @@ import Breadcrumbs from "@/app/components/Breadcrumbs";
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://shopifyagencydirectory.com";
 
+// Revalidate individual blog posts every hour
+export const revalidate = 3600;
+
 // ---------------------------------------------------------------------------
 // Static generation
 // ---------------------------------------------------------------------------

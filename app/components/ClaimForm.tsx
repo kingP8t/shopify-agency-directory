@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { requestClaimAction, type ClaimState } from "@/app/actions/claim";
+import { trackEvent } from "@/lib/analytics";
 
 interface ClaimFormProps {
   slug: string;
@@ -15,6 +16,14 @@ export default function ClaimForm({ slug, agencyName }: ClaimFormProps) {
     requestClaimAction,
     initialState
   );
+  const tracked = useRef(false);
+
+  useEffect(() => {
+    if (state.success && !tracked.current) {
+      tracked.current = true;
+      trackEvent("claim_request", { agency_slug: slug });
+    }
+  }, [state.success, slug]);
 
   if (state.success) {
     return (

@@ -9,6 +9,9 @@ const SITE_URL =
 
 const POSTS_PER_PAGE = 12;
 
+// Revalidate blog listing every hour — new posts are published weekly
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "Shopify Blog — Guides, Tips & Agency Advice",
   description:

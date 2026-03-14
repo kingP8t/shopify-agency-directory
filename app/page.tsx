@@ -7,6 +7,9 @@ import SiteNav from "@/app/components/SiteNav";
 import { generateWebSiteJsonLd, generateOrganizationJsonLd } from "@/lib/seo";
 import { getAllPosts } from "@/lib/blog";
 
+// Revalidate homepage every hour — featured agencies + blog posts change infrequently
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "Shopify Agency Directory | Find Top Shopify Experts",
   description:

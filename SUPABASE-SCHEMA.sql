@@ -79,6 +79,7 @@ CREATE TABLE IF NOT EXISTS reviews (
   id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   agency_id         UUID NOT NULL REFERENCES agencies(id) ON DELETE CASCADE,
   reviewer_name     TEXT NOT NULL,
+  reviewer_email    TEXT,
   company           TEXT,
   rating            INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
   title             TEXT,

@@ -198,6 +198,88 @@ export async function sendLeadToOwnerEmail(params: {
   }).catch(silentCatch); // Fire-and-forget — never block the user response
 }
 
+// ─── Notify admin of a new review pending moderation ─────────────────────────
+export async function sendNewReviewEmail(review: {
+  agencyName: string;
+  agencySlug: string;
+  reviewerName: string;
+  rating: number;
+  body: string;
+}) {
+  const client = getResend();
+  if (!client || !ADMIN_EMAIL) return;
+
+  const stars = "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
+
+  await client.emails.send({
+    from: FROM_ADDRESS,
+    to: ADMIN_EMAIL,
+    subject: `New review pending: ${review.agencyName} — ${review.rating}★ by ${review.reviewerName}`,
+    html: `
+      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #16a34a;">New Review Pending Approval ⭐</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr><td style="padding: 8px 0; font-weight: bold; width: 120px;">Agency</td><td>${esc(review.agencyName)}</td></tr>
+          <tr><td style="padding: 8px 0; font-weight: bold;">Reviewer</td><td>${esc(review.reviewerName)}</td></tr>
+          <tr><td style="padding: 8px 0; font-weight: bold;">Rating</td><td>${stars} (${review.rating}/5)</td></tr>
+        </table>
+        <div style="margin-top: 16px; padding: 16px; background: #f9fafb; border-radius: 8px;">
+          <p style="margin: 0; font-weight: bold;">Review:</p>
+          <p style="margin: 8px 0 0; white-space: pre-wrap;">${esc(review.body)}</p>
+        </div>
+        <p style="margin-top: 24px;">
+          <a href="${SITE_URL}/admin"
+             style="background: #16a34a; color: white; padding: 10px 20px;
+                    border-radius: 6px; text-decoration: none; font-weight: bold;">
+            Review in Admin →
+          </a>
+        </p>
+        <p style="margin-top: 24px; color: #6b7280; font-size: 14px;">
+          Sent from ${SITE_NAME}
+        </p>
+      </div>
+    `,
+  }).catch(silentCatch);
+}
+
+// ─── Notify reviewer when their review is approved ───────────────────────────
+export async function sendReviewApprovedEmail(params: {
+  to: string;
+  reviewerName: string;
+  agencyName: string;
+  agencySlug: string;
+}) {
+  const client = getResend();
+  if (!client) return;
+
+  const profileUrl = `${SITE_URL}/agencies/${params.agencySlug}`;
+
+  await client.emails.send({
+    from: FROM_ADDRESS,
+    to: params.to,
+    subject: `Your review of ${params.agencyName} is now live!`,
+    html: `
+      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #16a34a;">Your Review Is Live! ✅</h2>
+        <p>Hi ${esc(params.reviewerName)},</p>
+        <p>Thanks for reviewing <strong>${esc(params.agencyName)}</strong> on the ${SITE_NAME}.
+           Your review has been approved and is now visible on their profile.</p>
+        <p style="margin-top: 24px;">
+          <a href="${profileUrl}"
+             style="background: #16a34a; color: white; padding: 12px 24px;
+                    border-radius: 6px; text-decoration: none; font-weight: bold;
+                    display: inline-block;">
+            View Your Review →
+          </a>
+        </p>
+        <p style="margin-top: 24px; color: #6b7280; font-size: 14px;">
+          Sent from ${SITE_NAME}
+        </p>
+      </div>
+    `,
+  }).catch(silentCatch);
+}
+
 // ─── Notify admin of a new agency self-submission ─────────────────────────────
 export async function sendNewAgencySubmissionEmail(agency: {
   name: string;

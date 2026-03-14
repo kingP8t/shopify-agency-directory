@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { submitReviewAction } from "@/app/actions/reviews";
+import { trackEvent } from "@/lib/analytics";
 
 interface ReviewFormProps {
   agencyId: string;
@@ -14,6 +15,17 @@ export default function ReviewForm({ agencyId, agencyName }: ReviewFormProps) {
   const [state, formAction, isPending] = useActionState(submitReviewAction, initialState);
   const [hovered, setHovered] = useState(0);
   const [selected, setSelected] = useState(0);
+  const tracked = useRef(false);
+
+  useEffect(() => {
+    if (state.success && !tracked.current) {
+      tracked.current = true;
+      trackEvent("review_submit", {
+        agency_name: agencyName,
+        rating: selected,
+      });
+    }
+  }, [state.success, agencyName, selected]);
 
   if (state.success) {
     return (
@@ -61,19 +73,34 @@ export default function ReviewForm({ agencyId, agencyName }: ReviewFormProps) {
         )}
       </div>
 
-      {/* Reviewer name */}
-      <div>
-        <label htmlFor="reviewer_name" className="block text-sm font-medium text-gray-700">
-          Your Name <span className="text-red-500">*</span>
-        </label>
-        <input
-          id="reviewer_name"
-          name="reviewer_name"
-          type="text"
-          required
-          placeholder="Jane Smith"
-          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
-        />
+      {/* Reviewer name + email */}
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label htmlFor="reviewer_name" className="block text-sm font-medium text-gray-700">
+            Your Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            id="reviewer_name"
+            name="reviewer_name"
+            type="text"
+            required
+            placeholder="Jane Smith"
+            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
+          />
+        </div>
+        <div>
+          <label htmlFor="reviewer_email" className="block text-sm font-medium text-gray-700">
+            Email
+            <span className="ml-1 text-xs font-normal text-gray-400">(optional — we&apos;ll notify you when published)</span>
+          </label>
+          <input
+            id="reviewer_email"
+            name="reviewer_email"
+            type="email"
+            placeholder="jane@company.com"
+            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
+          />
+        </div>
       </div>
 
       {/* Review body */}
