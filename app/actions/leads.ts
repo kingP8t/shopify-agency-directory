@@ -51,8 +51,8 @@ export async function submitLeadAction(
   const message = formData.get("message")?.toString().trim();
   const agency_id = formData.get("agency_id")?.toString() || null;
 
-  if (!name || !email || !message) {
-    return { success: false, error: "Name, email, and project description are required." };
+  if (!name || !email || !company || !project_type || !budget || !timeline || !message) {
+    return { success: false, error: "Please fill in all required fields." };
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -85,7 +85,7 @@ export async function submitLeadAction(
   }
 
   // Notify admin (fire-and-forget)
-  await sendNewLeadEmail({ name, email, company, budget, message, agencyName });
+  await sendNewLeadEmail({ name, email, company, budget, project_type, timeline, store_url, message, agencyName });
 
   // Notify the agency owner directly if their listing is claimed (fire-and-forget)
   if (agencyClaimedEmail && agencyName && agencySlug) {

@@ -36,6 +36,9 @@ export async function sendNewLeadEmail(lead: {
   email: string;
   company: string | null;
   budget: string | null;
+  project_type: string | null;
+  timeline: string | null;
+  store_url: string | null;
   message: string;
   agencyName?: string;
 }) {
@@ -53,7 +56,10 @@ export async function sendNewLeadEmail(lead: {
           <tr><td style="padding: 8px 0; font-weight: bold; width: 120px;">Name</td><td>${esc(lead.name)}</td></tr>
           <tr><td style="padding: 8px 0; font-weight: bold;">Email</td><td><a href="mailto:${esc(lead.email)}">${esc(lead.email)}</a></td></tr>
           ${lead.company ? `<tr><td style="padding: 8px 0; font-weight: bold;">Company</td><td>${esc(lead.company)}</td></tr>` : ""}
+          ${lead.project_type ? `<tr><td style="padding: 8px 0; font-weight: bold;">Project Type</td><td>${esc(lead.project_type)}</td></tr>` : ""}
           ${lead.budget ? `<tr><td style="padding: 8px 0; font-weight: bold;">Budget</td><td>${esc(lead.budget)}</td></tr>` : ""}
+          ${lead.timeline ? `<tr><td style="padding: 8px 0; font-weight: bold;">Timeline</td><td>${esc(lead.timeline)}</td></tr>` : ""}
+          ${lead.store_url ? `<tr><td style="padding: 8px 0; font-weight: bold;">Store URL</td><td><a href="${esc(lead.store_url)}">${esc(lead.store_url)}</a></td></tr>` : ""}
           ${lead.agencyName ? `<tr><td style="padding: 8px 0; font-weight: bold;">Agency</td><td>${esc(lead.agencyName)}</td></tr>` : ""}
         </table>
         <div style="margin-top: 16px; padding: 16px; background: #f9fafb; border-radius: 8px;">

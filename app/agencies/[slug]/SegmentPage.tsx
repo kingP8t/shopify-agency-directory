@@ -229,7 +229,6 @@ export default async function SegmentPage({
           {/* Industry content: Why Shopify, Tips, Related Posts */}
           {segment.industryContent && (
             <div className="mt-12 space-y-10">
-              {/* Why Shopify */}
               <section>
                 <h2 className="text-xl font-bold text-gray-900">
                   Why Shopify for {segment.breadcrumbLabel}?
@@ -239,26 +238,19 @@ export default async function SegmentPage({
                 </p>
               </section>
 
-              {/* Tips */}
               {segment.industryContent.tips.length > 0 && (
                 <section>
                   <h2 className="text-xl font-bold text-gray-900">
                     Tips for {segment.breadcrumbLabel} on Shopify
                   </h2>
-                  <ol className="mt-4 space-y-3">
+                  <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-gray-600">
                     {segment.industryContent.tips.map((tip, i) => (
-                      <li key={i} className="flex gap-3 text-sm leading-relaxed text-gray-600">
-                        <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-100 text-xs font-semibold text-green-700">
-                          {i + 1}
-                        </span>
-                        <span>{tip}</span>
-                      </li>
+                      <li key={i}>{tip}</li>
                     ))}
                   </ol>
                 </section>
               )}
 
-              {/* Related blog posts */}
               {segment.industryContent.relatedPosts &&
                 segment.industryContent.relatedPosts.length > 0 && (
                   <section>
@@ -299,24 +291,21 @@ export default async function SegmentPage({
 
           {/* FAQ */}
           {segment.faq && segment.faq.length > 0 && (
-            <div className="mt-12">
+            <section className="mt-12">
               <h2 className="text-xl font-bold text-gray-900">
                 Frequently Asked Questions
               </h2>
-              <div className="mt-6 space-y-4">
+              <dl className="mt-6 space-y-4">
                 {segment.faq.map((item, i) => (
-                  <div
-                    key={i}
-                    className="rounded-xl border bg-white p-6 shadow-sm"
-                  >
-                    <h3 className="font-semibold text-gray-900">{item.q}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                  <div key={i} className="border-b border-gray-200 pb-4 last:border-0">
+                    <dt className="font-semibold text-gray-900">{item.q}</dt>
+                    <dd className="mt-2 text-sm leading-relaxed text-gray-600">
                       {item.a}
-                    </p>
+                    </dd>
                   </div>
                 ))}
-              </div>
-            </div>
+              </dl>
+            </section>
           )}
 
           {/* Related segment pages — cross-links for internal linking */}

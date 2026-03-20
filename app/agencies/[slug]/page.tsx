@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { generateAgencyMetadata, generateAgencyJsonLd } from "@/lib/seo";
 import { supabase } from "@/lib/supabase";
 import type { Agency } from "@/lib/supabase";
@@ -125,6 +126,27 @@ async function getApprovedReviews(agencyId: string): Promise<Review[]> {
   return (data as Review[]) ?? [];
 }
 
+async function getSimilarAgencies(
+  agency: Agency,
+  limit = 4
+): Promise<Agency[]> {
+  let query = supabase
+    .from("agencies")
+    .select("*")
+    .eq("status", "published")
+    .neq("slug", agency.slug)
+    .order("rating", { ascending: false })
+    .limit(limit);
+
+  // Match by overlapping specializations if available
+  if (agency.specializations && agency.specializations.length > 0) {
+    query = query.overlaps("specializations", agency.specializations);
+  }
+
+  const { data } = await query;
+  return (data as Agency[]) ?? [];
+}
+
 async function getAllSlugs(): Promise<string[]> {
   const { data } = await supabase
     .from("agencies")
@@ -197,7 +219,10 @@ export default async function AgencyPage({
   const agency = await getAgency(slug);
   if (!agency) notFound();
 
-  const reviews = await getApprovedReviews(agency.id);
+  const [reviews, similarAgencies] = await Promise.all([
+    getApprovedReviews(agency.id),
+    getSimilarAgencies(agency),
+  ]);
 
   const jsonLd = generateAgencyJsonLd({
     name: agency.name,
@@ -343,78 +368,49 @@ export default async function AgencyPage({
             )}
           </div>
 
-          {/* Stats grid */}
+          {/* Stats */}
           {(agency.founded || agency.team_size || agency.budget_range) && (
-            <div className="mt-5 grid gap-4 sm:grid-cols-3">
+            <dl className="mt-5 grid gap-4 sm:grid-cols-3">
               {agency.founded && (
-                <div className="flex items-center gap-4 rounded-xl border bg-white p-5 shadow-sm">
-                  <span className="text-2xl">📅</span>
-                  <div>
-                    <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
-                      Founded
-                    </p>
-                    <p className="mt-0.5 text-lg font-semibold text-gray-900">
-                      {agency.founded}
-                    </p>
-                  </div>
+                <div className="rounded-xl border bg-white p-5 shadow-sm">
+                  <dt className="text-xs font-medium uppercase tracking-wide text-gray-500">Founded</dt>
+                  <dd className="mt-1 text-lg font-semibold text-gray-900">{agency.founded}</dd>
                 </div>
               )}
               {agency.team_size && (
-                <div className="flex items-center gap-4 rounded-xl border bg-white p-5 shadow-sm">
-                  <span className="text-2xl">👥</span>
-                  <div>
-                    <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
-                      Team Size
-                    </p>
-                    <p className="mt-0.5 text-lg font-semibold text-gray-900">
-                      {agency.team_size}
-                    </p>
-                  </div>
+                <div className="rounded-xl border bg-white p-5 shadow-sm">
+                  <dt className="text-xs font-medium uppercase tracking-wide text-gray-500">Team Size</dt>
+                  <dd className="mt-1 text-lg font-semibold text-gray-900">{agency.team_size}</dd>
                 </div>
               )}
               {agency.budget_range && (
-                <div className="flex items-center gap-4 rounded-xl border bg-white p-5 shadow-sm">
-                  <span className="text-2xl">💰</span>
-                  <div>
-                    <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
-                      Project Budget
-                    </p>
-                    <p className="mt-0.5 text-lg font-semibold text-gray-900">
-                      {agency.budget_range}
-                    </p>
-                  </div>
+                <div className="rounded-xl border bg-white p-5 shadow-sm">
+                  <dt className="text-xs font-medium uppercase tracking-wide text-gray-500">Project Budget</dt>
+                  <dd className="mt-1 text-lg font-semibold text-gray-900">{agency.budget_range}</dd>
                 </div>
               )}
-            </div>
+            </dl>
           )}
 
-          {/* Services grid */}
+          {/* Services */}
           {agency.specializations && agency.specializations.length > 0 && (
-            <div className="mt-5 rounded-2xl border bg-white p-8 shadow-sm">
+            <section className="mt-5 rounded-2xl border bg-white p-8 shadow-sm">
               <h2 className="text-lg font-semibold text-gray-900">Services</h2>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <dl className="mt-4 grid gap-3 sm:grid-cols-2">
                 {agency.specializations.map((spec) => {
                   const meta = SPEC_META[spec];
                   return (
-                    <div
-                      key={spec}
-                      className="flex gap-3 rounded-xl border border-gray-100 bg-gray-50 p-4"
-                    >
-                      <span className="mt-0.5 text-xl leading-none">
-                        {meta?.icon ?? "⚡"}
-                      </span>
-                      <div>
-                        <p className="text-sm font-semibold text-gray-900">
-                          {spec}
-                        </p>
-                        <p className="mt-0.5 text-xs leading-relaxed text-gray-500">
-                          {meta?.description ?? spec}
-                        </p>
-                      </div>
+                    <div key={spec} className="rounded-xl border border-gray-100 bg-gray-50 p-4">
+                      <dt className="text-sm font-semibold text-gray-900">
+                        {meta?.icon ?? "⚡"} {spec}
+                      </dt>
+                      <dd className="mt-0.5 text-xs leading-relaxed text-gray-500">
+                        {meta?.description ?? spec}
+                      </dd>
                     </div>
                   );
                 })}
-              </div>
+              </dl>
 
               {/* Best for tags */}
               {(() => {
@@ -440,7 +436,7 @@ export default async function AgencyPage({
                   </div>
                 ) : null;
               })()}
-            </div>
+            </section>
           )}
 
           {/* About / long description */}
@@ -533,6 +529,33 @@ export default async function AgencyPage({
               <ReviewForm agencyId={agency.id} agencyName={agency.name} />
             </div>
           </div>
+
+          {/* Similar Agencies */}
+          {similarAgencies.length > 0 && (
+            <section className="mt-5 rounded-2xl border bg-white p-8 shadow-sm">
+              <h2 className="text-lg font-semibold text-gray-900">Similar Agencies</h2>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                {similarAgencies.map((sim) => (
+                  <Link
+                    key={sim.slug}
+                    href={`/agencies/${sim.slug}`}
+                    className="flex items-center gap-3 rounded-xl border p-4 transition-colors hover:border-green-300"
+                  >
+                    <AgencyLogo name={sim.name} website={sim.website} size="sm" />
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold text-gray-900">{sim.name}</p>
+                      {sim.location && (
+                        <p className="truncate text-xs text-gray-500">{sim.location}</p>
+                      )}
+                      {sim.rating && (
+                        <p className="text-xs text-gray-500">⭐ {sim.rating}/5</p>
+                      )}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Contact / Lead form */}
           <div className="mt-5 overflow-hidden rounded-2xl border bg-white shadow-sm">

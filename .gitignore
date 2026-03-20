@@ -47,3 +47,5 @@ scripts/scrape-checkpoint.json
 scripts/outreach-list.csv
 scripts/debug-page1.html
 
+
+.vercel

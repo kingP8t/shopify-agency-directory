@@ -55,7 +55,7 @@ export function generateAgencyMetadata(agency: {
 
 export function generateDirectoryMetadata(
   page = 1,
-  filters?: { specialization?: string; location?: string }
+  filters?: { specialization?: string; location?: string; hasAnyFilter?: boolean }
 ): Metadata {
   let title = "Find Shopify Agencies & Experts";
   let description =
@@ -71,10 +71,13 @@ export function generateDirectoryMetadata(
     description = `Find top Shopify agencies in ${filters.location}. Browse local Shopify experts and compare their services.`;
   }
 
+  // noindex filtered / paginated views — segment pages are the canonical versions
+  const shouldNoIndex = page > 1 || !!filters?.hasAnyFilter;
+
   return {
     title,
     description,
-    ...(page > 1 && { robots: { index: false, follow: true } }),
+    ...(shouldNoIndex && { robots: { index: false, follow: true } }),
     alternates: { canonical: `${BASE_URL}/agencies` },
   };
 }
@@ -105,17 +108,19 @@ export function generateAgencyJsonLd(agency: {
     created_at: string;
   }>;
 }) {
+  // ProfessionalService requires address; fall back to Organization when missing
+  const hasAddress = !!(agency.location || agency.country);
   const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
+    "@type": hasAddress ? "ProfessionalService" : "Organization",
     "@id": `${BASE_URL}/agencies/${agency.slug}`,
     name: agency.name,
     description: agency.description,
     url: agency.website || `${BASE_URL}/agencies/${agency.slug}`,
-    ...(agency.location && {
+    ...(hasAddress && {
       address: {
         "@type": "PostalAddress",
-        addressLocality: agency.location,
+        ...(agency.location && { addressLocality: agency.location }),
         ...(agency.country && { addressCountry: agency.country }),
       },
     }),

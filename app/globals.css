@@ -1,5 +1,47 @@
 @import "tailwindcss";
 
+/* Fix #2: Place form-control rules inside @layer base so they participate
+   correctly in the Tailwind v4 layer cascade.  Unlayered !important rules
+   have LOWER priority than layered !important rules per the CSS spec — so
+   we must be inside the same layer system, not outside it. */
+@layer base {
+  html,
+  :root {
+    color-scheme: light only;
+  }
+
+  /* Keep light-mode even when OS is in dark mode */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: light only;
+    }
+  }
+
+  /* Single source of truth for form control colours.
+     Declared inside @layer base so !important behaves predictably. */
+  input,
+  select,
+  textarea {
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
+    background-color: #ffffff !important;
+    color-scheme: light !important;
+    forced-color-adjust: none !important;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #6b7280 !important;
+    -webkit-text-fill-color: #6b7280 !important;
+    opacity: 1 !important;
+  }
+
+  select option {
+    color: #111827 !important;
+    background-color: #ffffff !important;
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -10,13 +52,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {

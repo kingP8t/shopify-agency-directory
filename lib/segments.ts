@@ -120,6 +120,21 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
         a: "Look for Shopify Partner or Plus Partner status, a portfolio relevant to your industry, transparent pricing, and reviews from clients with comparable project scopes.",
       },
     ],
+    industryContent: {
+      whyShopify:
+        "London's ecommerce market is one of the most competitive in Europe, and Shopify dominates because it scales from first-sale startups to enterprise brands doing eight figures a year. London agencies understand the UK market's unique requirements: VAT-inclusive pricing, Royal Mail and DPD shipping integrations, Strong Customer Authentication (SCA) for payments, and multi-currency selling for European and international customers. Many London agencies also specialise in Shopify Plus for high-growth DTC brands in fashion, beauty, and food — industries where London is a global hub. The city's agency ecosystem benefits from proximity to major brands, venture-funded startups, and a deep talent pool in design, development, and ecommerce strategy.",
+      tips: [
+        "Check whether the agency has Shopify Partner or Shopify Plus Partner status — this indicates verified expertise and access to priority Shopify support",
+        "Ask for case studies from brands in your sector — a fashion agency and a B2B agency require very different skill sets even on the same platform",
+        "Clarify whether quotes are in GBP and inclusive of VAT, and whether ongoing maintenance and hosting support are included or billed separately",
+        "Request a clear project timeline with milestones — London agencies often juggle multiple clients, so nailing down delivery dates upfront avoids delays",
+        "Evaluate their post-launch support offering — CRO, SEO, and ongoing development retainers are where the long-term value of an agency relationship lives",
+      ],
+      relatedPosts: [
+        { title: "How to Choose a Shopify Agency", slug: "how-to-choose-a-shopify-agency" },
+        { title: "How Much Does a Shopify Website Cost?", slug: "how-much-does-a-shopify-website-cost" },
+      ],
+    },
   },
 
   "shopify-plus": {
@@ -328,6 +343,21 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
         a: "Simple WooCommerce migrations can complete in 4–8 weeks. Magento enterprise migrations typically take 3–9 months depending on custom functionality, integration complexity, and data volume.",
       },
     ],
+    industryContent: {
+      whyShopify:
+        "Shopify has become the most popular migration destination for merchants leaving WooCommerce, Magento, and BigCommerce because it eliminates hosting headaches, reduces security maintenance, and provides a stable, regularly updated platform. Unlike self-hosted solutions, Shopify handles server infrastructure, PCI compliance, and automatic security patches — freeing teams to focus on selling rather than sysadmin. For merchants outgrowing their current platform, Shopify Plus offers enterprise features like checkout extensibility, Shopify Functions for custom pricing logic, and B2B selling — without the complexity and total cost of ownership associated with Magento or Salesforce Commerce Cloud. The platform's app ecosystem also means that most custom functionality from legacy platforms can be replicated through existing integrations rather than expensive custom development.",
+      tips: [
+        "Map every URL from your old site before starting — 301 redirects are the single most important factor in preserving SEO rankings through a migration",
+        "Export and audit your product data thoroughly — clean up descriptions, images, and metadata before importing rather than migrating messy data and fixing it later",
+        "Run both platforms in parallel during the transition period so you can verify order processing, inventory sync, and customer account migration before cutting over",
+        "Migrate customer accounts and order history — losing purchase history damages customer trust and breaks loyalty and re-order flows",
+        "Plan your migration around a low-traffic period and avoid peak sales seasons — never migrate within 6 weeks of Black Friday or a major product launch",
+      ],
+      relatedPosts: [
+        { title: "How to Choose a Shopify Agency", slug: "how-to-choose-a-shopify-agency" },
+        { title: "Shopify vs WooCommerce: Full Comparison", slug: "shopify-vs-woocommerce" },
+      ],
+    },
   },
 
   "under-25k": {
@@ -406,6 +436,21 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
         a: "Yes — most Canadian agencies are deeply familiar with US market requirements including USD pricing, US tax configurations, US shipping carriers, and cross-border logistics.",
       },
     ],
+    industryContent: {
+      whyShopify:
+        "Canada has a unique advantage in the Shopify ecosystem — the platform was founded in Ottawa and its headquarters remain there, which means Canadian agencies often have early access to new features, close relationships with Shopify's partner team, and deep institutional knowledge of the platform. Canadian agencies are particularly strong in cross-border ecommerce, helping brands sell into both the US and Canadian markets with proper multi-currency support, bilingual French/English storefronts for Quebec compliance, Canadian tax configuration (GST/HST/PST), and integration with Canadian shipping carriers like Canada Post, Purolator, and Canpar. The country's agency ecosystem spans from enterprise Shopify Plus partners in Toronto and Montreal to agile boutique studios in Vancouver and smaller cities, with competitive rates compared to US and UK counterparts.",
+      tips: [
+        "If you sell in Quebec, ensure your agency builds bilingual French/English support — Quebec's Bill 96 requires French as the default language for commercial communications",
+        "Verify the agency understands Canadian tax requirements including provincial tax variations (GST, HST, PST, QST) which differ significantly from US sales tax",
+        "Ask about cross-border experience if you plan to sell into the US — duties, customs declarations, and USMCA compliance add complexity that not all agencies handle well",
+        "Check whether they integrate with Canadian payment processors and shipping carriers — Shopify Payments works well in Canada but some businesses need Moneris, Beanstream, or specific carrier integrations",
+        "Consider timezone alignment — Canadian agencies in Toronto (ET) and Vancouver (PT) cover the full North American business day, which is valuable for US-based brands",
+      ],
+      relatedPosts: [
+        { title: "How to Choose a Shopify Agency", slug: "how-to-choose-a-shopify-agency" },
+        { title: "How Much Does a Shopify Website Cost?", slug: "how-much-does-a-shopify-website-cost" },
+      ],
+    },
   },
 
   "ecommerce-seo": {

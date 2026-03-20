@@ -18,9 +18,11 @@ export async function generateMetadata({
   const page = Number(params.page) || 1;
   const specialization = typeof params.specialization === "string" ? params.specialization : undefined;
   const country = typeof params.country === "string" ? params.country : undefined;
+  const hasAnyFilter = !!(specialization || country || params.budget || params.location || params.search);
   return generateDirectoryMetadata(page, {
     specialization,
     location: country,
+    hasAnyFilter,
   });
 }
 

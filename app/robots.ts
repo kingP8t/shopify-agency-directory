@@ -21,7 +21,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin/", "/api/", "/_next/"],
+        disallow: ["/admin/", "/api/"],
       },
       // Explicitly welcome AI crawlers for GEO / AEO visibility
       { userAgent: "GPTBot", allow: "/" },
