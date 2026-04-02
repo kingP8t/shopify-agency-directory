@@ -65,6 +65,10 @@ export default function SiteFooter() {
                 The independent directory for finding and comparing verified
                 Shopify agencies worldwide.
               </p>
+              <address className="mt-4 text-sm font-semibold not-italic leading-relaxed text-gray-700">
+                140 West Franklin St, Ste 203<br />
+                Monterey, CA 93940, USA
+              </address>
             </div>
 
             {/* Link columns */}

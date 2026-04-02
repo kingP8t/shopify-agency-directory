@@ -10,12 +10,17 @@ import { getAllPosts } from "@/lib/blog";
 // Revalidate homepage every hour — featured agencies + blog posts change infrequently
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
-  title: "Shopify Agency Directory | Find Top Shopify Experts",
-  description:
-    "Find and compare the best Shopify agencies. Browse verified Shopify partners by specialization, budget, and location.",
-  alternates: { canonical: "/" },
-};
+export function generateMetadata(): Metadata {
+  const year = new Date().getFullYear();
+  return {
+    title: {
+      absolute: `Shopify Agency Directory — Find & Compare Top Shopify Experts (${year})`,
+    },
+    description:
+      "Find and compare the best Shopify agencies. Browse verified Shopify partners by specialization, budget, and location.",
+    alternates: { canonical: "/" },
+  };
+}
 
 
 async function getFeaturedAgencies(): Promise<Agency[]> {
@@ -92,6 +97,49 @@ export default async function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "How do I find the right Shopify agency for my project?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Use the Shopify Agency Directory to filter agencies by specialization, budget, and location. You can also submit a free matching request and receive 3 curated agency recommendations within 24 hours.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "How much does it cost to hire a Shopify agency?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Shopify agency costs vary widely. Simple store builds start from $2,000-$5,000, mid-range projects run $5,000-$25,000, and enterprise Shopify Plus builds can exceed $100,000. Use the directory to filter agencies by your budget range.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "What is the difference between a Shopify Partner and a Shopify Plus Partner?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Shopify Partners work with standard Shopify stores, while Shopify Plus Partners are certified to handle enterprise-level projects on Shopify Plus, including custom checkout flows, B2B features, and multi-store management.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Is the Shopify Agency Directory free to use?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Yes. Browsing the directory, filtering agencies, and submitting a matching request are completely free. There is no obligation to hire any agency you are matched with.",
+                },
+              },
+            ],
+          }),
+        }}
       />
     <div className="min-h-screen bg-gray-50">
       <SiteNav />

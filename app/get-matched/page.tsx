@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import LeadForm from "@/app/components/LeadForm";
+import { generateServiceJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Get Matched with a Shopify Agency",
@@ -10,8 +11,17 @@ export const metadata: Metadata = {
 };
 
 export default function GetMatchedPage() {
+  // Static, trusted data from lib/seo.ts — no user input, safe for JSON-LD
+  const serviceSchema = generateServiceJsonLd();
+
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Service JSON-LD structured data — static trusted content only */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+
       {/* Nav */}
       <nav className="border-b bg-white px-6 py-4">
         <div className="mx-auto flex max-w-6xl items-center justify-between">

@@ -7,6 +7,7 @@ import Breadcrumbs from "@/app/components/Breadcrumbs";
 import AgencyLogo from "@/app/components/AgencyLogo";
 import MobileFilterDrawer from "@/app/components/MobileFilterDrawer";
 import { generateAgencyListJsonLd, generateDirectoryMetadata } from "@/lib/seo";
+import { COUNTRY_NAMES } from "@/lib/countries";
 import { logError } from "@/lib/logger";
 
 export async function generateMetadata({
@@ -44,65 +45,7 @@ const BUDGET_RANGES = [
   "$100,000+",
 ];
 
-// ISO 3166-1 alpha-2 → display name for all countries in our DB
-const COUNTRY_NAMES: Record<string, string> = {
-  AE: "United Arab Emirates",
-  AR: "Argentina",
-  AT: "Austria",
-  AU: "Australia",
-  BD: "Bangladesh",
-  BE: "Belgium",
-  BG: "Bulgaria",
-  BR: "Brazil",
-  CA: "Canada",
-  CH: "Switzerland",
-  CL: "Chile",
-  CO: "Colombia",
-  CZ: "Czech Republic",
-  DE: "Germany",
-  DK: "Denmark",
-  EG: "Egypt",
-  ES: "Spain",
-  FI: "Finland",
-  FR: "France",
-  GB: "United Kingdom",
-  GH: "Ghana",
-  GR: "Greece",
-  HK: "Hong Kong",
-  HR: "Croatia",
-  HU: "Hungary",
-  ID: "Indonesia",
-  IE: "Ireland",
-  IL: "Israel",
-  IN: "India",
-  IT: "Italy",
-  JP: "Japan",
-  KE: "Kenya",
-  KR: "South Korea",
-  LT: "Lithuania",
-  LV: "Latvia",
-  MX: "Mexico",
-  MY: "Malaysia",
-  NG: "Nigeria",
-  NL: "Netherlands",
-  NO: "Norway",
-  NZ: "New Zealand",
-  PH: "Philippines",
-  PK: "Pakistan",
-  PL: "Poland",
-  PT: "Portugal",
-  RO: "Romania",
-  RS: "Serbia",
-  SE: "Sweden",
-  SG: "Singapore",
-  SK: "Slovakia",
-  TH: "Thailand",
-  TR: "Türkiye",
-  UA: "Ukraine",
-  US: "United States",
-  ZA: "South Africa",
-  ZW: "Zimbabwe",
-};
+// COUNTRY_NAMES imported from @/lib/countries — single source of truth
 
 const PAGE_SIZE = 10;
 
@@ -371,6 +314,11 @@ export default async function AgenciesPage({
 
   return (
     <>
+      {/* Pagination rel=prev/next for search engine crawling */}
+      {hasPrev && <link rel="prev" href={pageUrl(page - 1)} />}
+      {hasNext && <link rel="next" href={pageUrl(page + 1)} />}
+
+      {/* JSON-LD: ItemList — trusted DB-sourced data, no user input */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(listSchema) }}

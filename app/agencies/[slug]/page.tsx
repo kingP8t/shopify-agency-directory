@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { generateAgencyMetadata, generateAgencyJsonLd } from "@/lib/seo";
+import { generateAgencyMetadata, generateAgencyJsonLd, generateProfilePageJsonLd } from "@/lib/seo";
+import { countryName } from "@/lib/countries";
 import { supabase } from "@/lib/supabase";
 import type { Agency } from "@/lib/supabase";
 import { getSegment, SEGMENT_SLUGS } from "@/lib/segments";
@@ -11,6 +12,7 @@ import SiteNav from "@/app/components/SiteNav";
 import ReviewForm from "@/app/components/ReviewForm";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
 import AgencyLogo from "@/app/components/AgencyLogo";
+import BadgePreview from "@/app/components/BadgePreview";
 
 // ---------------------------------------------------------------------------
 // Service metadata + "best for" inference
@@ -76,6 +78,77 @@ const BUDGET_BEST_FOR: Record<string, string> = {
   "$25,000 - $100,000": "Established mid-market",
   "$100,000+": "Enterprise projects",
 };
+
+// ---------------------------------------------------------------------------
+// Content-depth helper: generates unique contextual paragraphs per agency
+// to ensure each profile page has 300+ words of meaningful content.
+// ---------------------------------------------------------------------------
+
+// COUNTRY_NAMES imported from @/lib/countries via countryName()
+
+function buildAgencyInsights(agency: Agency, reviewCount: number): string[] {
+  const paras: string[] = [];
+  const specs = agency.specializations ?? [];
+  const city = agency.location?.split(",")[0]?.trim();
+  const resolvedCountry = agency.country ? countryName(agency.country) : null;
+  const locationLabel = agency.location ?? resolvedCountry;
+
+  // Why work with this agency
+  if (locationLabel) {
+    paras.push(
+      `${agency.name} is a Shopify agency based in ${locationLabel}${agency.founded ? `, operating since ${agency.founded}` : ""}. ` +
+      `They work with merchants looking for a trusted, local Shopify partner who understands the ${resolvedCountry ?? city ?? "local"} ecommerce landscape.`
+    );
+  }
+
+  // Services overview
+  if (specs.length > 0) {
+    const specList = specs.length === 1
+      ? specs[0]
+      : specs.slice(0, -1).join(", ") + " and " + specs[specs.length - 1];
+    paras.push(
+      `Their core service areas include ${specList}. ` +
+      `Whether you need a ground-up store build or ongoing optimization, ${agency.name} can tailor their approach to your specific project requirements and budget.`
+    );
+  }
+
+  // Budget & sizing
+  if (agency.budget_range || agency.team_size) {
+    let line = "";
+    if (agency.budget_range) {
+      line += `Typical project budgets start in the ${agency.budget_range} range, making them a good fit for ${
+        agency.budget_range.includes("100,000") ? "enterprise-level" :
+        agency.budget_range.includes("25,000") ? "mid-market" :
+        agency.budget_range.includes("5,000") ? "growth-stage" : "early-stage"
+      } merchants. `;
+    }
+    if (agency.team_size) {
+      line += `With a team of ${agency.team_size} professionals, they balance personal attention with the capacity to deliver complex projects on schedule.`;
+    }
+    if (line) paras.push(line);
+  }
+
+  // Track record / ratings
+  if (agency.rating && reviewCount > 0) {
+    paras.push(
+      `${agency.name} has earned a ${agency.rating}/5 rating across ${reviewCount} ` +
+      `${reviewCount === 1 ? "review" : "reviews"}. ` +
+      `Client feedback is one of the strongest signals when evaluating a Shopify agency, and this track record speaks to consistent project delivery and communication.`
+    );
+  } else if (agency.rating) {
+    paras.push(
+      `With a ${agency.rating}/5 rating on the Shopify Partner network, ${agency.name} demonstrates a strong track record of delivering quality ecommerce projects for their clients.`
+    );
+  }
+
+  // How to get started
+  paras.push(
+    `If ${agency.name} sounds like the right fit for your project, you can reach out directly through the contact form below or visit their website to learn more. ` +
+    `We recommend sharing your project brief, timeline, and budget range upfront for the fastest response.`
+  );
+
+  return paras;
+}
 
 function inferBestFor(
   specs: string[] | null,
@@ -196,6 +269,8 @@ export async function generateMetadata({
     description: agency.description,
     location: agency.location ?? undefined,
     specializations: agency.specializations ?? undefined,
+    rating: agency.rating ?? undefined,
+    reviewCount: agency.review_count ?? undefined,
   });
 }
 
@@ -244,7 +319,6 @@ export default async function AgencyPage({
         : (agency.rating ?? undefined),
     reviewCount:
       reviews.length > 0 ? reviews.length : (agency.review_count ?? undefined),
-    // Pass approved reviews so they appear in structured data
     reviews: reviews.map((r) => ({
       reviewer_name: r.reviewer_name,
       body: r.body,
@@ -253,12 +327,27 @@ export default async function AgencyPage({
     })),
   });
 
+  // ProfilePage wrapper — tells Google this is a dedicated profile page
+  // All data sourced from DB (trusted), no user-supplied content
+  const profilePageJsonLd = generateProfilePageJsonLd({
+    name: agency.name,
+    slug: agency.slug,
+    description: agency.description,
+    logoUrl: agency.logo_url ?? undefined,
+    website: agency.website ?? undefined,
+  });
+
   return (
     <>
-      {/* JSON-LD structured data */}
+      {/* JSON-LD: ProfessionalService — DB-sourced trusted data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {/* JSON-LD: ProfilePage — DB-sourced trusted data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageJsonLd) }}
       />
 
       <div className="min-h-screen bg-gray-50">
@@ -450,6 +539,38 @@ export default async function AgencyPage({
               </div>
             </div>
           )}
+
+          {/* Why work with this agency — auto-generated unique content.
+              Only shown when agency has enough data to produce meaningful prose
+              (at least 2 data points beyond the always-present CTA paragraph). */}
+          {(() => {
+            const insights = buildAgencyInsights(agency, reviews.length);
+            // insights always has ≥1 entry (the CTA paragraph). Show only when
+            // there are at least 2 data-driven paragraphs + the CTA = 3 total.
+            return insights.length >= 3 ? (
+              <section className="mt-5 rounded-2xl border bg-white p-8 shadow-sm">
+                <h2 className="text-lg font-semibold text-gray-900">
+                  Why Work with {agency.name}?
+                </h2>
+                <div className="mt-4 space-y-4 leading-relaxed text-gray-700">
+                  {insights.map((para, i) => (
+                    <p key={i}>{para}</p>
+                  ))}
+                </div>
+              </section>
+            ) : null;
+          })()}
+
+          {/* Get Your Badge */}
+          <section className="mt-5 rounded-2xl border bg-white p-8 shadow-sm">
+            <h2 className="text-lg font-semibold text-gray-900">Get Your Badge</h2>
+            <p className="mt-1 text-sm text-gray-500">
+              Embed this badge on your website to show you&apos;re verified on Shopify Agency Directory.
+            </p>
+            <div className="mt-4">
+              <BadgePreview agencySlug={agency.slug} agencyName={agency.name} />
+            </div>
+          </section>
 
           {/* Reviews */}
           <div className="mt-5 rounded-2xl border bg-white p-8 shadow-sm">

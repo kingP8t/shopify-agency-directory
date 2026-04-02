@@ -16,6 +16,15 @@ A Shopify agency directory built on Next.js 16 (App Router), React 19, TypeScrip
 - **Auth:** Custom HMAC cookie session (middleware.ts) — no third-party auth lib
 - **Linting:** ESLint 9 (flat config)
 
+## Deployment — CRITICAL
+
+- **Production domain:** `shopifyagencydirectory.com`
+- **Correct Vercel project:** `shopify-agency-directory-yl6n`
+- **NEVER deploy to** `shopify-agency-directory` (no suffix) — that project does NOT have the custom domain
+- Before deploying, verify `.vercel/project.json` contains `"projectName":"shopify-agency-directory-yl6n"`
+- If wrong, run: `vercel link --project shopify-agency-directory-yl6n --yes`
+- Deploy: `vercel --prod --yes`
+
 ## Common Commands
 
 ```bash
