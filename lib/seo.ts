@@ -424,16 +424,18 @@ export function generateWebApplicationJsonLd(tool: {
 // ---------------------------------------------------------------------------
 
 export function generateBreadcrumbJsonLd(
-  items: { name: string; href: string }[]
+  items: { name: string; href?: string }[]
 ) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    itemListElement: items.map((item, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      name: item.name,
-      item: `${BASE_URL}${item.href}`,
-    })),
+    itemListElement: items
+      .filter((item) => item.href)
+      .map((item, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: item.name,
+        item: `${BASE_URL}${item.href}`,
+      })),
   };
 }

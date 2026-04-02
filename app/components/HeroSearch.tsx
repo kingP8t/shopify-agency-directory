@@ -32,18 +32,18 @@ export default function HeroSearch() {
 
   return (
     <div className="mx-auto mt-8 w-full max-w-xl">
-      <form onSubmit={handleSearch} className="flex gap-3">
+      <form onSubmit={handleSearch} className="flex flex-col gap-3 sm:flex-row">
         <input
           ref={inputRef}
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search agencies, specializations, locations..."
-          className="flex-1 rounded-lg border border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
+          className="min-w-0 flex-1 rounded-lg border border-gray-300 px-4 py-3 text-sm shadow-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
         />
         <button
           type="submit"
-          className="rounded-lg bg-green-600 px-6 py-3 text-sm font-medium text-white hover:bg-green-700 active:bg-green-800"
+          className="w-full rounded-lg bg-green-600 px-6 py-3 text-sm font-medium text-white hover:bg-green-700 active:bg-green-800 sm:w-auto"
         >
           Search
         </button>

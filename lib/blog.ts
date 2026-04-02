@@ -21,6 +21,7 @@ export interface BlogPost {
   category: string;
   tags: string[];
   featured?: boolean;
+  featuredImage?: string;
   status?: "published" | "draft";
   content: ContentBlock[];
 }
@@ -42,6 +43,7 @@ function toPost(row: BlogPostDB): BlogPost {
     category: row.category,
     tags: row.tags ?? [],
     featured: row.featured,
+    featuredImage: row.featured_image ?? undefined,
     status: row.status,
     content: (row.content ?? []) as ContentBlock[],
   };

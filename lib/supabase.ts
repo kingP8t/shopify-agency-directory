@@ -166,6 +166,7 @@ export interface BlogPostDB {
   featured: boolean;
   date: string;            // ISO date string YYYY-MM-DD
   updated_date: string | null;
+  featured_image: string | null;
   created_at: string;
   updated_at: string;
 }

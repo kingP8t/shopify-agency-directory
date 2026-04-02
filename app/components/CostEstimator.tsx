@@ -600,6 +600,44 @@ export default function CostEstimator() {
           </Link>
         </div>
 
+        {/* Cross-links */}
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="rounded-2xl border border-dashed border-gray-300 bg-white p-6 text-center">
+            <p className="text-sm font-semibold text-gray-900">
+              Ready to reach out to agencies?
+            </p>
+            <p className="mt-1 text-sm text-gray-500">
+              Create a professional project brief to send alongside your budget.
+            </p>
+            <Link
+              href="/tools/brief-generator"
+              className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-green-600 hover:text-green-700"
+            >
+              Create a Project Brief
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
+          <div className="rounded-2xl border border-dashed border-gray-300 bg-white p-6 text-center">
+            <p className="text-sm font-semibold text-gray-900">
+              Planning a migration?
+            </p>
+            <p className="mt-1 text-sm text-gray-500">
+              Assess the complexity of moving your store to Shopify.
+            </p>
+            <Link
+              href="/tools/migration-calculator"
+              className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-green-600 hover:text-green-700"
+            >
+              Migration Calculator
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
+        </div>
+
         <button
           onClick={reset}
           className="mx-auto block text-sm text-gray-400 hover:text-gray-600"

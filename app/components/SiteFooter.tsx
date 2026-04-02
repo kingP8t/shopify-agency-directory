@@ -13,6 +13,7 @@ const FOOTER_LINKS = {
   ],
   Resources: [
     { href: "/blog", label: "Blog" },
+    { href: "/tools", label: "Free Tools" },
     { href: "/get-matched", label: "Get Matched — Free" },
     { href: "/submit", label: "List Your Agency" },
     { href: "/about", label: "How We Verify Agencies" },

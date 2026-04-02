@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug, getRelatedPosts, getCategorySlug, getDirectoryLinks, extractFaqItems, type ContentBlock, type DirectoryLink } from "@/lib/blog";
@@ -53,11 +54,17 @@ export async function generateMetadata({
       modifiedTime: post.updatedDate ?? post.date,
       authors: [post.author],
       tags: post.tags,
+      ...(post.featuredImage && {
+        images: [{ url: `${SITE_URL}${post.featuredImage}`, width: 1200, height: 630, alt: post.title }],
+      }),
     },
     twitter: {
       card: "summary_large_image",
       title: `${post.title} | Shopify Agency Directory`,
       description: post.excerpt,
+      ...(post.featuredImage && {
+        images: [`${SITE_URL}${post.featuredImage}`],
+      }),
     },
     alternates: { canonical: `${SITE_URL}/blog/${post.slug}` },
   };
@@ -328,7 +335,9 @@ export default async function BlogPostPage({
           }
         : { "@type": "Person", name: post.author };
     })(),
-    image: `${SITE_URL}/opengraph-image`,
+    image: post.featuredImage
+      ? `${SITE_URL}${post.featuredImage}`
+      : `${SITE_URL}/opengraph-image`,
     publisher: { "@id": `${SITE_URL}/#organization` },
     datePublished: post.date,
     dateModified: post.updatedDate ?? post.date,
@@ -405,6 +414,20 @@ export default async function BlogPostPage({
               {post.title}
             </h1>
             <p className="mt-3 text-lg text-gray-500">{post.excerpt}</p>
+
+            {/* Featured image */}
+            {post.featuredImage && (
+              <div className="mt-6 overflow-hidden rounded-xl">
+                <Image
+                  src={post.featuredImage}
+                  alt={post.title}
+                  width={1200}
+                  height={630}
+                  className="h-auto w-full"
+                  priority
+                />
+              </div>
+            )}
 
             {/* Author byline */}
             {(() => {

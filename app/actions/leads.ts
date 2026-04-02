@@ -99,3 +99,108 @@ export async function submitLeadAction(
 
   return { success: true };
 }
+
+// ---------------------------------------------------------------------------
+// Brief Generator lead capture
+// ---------------------------------------------------------------------------
+
+export interface BriefLeadPayload {
+  contactName: string;
+  contactEmail: string;
+  companyName: string;
+  projectType: string;
+  budgetRange: string;
+  launchDate: string;
+  goals: string[];
+  integrations: string[];
+  designStyle: string;
+  catalogSize: string;
+  mustHaveFeatures: string;
+  niceToHaveFeatures: string;
+}
+
+export async function submitBriefLeadAction(
+  payload: BriefLeadPayload
+): Promise<LeadFormState> {
+  const headersList = await headers();
+  const ip =
+    headersList.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    headersList.get("x-real-ip") ??
+    "unknown";
+
+  if (await isRateLimited(`brief-lead:${ip}`, LEAD_MAX, LEAD_WINDOW_MS)) {
+    return {
+      success: false,
+      error: "Too many submissions. Please wait a moment and try again.",
+    };
+  }
+
+  const {
+    contactName,
+    contactEmail,
+    companyName,
+    projectType,
+    budgetRange,
+    launchDate,
+    goals,
+    integrations,
+    designStyle,
+    catalogSize,
+    mustHaveFeatures,
+    niceToHaveFeatures,
+  } = payload;
+
+  if (!contactName || !contactEmail || !companyName) {
+    return { success: false, error: "Name, email, and company are required." };
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(contactEmail)) {
+    return { success: false, error: "Please enter a valid email address." };
+  }
+
+  // Compose a summary message from the brief data
+  const parts: string[] = [
+    `[Brief Generator Lead]`,
+    goals.length > 0 ? `Goals: ${goals.join(", ")}` : "",
+    designStyle ? `Design style: ${designStyle}` : "",
+    catalogSize ? `Catalog: ${catalogSize}` : "",
+    integrations.length > 0 ? `Integrations: ${integrations.join(", ")}` : "",
+    mustHaveFeatures ? `Must-have: ${mustHaveFeatures}` : "",
+    niceToHaveFeatures ? `Nice-to-have: ${niceToHaveFeatures}` : "",
+  ].filter(Boolean);
+
+  const message = parts.join("\n");
+
+  const { error } = await supabase.from("leads").insert([
+    {
+      name: contactName,
+      email: contactEmail,
+      company: companyName,
+      budget: budgetRange || null,
+      project_type: projectType || null,
+      timeline: launchDate || null,
+      message,
+    },
+  ]);
+
+  if (error) {
+    logError("brief-lead-insert", error);
+    return { success: false, error: "Something went wrong. Please try again." };
+  }
+
+  // Notify admin
+  await sendNewLeadEmail({
+    name: contactName,
+    email: contactEmail,
+    company: companyName,
+    budget: budgetRange || null,
+    project_type: projectType || null,
+    timeline: launchDate || null,
+    store_url: null,
+    message,
+    agencyName: undefined,
+  });
+
+  return { success: true };
+}

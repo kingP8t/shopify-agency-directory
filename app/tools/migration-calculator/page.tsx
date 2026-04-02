@@ -3,82 +3,83 @@ import Link from "next/link";
 import { generateWebApplicationJsonLd, generateBreadcrumbJsonLd } from "@/lib/seo";
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
-import CostEstimator from "@/app/components/CostEstimator";
+import MigrationCalculator from "@/app/components/MigrationCalculator";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://shopifyagencydirectory.com";
 
 export const metadata: Metadata = {
-  title: "Shopify Project Cost Estimator — Free Calculator",
+  title: "Shopify Migration Complexity Calculator — Free Tool",
   description:
-    "Estimate your Shopify project cost in 60 seconds. Get price ranges for store builds, redesigns, migrations, and Shopify Plus upgrades based on data from 900+ agencies.",
+    "Assess how complex your Shopify migration will be in 2 minutes. Get a complexity score, estimated timeline, risk factors, and agency recommendations based on your current platform and store setup.",
   keywords: [
-    "shopify project cost estimator",
-    "shopify website cost calculator",
-    "shopify development cost",
-    "shopify agency pricing",
-    "how much does a shopify store cost",
-    "shopify plus cost",
+    "shopify migration calculator",
+    "shopify migration complexity",
+    "migrate to shopify",
     "shopify migration cost",
+    "magento to shopify migration",
+    "woocommerce to shopify migration",
+    "shopify platform migration",
+    "ecommerce migration tool",
   ],
-  alternates: { canonical: `${SITE_URL}/tools/cost-estimator` },
+  alternates: { canonical: `${SITE_URL}/tools/migration-calculator` },
 };
 
 const breadcrumbs = [
   { name: "Home", href: "/" },
   { name: "Tools", href: "/tools" },
-  { name: "Cost Estimator", href: "/tools/cost-estimator" },
+  { name: "Migration Calculator", href: "/tools/migration-calculator" },
 ];
 
 const HOWTO_SCHEMA = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  name: "How to Estimate Your Shopify Project Cost",
+  name: "How to Assess Your Shopify Migration Complexity",
   description:
-    "Get a data-driven cost estimate for your Shopify project in 60 seconds. Answer 5 questions about your project, then see pricing ranges based on 900+ agency data points.",
-  totalTime: "PT1M",
+    "Evaluate the complexity of migrating your ecommerce store to Shopify. Answer 5 sections of questions about your current platform, store size, customizations, integrations, and requirements to get a detailed complexity assessment.",
+  totalTime: "PT2M",
   estimatedCost: { "@type": "MonetaryAmount", currency: "USD", value: "0" },
-  tool: { "@type": "HowToTool", name: "Shopify Agency Directory Cost Estimator" },
+  tool: { "@type": "HowToTool", name: "Shopify Agency Directory Migration Calculator" },
   step: [
     {
       "@type": "HowToStep",
       position: 1,
-      name: "Choose Your Project Type",
-      text: "Select from new store build, store redesign, platform migration, Shopify Plus upgrade, headless/custom build, or ongoing retainer.",
+      name: "Select Your Current Platform",
+      text: "Choose the ecommerce platform you are migrating from, such as Magento, WooCommerce, BigCommerce, Squarespace, Wix, or a custom solution.",
     },
     {
       "@type": "HowToStep",
       position: 2,
-      name: "Select Complexity Level",
-      text: "Indicate whether your project is simple, moderate, or complex based on design customisation and feature requirements.",
+      name: "Enter Your Store Size",
+      text: "Specify your product count, customer base size, and order history volume to assess data migration complexity.",
     },
     {
       "@type": "HowToStep",
       position: 3,
-      name: "Pick Your Integrations",
-      text: "Select the third-party integrations you need, such as ERP, email marketing, loyalty, subscriptions, or custom API connections.",
+      name: "Describe Your Customizations",
+      text: "Indicate whether you have a custom theme, custom apps or plugins, and a customized checkout flow.",
     },
     {
       "@type": "HowToStep",
       position: 4,
-      name: "Specify Catalog Size",
-      text: "Choose your product catalog size range, from under 100 products to 20,000+.",
+      name: "Detail Your Integrations",
+      text: "Select your integration count, multi-language and multi-currency requirements, and any custom data structures.",
     },
     {
       "@type": "HowToStep",
       position: 5,
-      name: "Select Agency Location",
-      text: "Choose the region you want to hire from. Rates vary by location \u2014 see estimates for North America, Europe, Asia, and more.",
+      name: "Set Your Requirements",
+      text: "Indicate whether you need Shopify Plus and how urgent your migration timeline is to complete your assessment.",
     },
   ],
 };
 
-export default function CostEstimatorPage() {
+export default function MigrationCalculatorPage() {
   const appSchema = generateWebApplicationJsonLd({
-    name: "Shopify Project Cost Estimator",
+    name: "Shopify Migration Complexity Calculator",
     description:
-      "Free interactive calculator to estimate Shopify project costs based on project type, complexity, integrations, catalog size, and agency location.",
-    path: "/tools/cost-estimator",
+      "Free interactive tool to assess the complexity of migrating your ecommerce store to Shopify. Get a complexity score, timeline estimate, risk factors, and agency recommendations.",
+    path: "/tools/migration-calculator",
   });
   const crumbSchema = generateBreadcrumbJsonLd(breadcrumbs);
 
@@ -109,37 +110,37 @@ export default function CostEstimatorPage() {
               Free Tool
             </p>
             <h1 className="mt-2 text-3xl font-bold text-gray-900 sm:text-4xl">
-              Shopify Project Cost Estimator
+              Shopify Migration Complexity Calculator
             </h1>
             <p className="mt-4 max-w-2xl text-lg text-gray-600">
-              Answer 5 quick questions and get an instant cost estimate for your
-              Shopify project — based on real pricing data from 900+ verified
-              agencies worldwide.
+              Assess how complex your migration to Shopify will be. Answer 5
+              quick sections about your current store and get a complexity
+              score, timeline estimate, and risk assessment.
             </p>
 
             <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-green-200 bg-green-50 px-4 py-2 text-sm font-medium text-green-700">
               <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              Based on data from 900+ verified Shopify agencies
+              Covers Magento, WooCommerce, BigCommerce, and more
             </div>
           </div>
         </section>
 
         {/* Calculator */}
         <section className="mx-auto max-w-4xl px-6 py-16">
-          <CostEstimator />
+          <MigrationCalculator />
         </section>
 
         {/* Bottom CTA band */}
         <section className="bg-gray-900 px-6 py-16">
           <div className="mx-auto max-w-4xl text-center">
             <h2 className="text-2xl font-bold text-white sm:text-3xl">
-              Ready to Find the Right Agency?
+              Need Expert Help With Your Migration?
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-gray-400">
               Tell us about your project and we&apos;ll match you with 3
-              vetted Shopify agencies that fit your budget and requirements
+              vetted Shopify migration specialists that fit your requirements
               — completely free.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -150,10 +151,10 @@ export default function CostEstimatorPage() {
                 Get Matched — Free
               </Link>
               <Link
-                href="/agencies"
+                href="/agencies?specialization=Migration"
                 className="rounded-lg border border-gray-600 px-8 py-3.5 text-sm font-semibold text-gray-300 hover:border-gray-400 hover:text-white"
               >
-                Browse Directory
+                Browse Migration Agencies
               </Link>
             </div>
           </div>

@@ -26,9 +26,64 @@ export const metadata: Metadata = {
 
 const breadcrumbs = [
   { name: "Home", href: "/" },
-  { name: "Tools", href: "/tools/cost-estimator" },
+  { name: "Tools", href: "/tools" },
   { name: "Brief Generator", href: "/tools/brief-generator" },
 ];
+
+const HOWTO_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "How to Create a Shopify Agency Project Brief",
+  description:
+    "Create a professional Shopify project brief in minutes using our free interactive generator. Answer 7 sections, then download a polished PDF.",
+  totalTime: "PT10M",
+  estimatedCost: { "@type": "MonetaryAmount", currency: "USD", value: "0" },
+  tool: { "@type": "HowToTool", name: "Shopify Agency Directory Brief Generator" },
+  step: [
+    {
+      "@type": "HowToStep",
+      position: 1,
+      name: "Describe Your Business",
+      text: "Enter your company name, website URL, industry, current platform, and monthly revenue range.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 2,
+      name: "Select Your Project Type",
+      text: "Choose from new store build, redesign, platform migration, Shopify Plus upgrade, headless build, or ongoing support.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 3,
+      name: "Define Goals & Requirements",
+      text: "Select your primary goals (e.g. increase conversion rate, improve mobile experience) and list must-have and nice-to-have features.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 4,
+      name: "Set Design Preferences",
+      text: "Choose a design style (minimal, bold, corporate, luxury), add example websites you like, and indicate whether you have brand guidelines.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 5,
+      name: "Specify Technical Requirements",
+      text: "Select integrations needed (ERP, PIM, email marketing, etc.), catalog size, and whether you need multi-language or multi-currency support.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 6,
+      name: "Set Timeline & Budget",
+      text: "Enter your desired launch date, select a budget range, and indicate your timeline flexibility.",
+    },
+    {
+      "@type": "HowToStep",
+      position: 7,
+      name: "Download Your Brief",
+      text: "Add your contact information, review the brief preview, and download a professional PDF to send to agencies.",
+    },
+  ],
+};
 
 export default function BriefGeneratorPage() {
   const appSchema = generateWebApplicationJsonLd({
@@ -48,6 +103,10 @@ export default function BriefGeneratorPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(HOWTO_SCHEMA) }}
       />
 
       <div className="min-h-screen bg-gray-50">
