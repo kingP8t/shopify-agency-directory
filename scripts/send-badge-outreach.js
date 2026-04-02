@@ -91,15 +91,9 @@ function buildEmail(agency) {
   const slug = agency.slug;
   const profileUrl = `${SITE_URL}/agencies/${slug}`;
   const blogUrl = `${SITE_URL}/blog/embed-verified-badge-shopify-agency-website`;
-  const isClaimed = !!agency.claimed_at;
+  const unsubUrl = `${SITE_URL}/agencies/${slug}`;
 
-  const greeting = isClaimed
-    ? `Hi ${name} team,`
-    : `Hi ${name} team,`;
-
-  return {
-    subject: `Your verified badge is ready to embed`,
-    html: `
+  const html = `
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -117,7 +111,7 @@ function buildEmail(agency) {
     <!-- Body card -->
     <div style="background:#ffffff;border-radius:12px;padding:32px;border:1px solid #e5e7eb;">
 
-      <p style="font-size:15px;line-height:1.6;margin-top:0;">${greeting}</p>
+      <p style="font-size:15px;line-height:1.6;margin-top:0;">Hi ${name} team,</p>
 
       <p style="font-size:15px;line-height:1.6;">
         Your agency is listed and verified on the Shopify Agency Directory &mdash; and we&rsquo;ve just launched something new for you.
@@ -127,29 +121,32 @@ function buildEmail(agency) {
         We&rsquo;ve created a branded <strong>&ldquo;Verified on Shopify Agency Directory&rdquo;</strong> badge you can embed on your website. It takes about 60 seconds to set up.
       </p>
 
-      <!-- Badge preview -->
-      <div style="text-align:center;margin:24px 0;padding:24px;background:#f9fafb;border-radius:8px;">
-        <img src="${SITE_URL}/api/badge/${slug}?style=light" alt="${name} - Verified Badge" height="56" style="height:56px;" />
-      </div>
-
       <p style="font-size:15px;line-height:1.6;font-weight:600;">Here&rsquo;s what you get:</p>
 
       <ul style="font-size:15px;line-height:1.8;padding-left:20px;color:#374151;">
-        <li>A professional badge with your agency name and a verification checkmark</li>
+        <li>A professional SVG badge with your agency name and a verification checkmark</li>
         <li>Three styles (Light, Dark, Minimal) to match your website</li>
-        <li>A direct link back to your directory profile</li>
+        <li>A direct link back to your directory profile where clients can see your ratings and specialisations</li>
       </ul>
+
+      <p style="font-size:15px;line-height:1.6;font-weight:600;">How to get your badge:</p>
+
+      <ol style="font-size:15px;line-height:1.8;padding-left:20px;color:#374151;">
+        <li>Visit your profile page (link below)</li>
+        <li>Scroll to &ldquo;Get Your Badge&rdquo;</li>
+        <li>Pick a style, copy the embed code, paste it on your site</li>
+      </ol>
+
+      <p style="font-size:14px;line-height:1.6;color:#6b7280;">
+        Most agencies add it to their footer or About page. The whole thing takes under a minute.
+      </p>
 
       <!-- CTA button -->
       <div style="text-align:center;margin:28px 0;">
         <a href="${profileUrl}" style="display:inline-block;background:#16a34a;color:#ffffff;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:600;font-size:15px;">
-          Get Your Badge &rarr;
+          View Your Profile &amp; Get Badge
         </a>
       </div>
-
-      <p style="font-size:14px;line-height:1.6;color:#6b7280;">
-        Visit your profile, scroll to &ldquo;Get Your Badge,&rdquo; pick a style, and copy the embed code. Most agencies add it to their footer or About page.
-      </p>
 
       <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;" />
 
@@ -162,14 +159,46 @@ function buildEmail(agency) {
     <!-- Footer -->
     <div style="text-align:center;margin-top:24px;">
       <p style="font-size:12px;color:#9ca3af;line-height:1.5;">
-        Shopify Agency Directory<br />
-        <a href="${SITE_URL}" style="color:#9ca3af;">shopifyagencydirectory.com</a>
+        Shopify Agency Directory &bull;
+        <a href="${SITE_URL}" style="color:#9ca3af;">shopifyagencydirectory.com</a><br />
+        You received this because ${name} is listed on our directory.<br />
+        <a href="mailto:hello@shopifyagencydirectory.com?subject=Unsubscribe%20${encodeURIComponent(slug)}" style="color:#9ca3af;">Unsubscribe</a>
       </p>
     </div>
   </div>
 </body>
-</html>`.trim(),
-  };
+</html>`.trim();
+
+  const text = `Hi ${name} team,
+
+Your agency is listed and verified on the Shopify Agency Directory — and we've just launched something new for you.
+
+We've created a branded "Verified on Shopify Agency Directory" badge you can embed on your website. It takes about 60 seconds to set up.
+
+Here's what you get:
+
+- A professional SVG badge with your agency name and a verification checkmark
+- Three styles (Light, Dark, Minimal) to match your website
+- A direct link back to your directory profile
+
+How to get your badge:
+
+1. Visit your profile: ${profileUrl}
+2. Scroll to "Get Your Badge"
+3. Pick a style, copy the embed code, paste it on your site
+
+Most agencies add it to their footer or About page.
+
+Need help? Read our step-by-step guide: ${blogUrl}
+
+--
+Shopify Agency Directory
+shopifyagencydirectory.com
+
+You received this because ${name} is listed on our directory.
+To unsubscribe, reply with "unsubscribe" in the subject line.`;
+
+  return { subject: `Your verified badge is ready to embed`, html, text };
 }
 
 // ---------------------------------------------------------------------------
@@ -222,12 +251,16 @@ async function main() {
       slug: "your-agency",
       claimed_at: null,
     };
-    const { subject, html } = buildEmail(testAgency);
+    const { subject, html, text } = buildEmail(testAgency);
     const { data, error } = await resend.emails.send({
       from: FROM_EMAIL,
       to: TEST_EMAIL,
       subject,
       html,
+      text,
+      headers: {
+        "List-Unsubscribe": `<mailto:hello@shopifyagencydirectory.com?subject=Unsubscribe>`,
+      },
     });
     if (error) {
       console.error("❌ Failed:", error.message);
@@ -268,7 +301,7 @@ async function main() {
   let failed = 0;
 
   for (const agency of toSend) {
-    const { subject, html } = buildEmail(agency);
+    const { subject, html, text } = buildEmail(agency);
 
     try {
       const { data, error } = await resend.emails.send({
@@ -276,6 +309,10 @@ async function main() {
         to: agency.to_email,
         subject,
         html,
+        text,
+        headers: {
+          "List-Unsubscribe": `<mailto:hello@shopifyagencydirectory.com?subject=Unsubscribe%20${agency.slug}>`,
+        },
       });
 
       if (error) {
