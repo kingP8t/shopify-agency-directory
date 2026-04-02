@@ -61,6 +61,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    {
+      url: `${BASE_URL}/badge`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
+      url: `${BASE_URL}/tools/cost-estimator`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/tools/brief-generator`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
   ];
 
   const { data: agencies } = await supabase
@@ -99,5 +117,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...segmentRoutes, ...agencyRoutes, ...blogRoutes, ...categoryRoutes];
+  // Author pages — E-E-A-T signal for Google
+  const authorRoutes: MetadataRoute.Sitemap = [
+    {
+      url: `${BASE_URL}/authors/elena-king`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    },
+  ];
+
+  return [...staticRoutes, ...segmentRoutes, ...agencyRoutes, ...blogRoutes, ...categoryRoutes, ...authorRoutes];
 }

@@ -32,7 +32,7 @@ export async function upsertBlogPostAction(
   const excerpt = formData.get("excerpt")?.toString().trim();
   const category = formData.get("category")?.toString().trim() || "Guide";
   const author =
-    formData.get("author")?.toString().trim() || "Shopify Agency Directory";
+    formData.get("author")?.toString().trim() || "Elena King";
   const reading_time = formData.get("reading_time")
     ? Number(formData.get("reading_time"))
     : 5;

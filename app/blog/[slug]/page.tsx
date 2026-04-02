@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug, getRelatedPosts, getCategorySlug, getDirectoryLinks, extractFaqItems, type ContentBlock, type DirectoryLink } from "@/lib/blog";
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
+import { getAuthor, authorInitials } from "@/lib/authors";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://shopifyagencydirectory.com";
@@ -33,13 +34,17 @@ export async function generateMetadata({
   const post = await getPostBySlug(slug);
   if (!post) return { title: "Post Not Found" };
 
+  // Category suffix makes each blog title unique & keyword-rich in SERPs
+  const categoryLabel = post.category ? ` — ${post.category}` : "";
+  const fullTitle = `${post.title}${categoryLabel}`;
+
   return {
-    title: post.title,
+    title: fullTitle,
     description: post.excerpt,
     keywords: post.tags,
     authors: [{ name: post.author }],
     openGraph: {
-      title: post.title,
+      title: `${post.title} | Shopify Agency Directory`,
       description: post.excerpt,
       url: `${SITE_URL}/blog/${post.slug}`,
       siteName: "Shopify Agency Directory",
@@ -51,7 +56,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: post.title,
+      title: `${post.title} | Shopify Agency Directory`,
       description: post.excerpt,
     },
     alternates: { canonical: `${SITE_URL}/blog/${post.slug}` },
@@ -125,14 +130,14 @@ function RenderBlock({ block }: { block: ContentBlock }) {
       );
     case "table":
       return (
-        <div className="mb-6 overflow-x-auto rounded-xl border border-gray-200">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-gray-50">
+        <div className="mb-6 -mx-2 overflow-x-auto rounded-xl border border-gray-200 sm:mx-0">
+          <table className="w-full min-w-[480px] text-sm">
+            <thead className="sticky top-0 z-10">
+              <tr className="bg-gray-800 text-white">
                 {block.headers.map((h, i) => (
                   <th
                     key={i}
-                    className="px-4 py-3 text-left font-semibold text-gray-700 first:rounded-tl-xl last:rounded-tr-xl"
+                    className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide first:rounded-tl-xl last:rounded-tr-xl"
                   >
                     {h}
                   </th>
@@ -141,7 +146,10 @@ function RenderBlock({ block }: { block: ContentBlock }) {
             </thead>
             <tbody>
               {block.rows.map((row, ri) => (
-                <tr key={ri} className="border-t border-gray-100 odd:bg-white even:bg-gray-50">
+                <tr
+                  key={ri}
+                  className="border-t border-gray-100 odd:bg-white even:bg-gray-50/70 hover:bg-green-50/50 transition-colors"
+                >
                   {row.map((cell, ci) => (
                     <td
                       key={ci}
@@ -282,37 +290,54 @@ export default async function BlogPostPage({
   const directoryLinks = getDirectoryLinks(post);
   const faqItems = extractFaqItems(post);
 
-  // BlogPosting JSON-LD structured data
+  // Approximate word count from content blocks for schema
+  const wordCount = post.content.reduce((count, block) => {
+    if ("text" in block && typeof block.text === "string") {
+      return count + block.text.split(/\s+/).length;
+    }
+    if ("items" in block && Array.isArray(block.items)) {
+      return count + block.items.reduce((s: number, item: unknown) => {
+        if (typeof item === "string") return s + item.split(/\s+/).length;
+        return s;
+      }, 0);
+    }
+    return count;
+  }, 0);
+
+  // BlogPosting JSON-LD structured data — content from lib/blog.ts (static, trusted)
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
+    "@id": `${SITE_URL}/blog/${post.slug}#article`,
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${SITE_URL}/blog/${post.slug}`,
     },
     headline: post.title,
     description: post.excerpt,
-    author: {
-      "@type": "Organization",
-      name: post.author,
-      url: SITE_URL,
-    },
+    inLanguage: "en-US",
+    author: (() => {
+      const a = getAuthor(post.author);
+      return a
+        ? {
+            "@type": "Person",
+            name: a.name,
+            jobTitle: a.title,
+            description: a.schemaDescription,
+            url: `${SITE_URL}/authors/${a.slug}`,
+          }
+        : { "@type": "Person", name: post.author };
+    })(),
     image: `${SITE_URL}/opengraph-image`,
-    publisher: {
-      "@type": "Organization",
-      name: "Shopify Agency Directory",
-      url: SITE_URL,
-      logo: {
-        "@type": "ImageObject",
-        url: `${SITE_URL}/opengraph-image`,
-      },
-    },
+    publisher: { "@id": `${SITE_URL}/#organization` },
     datePublished: post.date,
     dateModified: post.updatedDate ?? post.date,
     url: `${SITE_URL}/blog/${post.slug}`,
     keywords: post.tags.join(", "),
     articleSection: post.category,
     timeRequired: `PT${post.readingTime}M`,
+    wordCount,
+    isPartOf: { "@id": `${SITE_URL}/blog#blog` },
   };
 
   function formatDate(d: string) {
@@ -381,6 +406,30 @@ export default async function BlogPostPage({
             </h1>
             <p className="mt-3 text-lg text-gray-500">{post.excerpt}</p>
 
+            {/* Author byline */}
+            {(() => {
+              const author = getAuthor(post.author);
+              return (
+                <div className="mt-5 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 text-sm font-bold text-green-700">
+                    {authorInitials(post.author)}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900">
+                      {author ? (
+                        <Link href={`/authors/${author.slug}`} className="hover:text-green-700">
+                          {post.author}
+                        </Link>
+                      ) : post.author}
+                    </p>
+                    {author && (
+                      <p className="text-xs text-gray-500">{author.title}</p>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
+
             {/* Tags */}
             <div className="mt-4 flex flex-wrap gap-2">
               {post.tags.map((tag) => (
@@ -410,6 +459,35 @@ export default async function BlogPostPage({
               })()}
             </div>
           </article>
+
+          {/* Author bio box — only shown for known authors */}
+          {(() => {
+            const author = getAuthor(post.author);
+            if (!author) return null;
+            return (
+              <aside className="mt-10 rounded-2xl border bg-white p-6 shadow-sm">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-green-100 text-lg font-bold text-green-700">
+                    {authorInitials(post.author)}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900">
+                      Written by{" "}
+                      <Link href={`/authors/${author.slug}`} className="hover:text-green-700 hover:underline">
+                        {author.name}
+                      </Link>
+                    </p>
+                    <p className="text-xs font-medium text-green-600">
+                      {author.title}
+                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-gray-600">
+                      {author.bio}
+                    </p>
+                  </div>
+                </div>
+              </aside>
+            );
+          })()}
 
           {/* Related posts */}
           {related.length > 0 && (

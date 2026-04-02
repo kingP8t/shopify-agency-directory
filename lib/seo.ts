@@ -15,20 +15,48 @@ export function generateAgencyMetadata(agency: {
   description: string;
   location?: string;
   specializations?: string[];
+  rating?: number;
+  reviewCount?: number;
 }): Metadata {
-  const title = `${agency.name} | Shopify Agency`;
-  const description =
-    agency.description.length > 155
-      ? agency.description.slice(0, 152) + "..."
-      : agency.description ||
-        `${agency.name} is a top Shopify agency${agency.location ? ` based in ${agency.location}` : ""}. View their portfolio, services, and contact information.`;
+  // ── Unique, keyword-rich title ──
+  // Format: "Arctic Grey | Shopify Plus Agency NYC | Shopify Agency Directory"
+  // The root layout template appends " | Shopify Agency Directory"
+  const specs = agency.specializations ?? [];
+  const primarySpec = specs[0];
+
+  // Extract city shorthand from location (e.g. "New York, United States" → "NYC"-style or just city)
+  const city = agency.location?.split(",")[0]?.trim();
+
+  const specLabel = primarySpec ? `${primarySpec} Agency` : "Agency";
+  const locationBit = city ? ` ${city}` : "";
+
+  // e.g. "Arctic Grey | Shopify Plus Agency NYC"
+  const title = `${agency.name} | Shopify ${specLabel}${locationBit}`;
+
+  // ── Unique meta description with name, location, specializations, rating ──
+  const ratingStr =
+    agency.rating && agency.reviewCount
+      ? `Rated ${agency.rating}/5 from ${agency.reviewCount} reviews. `
+      : "";
+  const specStr =
+    specs.length > 0
+      ? `Specializing in ${specs.slice(0, 3).join(", ")}. `
+      : "";
+  const locationStr = agency.location ? `Based in ${agency.location}. ` : "";
+
+  // Build a unique description; fall back to truncated agency description
+  let description = `${agency.name} is a verified Shopify agency. ${ratingStr}${specStr}${locationStr}View portfolio, services, and contact details.`;
+  // If too long, truncate gracefully
+  if (description.length > 160) {
+    description = description.slice(0, 157) + "...";
+  }
 
   const keywords = [
     agency.name,
     "Shopify agency",
     "Shopify experts",
     ...(agency.location ? [`Shopify agency ${agency.location}`] : []),
-    ...(agency.specializations || []),
+    ...specs,
   ];
 
   return {
@@ -36,7 +64,7 @@ export function generateAgencyMetadata(agency: {
     description,
     keywords,
     openGraph: {
-      title,
+      title: `${title} | ${SITE_NAME}`,
       description,
       url: `${BASE_URL}/agencies/${agency.slug}`,
       siteName: SITE_NAME,
@@ -44,7 +72,7 @@ export function generateAgencyMetadata(agency: {
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: `${title} | ${SITE_NAME}`,
       description,
     },
     alternates: {
@@ -57,17 +85,19 @@ export function generateDirectoryMetadata(
   page = 1,
   filters?: { specialization?: string; location?: string; hasAnyFilter?: boolean }
 ): Metadata {
-  let title = "Find Shopify Agencies & Experts";
+  const year = new Date().getFullYear();
+  let title = `Browse All Shopify Agencies & Experts — ${year} Directory`;
   let description =
     "Browse our directory of verified Shopify agencies and experts. Filter by specialization, budget, location, and more.";
 
-  if (filters?.specialization) {
-    title = `Shopify ${filters.specialization} Agencies`;
+  if (filters?.specialization && filters?.location) {
+    title = `Shopify ${filters.specialization} Agencies in ${filters.location}`;
+    description = `Find the best Shopify ${filters.specialization} agencies in ${filters.location}. Compare portfolios, pricing, and reviews.`;
+  } else if (filters?.specialization) {
+    title = `Top Shopify ${filters.specialization} Agencies — Compare & Hire`;
     description = `Find the best Shopify ${filters.specialization} agencies. Compare portfolios, pricing, and reviews.`;
-  }
-
-  if (filters?.location) {
-    title = `Shopify Agencies in ${filters.location}`;
+  } else if (filters?.location) {
+    title = `Shopify Agencies in ${filters.location} — Local Experts`;
     description = `Find top Shopify agencies in ${filters.location}. Browse local Shopify experts and compare their services.`;
   }
 
@@ -300,5 +330,110 @@ export function generateSegmentJsonLd(segment: {
         },
       })),
     },
+  };
+}
+
+// ---------------------------------------------------------------------------
+// ProfilePage schema — wraps ProfessionalService/Organization on agency pages
+// ---------------------------------------------------------------------------
+
+/** Agency profile page — ProfilePage wrapper for richer rich-results */
+export function generateProfilePageJsonLd(agency: {
+  name: string;
+  slug: string;
+  description: string;
+  logoUrl?: string;
+  website?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "@id": `${BASE_URL}/agencies/${agency.slug}#profilepage`,
+    name: `${agency.name} — Agency Profile`,
+    url: `${BASE_URL}/agencies/${agency.slug}`,
+    description: agency.description,
+    mainEntity: { "@id": `${BASE_URL}/agencies/${agency.slug}` },
+    isPartOf: { "@id": `${BASE_URL}/#website` },
+    ...(agency.logoUrl && {
+      primaryImageOfPage: {
+        "@type": "ImageObject",
+        url: agency.logoUrl,
+      },
+    }),
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Service schema — Get Matched / agency matching service
+// ---------------------------------------------------------------------------
+
+export function generateServiceJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${BASE_URL}/get-matched#service`,
+    name: "Free Shopify Agency Matching",
+    description:
+      "Tell us about your project and we'll personally connect you with the best Shopify agency for your needs, timeline, and budget.",
+    url: `${BASE_URL}/get-matched`,
+    serviceType: "Agency Matching",
+    provider: { "@id": `${BASE_URL}/#organization` },
+    areaServed: { "@type": "Place", name: "Worldwide" },
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+      description: "Free agency matching service — no cost to merchants",
+    },
+    termsOfService: `${BASE_URL}/terms`,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// WebApplication schema — interactive tools (cost estimator, etc.)
+// ---------------------------------------------------------------------------
+
+export function generateWebApplicationJsonLd(tool: {
+  name: string;
+  description: string;
+  path: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "@id": `${BASE_URL}${tool.path}#app`,
+    name: tool.name,
+    description: tool.description,
+    url: `${BASE_URL}${tool.path}`,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Any",
+    browserRequirements: "Requires JavaScript",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+      description: "Free to use — no signup required",
+    },
+    provider: { "@id": `${BASE_URL}/#organization` },
+    isPartOf: { "@id": `${BASE_URL}/#website` },
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Breadcrumb schema
+// ---------------------------------------------------------------------------
+
+export function generateBreadcrumbJsonLd(
+  items: { name: string; href: string }[]
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.name,
+      item: `${BASE_URL}${item.href}`,
+    })),
   };
 }

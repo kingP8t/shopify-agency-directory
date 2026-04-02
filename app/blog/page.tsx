@@ -55,20 +55,36 @@ export default async function BlogPage({
   const blogSchema = {
     "@context": "https://schema.org",
     "@type": "Blog",
-    name: "Shopify Agency Blog",
+    "@id": `${SITE_URL}/blog#blog`,
+    name: "Shopify Agency Directory Blog",
     description:
       "Expert guides on hiring Shopify agencies, platform comparisons, migration advice, and ecommerce growth strategies.",
     url: `${SITE_URL}/blog`,
-    publisher: {
-      "@type": "Organization",
-      name: "Shopify Agency Directory",
-      url: SITE_URL,
-      logo: { "@type": "ImageObject", url: `${SITE_URL}/opengraph-image` },
-    },
+    publisher: { "@id": `${SITE_URL}/#organization` },
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+    blogPost: posts.slice(0, 10).map((p) => ({
+      "@type": "BlogPosting",
+      headline: p.title,
+      description: p.excerpt,
+      url: `${SITE_URL}/blog/${p.slug}`,
+      datePublished: p.date,
+    })),
   };
+
+  const hasPrev = currentPage > 1;
+  const hasNext = currentPage < totalPages;
 
   return (
     <>
+    {/* Pagination rel=prev/next for search engine crawling */}
+    {hasPrev && (
+      <link rel="prev" href={currentPage === 2 ? "/blog" : `/blog?page=${currentPage - 1}`} />
+    )}
+    {hasNext && (
+      <link rel="next" href={`/blog?page=${currentPage + 1}`} />
+    )}
+
+    {/* Blog JSON-LD — static content from lib/blog.ts, safe for injection */}
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
@@ -129,7 +145,9 @@ export default async function BlogPage({
               <p className="mt-2 line-clamp-2 text-sm text-gray-600">
                 {featured.excerpt}
               </p>
-              <p className="mt-4 text-xs text-gray-400">{formatDate(featured.date)}</p>
+              <p className="mt-4 text-xs text-gray-400">
+                By {featured.author} · {formatDate(featured.date)}
+              </p>
             </div>
           </Link>
         )}
@@ -166,7 +184,9 @@ export default async function BlogPage({
                   <p className="mt-2 line-clamp-2 flex-1 text-sm text-gray-500">
                     {post.excerpt}
                   </p>
-                  <p className="mt-4 text-xs text-gray-400">{formatDate(post.date)}</p>
+                  <p className="mt-4 text-xs text-gray-400">
+                    By {post.author} · {formatDate(post.date)}
+                  </p>
                 </div>
               </Link>
             ))}
