@@ -400,11 +400,13 @@ export default function CostEstimator() {
   const [showResults, setShowResults] = useState(false);
   const [fade, setFade] = useState(false);
 
-  // Restore from URL on mount
+  // Restore selections from URL query params on mount (shareable links).
+  // This is a one-time client-only initialisation — window is not available
+  // during SSR so we cannot use a useState initialiser.
   useEffect(() => {
     const restored = paramsToSelections(window.location.search);
     if (restored) {
-      setSelections(restored);
+      setSelections(restored); // eslint-disable-line react-hooks/set-state-in-effect
       setShowResults(true);
     }
   }, []);

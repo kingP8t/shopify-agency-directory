@@ -4,19 +4,17 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("logError", () => {
-  const originalEnv = process.env.NODE_ENV;
-
   beforeEach(() => {
     vi.resetModules();
   });
 
   afterEach(() => {
-    process.env.NODE_ENV = originalEnv;
+    vi.unstubAllEnvs();
     vi.restoreAllMocks();
   });
 
   it("logs to console.error in development", async () => {
-    process.env.NODE_ENV = "development";
+    vi.stubEnv("NODE_ENV", "development");
     const spy = vi.spyOn(console, "error").mockImplementation(() => {});
 
     const { logError } = await import("@/lib/logger");
@@ -26,7 +24,7 @@ describe("logError", () => {
   });
 
   it("suppresses console.error in production", async () => {
-    process.env.NODE_ENV = "production";
+    vi.stubEnv("NODE_ENV", "production");
     const spy = vi.spyOn(console, "error").mockImplementation(() => {});
 
     const { logError } = await import("@/lib/logger");
@@ -37,19 +35,17 @@ describe("logError", () => {
 });
 
 describe("silentCatch", () => {
-  const originalEnv = process.env.NODE_ENV;
-
   beforeEach(() => {
     vi.resetModules();
   });
 
   afterEach(() => {
-    process.env.NODE_ENV = originalEnv;
+    vi.unstubAllEnvs();
     vi.restoreAllMocks();
   });
 
   it("logs to console.error in development", async () => {
-    process.env.NODE_ENV = "development";
+    vi.stubEnv("NODE_ENV", "development");
     const spy = vi.spyOn(console, "error").mockImplementation(() => {});
 
     const { silentCatch } = await import("@/lib/logger");
@@ -59,7 +55,7 @@ describe("silentCatch", () => {
   });
 
   it("suppresses console.error in production", async () => {
-    process.env.NODE_ENV = "production";
+    vi.stubEnv("NODE_ENV", "production");
     const spy = vi.spyOn(console, "error").mockImplementation(() => {});
 
     const { silentCatch } = await import("@/lib/logger");

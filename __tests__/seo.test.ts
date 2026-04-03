@@ -7,6 +7,9 @@
 import { describe, it, expect } from "vitest";
 import { generateAgencyJsonLd } from "@/lib/seo";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type JsonLd = Record<string, any>;
+
 describe("generateAgencyJsonLd", () => {
   const baseAgency = {
     name: "Test Agency",
@@ -16,7 +19,7 @@ describe("generateAgencyJsonLd", () => {
   };
 
   it("returns valid ProfessionalService JSON-LD", () => {
-    const result = generateAgencyJsonLd(baseAgency);
+    const result: JsonLd = generateAgencyJsonLd(baseAgency);
     expect(result["@context"]).toBe("https://schema.org");
     expect(result["@type"]).toBe("ProfessionalService");
     expect(result.name).toBe("Test Agency");
@@ -24,7 +27,7 @@ describe("generateAgencyJsonLd", () => {
   });
 
   it("includes AggregateRating when rating & reviewCount are provided", () => {
-    const result = generateAgencyJsonLd({
+    const result: JsonLd = generateAgencyJsonLd({
       ...baseAgency,
       rating: 4.5,
       reviewCount: 12,
@@ -36,12 +39,12 @@ describe("generateAgencyJsonLd", () => {
   });
 
   it("omits AggregateRating when rating is missing", () => {
-    const result = generateAgencyJsonLd(baseAgency);
+    const result: JsonLd = generateAgencyJsonLd(baseAgency);
     expect(result.aggregateRating).toBeUndefined();
   });
 
   it("includes telephone when phone is provided", () => {
-    const result = generateAgencyJsonLd({
+    const result: JsonLd = generateAgencyJsonLd({
       ...baseAgency,
       phone: "+44 20 7946 0958",
     });
@@ -49,12 +52,12 @@ describe("generateAgencyJsonLd", () => {
   });
 
   it("omits telephone when phone is not provided", () => {
-    const result = generateAgencyJsonLd(baseAgency);
+    const result: JsonLd = generateAgencyJsonLd(baseAgency);
     expect(result.telephone).toBeUndefined();
   });
 
   it("includes priceRange when budgetRange is provided", () => {
-    const result = generateAgencyJsonLd({
+    const result: JsonLd = generateAgencyJsonLd({
       ...baseAgency,
       budgetRange: "$5,000 - $10,000",
     });
@@ -62,7 +65,7 @@ describe("generateAgencyJsonLd", () => {
   });
 
   it("includes areaServed when country is provided", () => {
-    const result = generateAgencyJsonLd({
+    const result: JsonLd = generateAgencyJsonLd({
       ...baseAgency,
       country: "United Kingdom",
     });
@@ -72,7 +75,7 @@ describe("generateAgencyJsonLd", () => {
   });
 
   it("includes image when logoUrl is provided", () => {
-    const result = generateAgencyJsonLd({
+    const result: JsonLd = generateAgencyJsonLd({
       ...baseAgency,
       logoUrl: "https://example.com/logo.png",
     });
@@ -80,7 +83,7 @@ describe("generateAgencyJsonLd", () => {
   });
 
   it("omits optional fields when not provided", () => {
-    const result = generateAgencyJsonLd(baseAgency);
+    const result: JsonLd = generateAgencyJsonLd(baseAgency);
     expect(result.telephone).toBeUndefined();
     expect(result.image).toBeUndefined();
     expect(result.priceRange).toBeUndefined();

@@ -431,10 +431,6 @@ function isStepComplete(stepIndex: number, s: Selections): boolean {
 // Label helpers
 // ---------------------------------------------------------------------------
 
-function labelFor(options: Option<string>[], value: string | null): string {
-  return options.find((o) => o.value === value)?.label ?? "";
-}
-
 const PLATFORM_LABEL: Record<Platform, string> = {
   magento: "Magento",
   woocommerce: "WooCommerce",
@@ -455,11 +451,13 @@ export default function MigrationCalculator() {
   const [showResults, setShowResults] = useState(false);
   const [fade, setFade] = useState(false);
 
-  // Restore from URL on mount
+  // Restore selections from URL query params on mount (shareable links).
+  // This is a one-time client-only initialisation — window is not available
+  // during SSR so we cannot use a useState initialiser.
   useEffect(() => {
     const restored = paramsToSelections(window.location.search);
     if (restored) {
-      setSelections(restored);
+      setSelections(restored); // eslint-disable-line react-hooks/set-state-in-effect
       setShowResults(true);
     }
   }, []);

@@ -6,7 +6,6 @@ import {
   getPostsByCategory,
   SLUG_TO_CATEGORY,
   CATEGORY_DESCRIPTIONS,
-  getCategorySlug,
 } from "@/lib/blog";
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
