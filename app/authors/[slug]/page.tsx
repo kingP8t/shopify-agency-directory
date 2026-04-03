@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getAuthor, authorInitials } from "@/lib/authors";
+import { getAuthorBySlug, authorInitials } from "@/lib/authors";
 import { getAllPosts } from "@/lib/blog";
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
@@ -12,7 +12,7 @@ import { BASE_URL, SITE_NAME } from "@/lib/seo";
 // ---------------------------------------------------------------------------
 
 export function generateStaticParams() {
-  return [{ slug: "elena-king" }];
+  return [{ slug: "elena-king" }, { slug: "varine-rashford" }];
 }
 
 // ---------------------------------------------------------------------------
@@ -25,8 +25,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const author =
-    slug === "elena-king" ? getAuthor("Elena King") : undefined;
+  const author = getAuthorBySlug(slug);
   if (!author) return { title: "Author Not Found" };
 
   return {
@@ -52,8 +51,7 @@ export default async function AuthorPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const author =
-    slug === "elena-king" ? getAuthor("Elena King") : undefined;
+  const author = getAuthorBySlug(slug);
   if (!author) notFound();
 
   const allPosts = await getAllPosts();
