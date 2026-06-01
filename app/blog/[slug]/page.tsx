@@ -35,9 +35,11 @@ export async function generateMetadata({
   const post = await getPostBySlug(slug);
   if (!post) return { title: "Post Not Found" };
 
-  // Category suffix makes each blog title unique & keyword-rich in SERPs
+  // Prefer a short, keyword-front-loaded SEO title for the <title> tag when set
+  // (keeps the on-page H1 punchy while avoiding SERP truncation). Falls back to
+  // the article title plus a category suffix for uniqueness/keyword coverage.
   const categoryLabel = post.category ? ` — ${post.category}` : "";
-  const fullTitle = `${post.title}${categoryLabel}`;
+  const fullTitle = post.seoTitle ?? `${post.title}${categoryLabel}`;
 
   return {
     title: fullTitle,
@@ -137,38 +139,42 @@ function RenderBlock({ block }: { block: ContentBlock }) {
       );
     case "table":
       return (
-        <div className="mb-6 -mx-2 overflow-x-auto rounded-xl border border-gray-200 sm:mx-0">
-          <table className="w-full min-w-[480px] text-sm">
-            <thead className="sticky top-0 z-10">
-              <tr className="bg-gray-800 text-white">
-                {block.headers.map((h, i) => (
-                  <th
-                    key={i}
-                    className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide first:rounded-tl-xl last:rounded-tr-xl"
-                  >
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {block.rows.map((row, ri) => (
-                <tr
-                  key={ri}
-                  className="border-t border-gray-100 odd:bg-white even:bg-gray-50/70 hover:bg-green-50/50 transition-colors"
-                >
-                  {row.map((cell, ci) => (
-                    <td
-                      key={ci}
-                      className={`px-4 py-3 leading-snug text-gray-700 ${ci === 0 ? "font-medium text-gray-900" : ""}`}
+        <div className="relative mb-6 -mx-2 sm:mx-0">
+          <div className="overflow-x-auto rounded-xl border border-gray-200">
+            <table className="w-full min-w-[480px] text-sm">
+              <thead className="sticky top-0 z-10">
+                <tr className="bg-gray-800 text-white">
+                  {block.headers.map((h, i) => (
+                    <th
+                      key={i}
+                      className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide first:rounded-tl-xl last:rounded-tr-xl"
                     >
-                      {cell}
-                    </td>
+                      {h}
+                    </th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {block.rows.map((row, ri) => (
+                  <tr
+                    key={ri}
+                    className="border-t border-gray-100 odd:bg-white even:bg-gray-50/70 hover:bg-green-50/50 transition-colors"
+                  >
+                    {row.map((cell, ci) => (
+                      <td
+                        key={ci}
+                        className={`px-4 py-3 leading-snug text-gray-700 ${ci === 0 ? "font-medium text-gray-900" : ""}`}
+                      >
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="pointer-events-none absolute right-0 top-0 h-full w-6 rounded-r-xl bg-gradient-to-l from-gray-200/60 to-transparent sm:hidden" />
+          <p className="mt-1.5 text-center text-xs text-gray-400 sm:hidden">Swipe to see more →</p>
         </div>
       );
     case "faq":

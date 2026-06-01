@@ -50,6 +50,22 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      // Blog consolidation — retired duplicate posts 301'd to the canonical version
+      // (resolves keyword cannibalization; merged content lives on the survivor).
+      {
+        source: "/blog/how-much-does-a-shopify-store-cost-complete-breakdown",
+        destination: "/blog/how-much-does-shopify-store-cost",
+        permanent: true,
+      },
+      {
+        source: "/blog/red-flags-shopify-agency-proposals",
+        destination: "/blog/shopify-agency-proposal-red-flags",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       // Crawler-accessible files — lightweight caching, no restrictive headers

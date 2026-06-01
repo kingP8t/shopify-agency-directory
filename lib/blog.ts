@@ -13,6 +13,7 @@ export interface BlogPost {
   id?: string;
   slug: string;
   title: string;
+  seoTitle?: string;      // optional <title> override; falls back to title
   excerpt: string;
   date: string;           // ISO format: YYYY-MM-DD
   updatedDate?: string;
@@ -35,6 +36,7 @@ function toPost(row: BlogPostDB): BlogPost {
     id: row.id,
     slug: row.slug,
     title: row.title,
+    seoTitle: row.seo_title ?? undefined,
     excerpt: row.excerpt,
     date: row.date,
     updatedDate: row.updated_date ?? undefined,

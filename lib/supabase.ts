@@ -155,6 +155,7 @@ export interface BlogPostDB {
   id: string;
   slug: string;
   title: string;
+  seo_title: string | null;  // optional <title> override; falls back to title
   excerpt: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   content: any[];          // ContentBlock[] stored as JSONB

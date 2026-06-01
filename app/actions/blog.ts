@@ -29,6 +29,7 @@ export async function upsertBlogPostAction(
 
   const id = formData.get("id")?.toString() || undefined;
   const title = formData.get("title")?.toString().trim();
+  const seo_title = formData.get("seo_title")?.toString().trim() || null;
   const excerpt = formData.get("excerpt")?.toString().trim();
   const category = formData.get("category")?.toString().trim() || "Guide";
   const author =
@@ -77,6 +78,7 @@ export async function upsertBlogPostAction(
   const payload = {
     slug,
     title,
+    seo_title,
     excerpt,
     content,
     category,
@@ -111,6 +113,7 @@ export async function upsertBlogPostAction(
 
   revalidatePath("/admin");
   revalidatePath("/blog");
+  revalidatePath(`/blog/${slug}`);
   revalidatePath("/");
 
   return { success: true, id: result.data.id };

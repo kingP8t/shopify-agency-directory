@@ -111,7 +111,10 @@ const post_v3 = {
   tags: ["shopify cost", "shopify store cost", "pricing", "total cost of ownership", "ecommerce budget"],
   author: "Shopify Agency Directory",
   reading_time: 10,
-  status: "published",
+  // RETIRED: consolidated into /blog/how-much-does-shopify-store-cost (301 in
+  // next.config.ts). Kept as draft so re-running this seed won't resurrect the
+  // duplicate and re-introduce keyword cannibalization.
+  status: "draft",
   featured: false,
   date: "2026-03-03",
   content: [

@@ -37,7 +37,10 @@ const post = {
   ],
   author: "Varine Rashford",
   reading_time: 10,
-  status: "published",
+  // RETIRED: consolidated into /blog/shopify-agency-proposal-red-flags (301 in
+  // next.config.ts). Kept as draft so re-running this seed won't resurrect the
+  // duplicate and re-introduce keyword cannibalization.
+  status: "draft",
   featured: false,
   date: "2026-04-03",
   content: [

@@ -72,6 +72,23 @@ export default function BlogPostForm({ post, onClose }: BlogPostFormProps) {
         </p>
       </div>
 
+      {/* SEO Title */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700">
+          SEO Title <span className="text-gray-400">(optional)</span>
+        </label>
+        <input
+          name="seo_title"
+          defaultValue={post?.seo_title ?? ""}
+          maxLength={70}
+          placeholder="Short, keyword-first title for Google (≤60 chars)"
+          className="mt-1 block w-full rounded-lg border px-3 py-2 text-sm focus:border-green-500 focus:outline-none"
+        />
+        <p className="mt-1 text-xs text-gray-400">
+          Overrides the &lt;title&gt; tag in search results. Leave blank to use the article title. Aim for ≤60 characters with the keyword first.
+        </p>
+      </div>
+
       {/* Excerpt */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
