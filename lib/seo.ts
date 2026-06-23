@@ -27,17 +27,27 @@ export function generateAgencyMetadata(agency: {
   // Extract city shorthand from location (e.g. "New York, United States" → "NYC"-style or just city)
   const city = agency.location?.split(",")[0]?.trim();
 
-  const specLabel = primarySpec ? `${primarySpec} Agency` : "Agency";
+  // Build the agency-type label, avoiding "Shopify Shopify ..." when the
+  // specialization itself already contains "Shopify" (e.g. "Shopify Plus").
+  const baseLabel = primarySpec ? `${primarySpec} Agency` : "Agency";
+  const specLabel = /shopify/i.test(baseLabel)
+    ? baseLabel
+    : `Shopify ${baseLabel}`;
   const locationBit = city ? ` ${city}` : "";
 
   // e.g. "Arctic Grey | Shopify Plus Agency NYC"
-  const title = `${agency.name} | Shopify ${specLabel}${locationBit}`;
+  const title = `${agency.name} | ${specLabel}${locationBit}`;
 
   // ── Unique meta description with name, location, specializations, rating ──
+  // Ratings come from the Shopify Partner Directory — attribute them to Shopify
+  // so the claim stays consistent with what the profile page actually shows
+  // (the on-site reviews section is separate and may be empty).
   const ratingStr =
     agency.rating && agency.reviewCount
-      ? `Rated ${agency.rating}/5 from ${agency.reviewCount} reviews. `
-      : "";
+      ? `Rated ${agency.rating}/5 on Shopify (${agency.reviewCount} reviews). `
+      : agency.rating
+        ? `Rated ${agency.rating}/5 on Shopify. `
+        : "";
   const specStr =
     specs.length > 0
       ? `Specializing in ${specs.slice(0, 3).join(", ")}. `

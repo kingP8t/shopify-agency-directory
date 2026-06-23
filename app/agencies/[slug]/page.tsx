@@ -58,7 +58,128 @@ const SPEC_META: Record<string, { icon: string; description: string }> = {
     description:
       "Enterprise Shopify Plus, checkout extensibility, B2B, and Shopify Functions.",
   },
+  "Product And Collection Setup": {
+    icon: "🗂️",
+    description:
+      "Adding products, variants, and collections with merchandising in mind.",
+  },
+  "Store Settings Configuration": {
+    icon: "🛠️",
+    description:
+      "Configuring shipping, taxes, payments, and core store settings for launch.",
+  },
+  "Ongoing Website Management": {
+    icon: "🔧",
+    description: "Ongoing maintenance, content updates, and day-to-day store management.",
+  },
+  "Business Strategy Guidance": {
+    icon: "🧭",
+    description: "Ecommerce strategy and growth planning for Shopify merchants.",
+  },
+  Strategy: {
+    icon: "🧭",
+    description: "Ecommerce strategy and growth planning for Shopify merchants.",
+  },
+  "Website Audit And Optimization Strategy": {
+    icon: "📋",
+    description:
+      "Store audits with a prioritized roadmap to lift performance and conversion.",
+  },
+  Performance: {
+    icon: "⚡",
+    description: "Site speed and Core Web Vitals tuning for faster storefronts.",
+  },
+  Troubleshooting: {
+    icon: "🩺",
+    description: "Diagnosing and fixing bugs, theme conflicts, and technical issues.",
+  },
+  "Custom Domain Setup": {
+    icon: "🌐",
+    description: "Connecting and configuring custom domains, DNS, and SSL.",
+  },
+  "B2B Commerce": {
+    icon: "🤝",
+    description:
+      "Wholesale and B2B selling with company accounts, catalogs, and net terms.",
+  },
+  Branding: {
+    icon: "✨",
+    description: "Brand identity, visual design, and storefront art direction.",
+  },
+  Analytics: {
+    icon: "📊",
+    description: "Analytics, tracking, and reporting setup for data-driven decisions.",
+  },
+  "Checkout Upgrade": {
+    icon: "🛒",
+    description: "Checkout extensibility and conversion-focused checkout work.",
+  },
+  "Systems Integration": {
+    icon: "🔌",
+    description: "Connecting Shopify to ERPs, CRMs, and third-party systems.",
+  },
+  "Banner Ads": {
+    icon: "🖼️",
+    description: "Display and banner ad creative for ecommerce campaigns.",
+  },
+  Internationalization: {
+    icon: "🌍",
+    description: "Multi-currency, multi-language, and cross-border selling setup.",
+  },
+  Internationalisation: {
+    icon: "🌍",
+    description: "Multi-currency, multi-language, and cross-border selling setup.",
+  },
+  "Sales Channel Setup": {
+    icon: "📡",
+    description: "Connecting marketplaces and social commerce sales channels.",
+  },
+  "UX Design": {
+    icon: "🎯",
+    description: "User experience and interface design for storefronts.",
+  },
+  "Product Descriptions": {
+    icon: "✍️",
+    description: "Conversion-focused product copywriting and descriptions.",
+  },
+  "Product Sourcing Guidance": {
+    icon: "📦",
+    description: "Guidance on sourcing products and supplier relationships.",
+  },
+  "3D Modelling": {
+    icon: "🧊",
+    description: "3D product modelling and interactive visuals for product pages.",
+  },
+  "Video And Illustrations": {
+    icon: "🎬",
+    description: "Video production and illustration for product and brand content.",
+  },
+  "Product Photography": {
+    icon: "📷",
+    description: "Product photography and visual content for storefronts.",
+  },
+  "Sales Tax Guidance": {
+    icon: "🧾",
+    description: "Guidance on sales tax setup and compliance.",
+  },
+  Shopify: {
+    icon: "🛍️",
+    description: "General Shopify store design, development, and support.",
+  },
 };
+
+/** One-line description for a service tag — never echoes the bare tag name. */
+function serviceDescription(spec: string): string {
+  return (
+    SPEC_META[spec]?.description ??
+    `Professional ${spec.toLowerCase()} services for Shopify merchants.`
+  );
+}
+
+/** Icon for a service tag, with a sensible default. */
+function serviceIcon(spec: string): string {
+  return SPEC_META[spec]?.icon ?? "⚡";
+}
 
 const BEST_FOR_MAP: Record<string, string[]> = {
   "Shopify Plus": ["Enterprise brands", "B2B merchants", "High-volume stores"],
@@ -79,6 +200,13 @@ const BUDGET_BEST_FOR: Record<string, string> = {
   "$100,000+": "Enterprise projects",
 };
 
+const BUDGET_TIER: Record<string, string> = {
+  "Under $5,000": "early-stage",
+  "$5,000 - $25,000": "growth-stage",
+  "$25,000 - $100,000": "mid-market",
+  "$100,000+": "enterprise-level",
+};
+
 // ---------------------------------------------------------------------------
 // Content-depth helper: generates unique contextual paragraphs per agency
 // to ensure each profile page has 300+ words of meaningful content.
@@ -86,66 +214,50 @@ const BUDGET_BEST_FOR: Record<string, string> = {
 
 // COUNTRY_NAMES imported from @/lib/countries via countryName()
 
-function buildAgencyInsights(agency: Agency, reviewCount: number): string[] {
+// Fact-based "About" fallback for agencies without their own long_description.
+// Deliberately avoids generic marketing filler — every sentence is driven by
+// this agency's own data, so the copy genuinely varies from profile to profile.
+function buildAboutFallback(agency: Agency): string[] {
   const paras: string[] = [];
   const specs = agency.specializations ?? [];
-  const city = agency.location?.split(",")[0]?.trim();
   const resolvedCountry = agency.country ? countryName(agency.country) : null;
   const locationLabel = agency.location ?? resolvedCountry;
 
-  // Why work with this agency
   if (locationLabel) {
     paras.push(
-      `${agency.name} is a Shopify agency based in ${locationLabel}${agency.founded ? `, operating since ${agency.founded}` : ""}. ` +
-      `They work with merchants looking for a trusted, local Shopify partner who understands the ${resolvedCountry ?? city ?? "local"} ecommerce landscape.`
+      `${agency.name} is a Shopify agency based in ${locationLabel}` +
+        `${agency.founded ? `, operating since ${agency.founded}` : ""}.`
     );
   }
 
-  // Services overview
   if (specs.length > 0) {
-    const specList = specs.length === 1
-      ? specs[0]
-      : specs.slice(0, -1).join(", ") + " and " + specs[specs.length - 1];
-    paras.push(
-      `Their core service areas include ${specList}. ` +
-      `Whether you need a ground-up store build or ongoing optimization, ${agency.name} can tailor their approach to your specific project requirements and budget.`
-    );
+    const specList =
+      specs.length === 1
+        ? specs[0]
+        : specs.slice(0, -1).join(", ") + " and " + specs[specs.length - 1];
+    paras.push(`Their core service areas include ${specList}.`);
   }
 
-  // Budget & sizing
-  if (agency.budget_range || agency.team_size) {
-    let line = "";
-    if (agency.budget_range) {
-      line += `Typical project budgets start in the ${agency.budget_range} range, making them a good fit for ${
-        agency.budget_range.includes("100,000") ? "enterprise-level" :
-        agency.budget_range.includes("25,000") ? "mid-market" :
-        agency.budget_range.includes("5,000") ? "growth-stage" : "early-stage"
-      } merchants. `;
-    }
-    if (agency.team_size) {
-      line += `With a team of ${agency.team_size} professionals, they balance personal attention with the capacity to deliver complex projects on schedule.`;
-    }
-    if (line) paras.push(line);
-  }
-
-  // Track record / ratings
-  if (agency.rating && reviewCount > 0) {
-    paras.push(
-      `${agency.name} has earned a ${agency.rating}/5 rating across ${reviewCount} ` +
-      `${reviewCount === 1 ? "review" : "reviews"}. ` +
-      `Client feedback is one of the strongest signals when evaluating a Shopify agency, and this track record speaks to consistent project delivery and communication.`
-    );
-  } else if (agency.rating) {
-    paras.push(
-      `With a ${agency.rating}/5 rating on the Shopify Partner network, ${agency.name} demonstrates a strong track record of delivering quality ecommerce projects for their clients.`
+  const sizing: string[] = [];
+  if (agency.budget_range) {
+    const tier = BUDGET_TIER[agency.budget_range];
+    sizing.push(
+      `Typical project budgets fall in the ${agency.budget_range} range${
+        tier ? `, a fit for ${tier} merchants` : ""
+      }.`
     );
   }
+  if (agency.team_size) {
+    sizing.push(`The team has ${agency.team_size} people.`);
+  }
+  if (sizing.length) paras.push(sizing.join(" "));
 
-  // How to get started
-  paras.push(
-    `If ${agency.name} sounds like the right fit for your project, you can reach out directly through the contact form below or visit their website to learn more. ` +
-    `We recommend sharing your project brief, timeline, and budget range upfront for the fastest response.`
-  );
+  if (agency.rating && agency.review_count) {
+    paras.push(
+      `They hold a ${agency.rating}/5 rating across ${agency.review_count} ` +
+        `${agency.review_count === 1 ? "review" : "reviews"} on the Shopify Partner Directory.`
+    );
+  }
 
   return paras;
 }
@@ -199,6 +311,24 @@ async function getApprovedReviews(agencyId: string): Promise<Review[]> {
   return (data as Review[]) ?? [];
 }
 
+/**
+ * A listing is "quality" enough to surface in Similar Agencies when its name
+ * is a real, readable string. Excludes scraped junk like "★★★★★", emoji-only
+ * names, or names carrying markup/escape characters — without penalising
+ * legitimate non-Latin (e.g. CJK) agency names, which contain letters.
+ */
+function isQualityListing(agency: Agency): boolean {
+  const name = agency.name?.trim() ?? "";
+  if (name.length < 2) return false;
+  // Must contain at least one letter in some script (excludes "★★★★★", "360&5"-only symbols).
+  if (!/\p{L}/u.test(name)) return false;
+  // Reject markup / escape artefacts from scraping.
+  if (/[<>{}|\\]/.test(name)) return false;
+  // Must have a usable description.
+  if (!agency.description || agency.description.trim().length < 20) return false;
+  return true;
+}
+
 async function getSimilarAgencies(
   agency: Agency,
   limit = 4
@@ -209,7 +339,8 @@ async function getSimilarAgencies(
     .eq("status", "published")
     .neq("slug", agency.slug)
     .order("rating", { ascending: false })
-    .limit(limit);
+    // Over-fetch so quality filtering below can still fill `limit` slots.
+    .limit(limit * 4);
 
   // Match by overlapping specializations if available
   if (agency.specializations && agency.specializations.length > 0) {
@@ -217,7 +348,7 @@ async function getSimilarAgencies(
   }
 
   const { data } = await query;
-  return (data as Agency[]) ?? [];
+  return ((data as Agency[]) ?? []).filter(isQualityListing).slice(0, limit);
 }
 
 async function getAllSlugs(): Promise<string[]> {
@@ -311,14 +442,16 @@ export default async function AgencyPage({
     founded: agency.founded ?? undefined,
     budgetRange: agency.budget_range ?? undefined,
     specializations: agency.specializations ?? undefined,
+    // AggregateRating/Review schema is sourced ONLY from on-site reviews. The
+    // Shopify Partner rating is shown on-page as an external signal but is not
+    // emitted as schema — so we never assert reviews the page can't back up.
     rating:
       reviews.length > 0
         ? Math.round(
             (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length) * 10
           ) / 10
-        : (agency.rating ?? undefined),
-    reviewCount:
-      reviews.length > 0 ? reviews.length : (agency.review_count ?? undefined),
+        : undefined,
+    reviewCount: reviews.length > 0 ? reviews.length : undefined,
     reviews: reviews.map((r) => ({
       reviewer_name: r.reviewer_name,
       body: r.body,
@@ -389,7 +522,14 @@ export default async function AgencyPage({
                     {agency.rating && (
                       <p className="text-sm text-gray-600">
                         ⭐ {agency.rating}/5{" "}
-                        <span className="text-gray-400">on Shopify</span>
+                        <span className="text-gray-400">
+                          on Shopify
+                          {agency.review_count
+                            ? ` · ${agency.review_count} ${
+                                agency.review_count === 1 ? "review" : "reviews"
+                              }`
+                            : ""}
+                        </span>
                       </p>
                     )}
                     {reviews.length > 0 && (
@@ -481,24 +621,45 @@ export default async function AgencyPage({
             </dl>
           )}
 
+          {/* About — unique, agency-specific content leads the page.
+              Prefers the agency's own long_description; otherwise falls back to
+              concise, fact-based prose generated from this agency's own data. */}
+          {(() => {
+            const aboutParagraphs = agency.long_description
+              ? agency.long_description
+                  .split("\n\n")
+                  .map((p) => p.trim())
+                  .filter(Boolean)
+              : buildAboutFallback(agency);
+            return aboutParagraphs.length > 0 ? (
+              <section className="mt-5 rounded-2xl border bg-white p-8 shadow-sm">
+                <h2 className="text-lg font-semibold text-gray-900">
+                  About {agency.name}
+                </h2>
+                <div className="mt-4 space-y-4 leading-relaxed text-gray-700">
+                  {aboutParagraphs.map((para, i) => (
+                    <p key={i}>{para}</p>
+                  ))}
+                </div>
+              </section>
+            ) : null;
+          })()}
+
           {/* Services */}
           {agency.specializations && agency.specializations.length > 0 && (
             <section className="mt-5 rounded-2xl border bg-white p-8 shadow-sm">
               <h2 className="text-lg font-semibold text-gray-900">Services</h2>
               <dl className="mt-4 grid gap-3 sm:grid-cols-2">
-                {agency.specializations.map((spec) => {
-                  const meta = SPEC_META[spec];
-                  return (
-                    <div key={spec} className="rounded-xl border border-gray-100 bg-gray-50 p-4">
-                      <dt className="text-sm font-semibold text-gray-900">
-                        {meta?.icon ?? "⚡"} {spec}
-                      </dt>
-                      <dd className="mt-0.5 text-xs leading-relaxed text-gray-500">
-                        {meta?.description ?? spec}
-                      </dd>
-                    </div>
-                  );
-                })}
+                {agency.specializations.map((spec) => (
+                  <div key={spec} className="rounded-xl border border-gray-100 bg-gray-50 p-4">
+                    <dt className="text-sm font-semibold text-gray-900">
+                      {serviceIcon(spec)} {spec}
+                    </dt>
+                    <dd className="mt-0.5 text-xs leading-relaxed text-gray-500">
+                      {serviceDescription(spec)}
+                    </dd>
+                  </div>
+                ))}
               </dl>
 
               {/* Best for tags */}
@@ -527,39 +688,6 @@ export default async function AgencyPage({
               })()}
             </section>
           )}
-
-          {/* About / long description */}
-          {agency.long_description && (
-            <div className="mt-5 rounded-2xl border bg-white p-8 shadow-sm">
-              <h2 className="text-lg font-semibold text-gray-900">About</h2>
-              <div className="mt-4 space-y-4 leading-relaxed text-gray-700">
-                {agency.long_description.split("\n\n").map((para, i) => (
-                  <p key={i}>{para.trim()}</p>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Why work with this agency — auto-generated unique content.
-              Only shown when agency has enough data to produce meaningful prose
-              (at least 2 data points beyond the always-present CTA paragraph). */}
-          {(() => {
-            const insights = buildAgencyInsights(agency, reviews.length);
-            // insights always has ≥1 entry (the CTA paragraph). Show only when
-            // there are at least 2 data-driven paragraphs + the CTA = 3 total.
-            return insights.length >= 3 ? (
-              <section className="mt-5 rounded-2xl border bg-white p-8 shadow-sm">
-                <h2 className="text-lg font-semibold text-gray-900">
-                  Why Work with {agency.name}?
-                </h2>
-                <div className="mt-4 space-y-4 leading-relaxed text-gray-700">
-                  {insights.map((para, i) => (
-                    <p key={i}>{para}</p>
-                  ))}
-                </div>
-              </section>
-            ) : null;
-          })()}
 
           {/* Get Your Badge */}
           <section className="mt-5 rounded-2xl border bg-white p-8 shadow-sm">

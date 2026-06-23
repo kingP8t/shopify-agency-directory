@@ -479,12 +479,25 @@ export default async function BlogPostPage({
               {(() => {
                 // Insert a mid-article CTA ~40% through the content blocks
                 const midPoint = Math.floor(post.content.length * 0.4);
-                return post.content.map((block, i) => (
-                  <span key={i}>
-                    <RenderBlock block={block} />
-                    {i === midPoint && <MidArticleCTA links={directoryLinks} />}
-                  </span>
-                ));
+                return post.content.map((block, i) => {
+                  // The faq block renders its own "Frequently Asked Questions"
+                  // heading, so skip a redundant content h2 that immediately
+                  // precedes it (avoids a duplicated heading).
+                  if (
+                    block.type === "h2" &&
+                    block.text.trim().toLowerCase() ===
+                      "frequently asked questions" &&
+                    post.content[i + 1]?.type === "faq"
+                  ) {
+                    return null;
+                  }
+                  return (
+                    <span key={i}>
+                      <RenderBlock block={block} />
+                      {i === midPoint && <MidArticleCTA links={directoryLinks} />}
+                    </span>
+                  );
+                });
               })()}
             </div>
           </article>
