@@ -239,7 +239,6 @@ const post = {
       "Create Your Project Brief"
     ),
 
-    h2("Frequently Asked Questions"),
     faq([
       {
         q: "How many proposals should I request?",

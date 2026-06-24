@@ -103,7 +103,6 @@ const post = {
     p("An upsell app amplifies what is already working. It will not save a store with poor product-market fit, weak product pages, or a broken checkout. Before installing, make sure your core conversion funnel is solid — then use an upsell app to extract more value from the traffic you are already converting."),
     cta("Want a CRO expert to audit your full funnel first? Browse verified Shopify CRO agencies.", "/agencies?specialization=CRO", "Browse CRO Agencies"),
 
-    h2("Frequently Asked Questions"),
     faq([
       {
         q: "What is the best Shopify upsell app in 2026?",

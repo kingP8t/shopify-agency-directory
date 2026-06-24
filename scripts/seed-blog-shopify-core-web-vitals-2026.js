@@ -151,7 +151,6 @@ const post = {
     ),
 
     // ── FAQ ─────────────────────────────────────────────────────────────
-    h2("Frequently Asked Questions"),
     faq([
       {
         q: "What is a good Core Web Vitals score for a Shopify store?",

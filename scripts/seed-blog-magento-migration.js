@@ -269,7 +269,6 @@ const post = {
       "Find Migration Agencies"
     ),
 
-    h2("Frequently Asked Questions"),
     faq([
       {
         q: "How long does a Magento to Shopify migration take?",

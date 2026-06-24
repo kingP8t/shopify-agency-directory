@@ -5,6 +5,31 @@ export const BASE_URL =
 
 export const SITE_NAME = "Shopify Agency Directory";
 
+/**
+ * Extract a plausible city from a free-form `location` string for use in page
+ * titles. Returns undefined when the leading segment looks like a street
+ * address or non-place text (e.g. "1983 Marcus Ave, …", "10,000+ Shops"),
+ * so a street address never leaks into a meta title. Legitimate cities such as
+ * "St Petersburg" or "St. Catharines" (Saint, no digits) are preserved.
+ */
+export function extractCity(location?: string | null): string | undefined {
+  if (!location) return undefined;
+  const seg = location.split(",")[0]?.trim();
+  if (!seg) return undefined;
+  // Leading digit → street number ("1983 Marcus Ave") or junk ("10,000+ Shops").
+  if (/^\d/.test(seg)) return undefined;
+  // Contains a number alongside a street-type token → street address line.
+  if (
+    /\d/.test(seg) &&
+    /\b(st|street|ave|avenue|rd|road|blvd|boulevard|ste|suite|unit|apt|apartment|floor|fl|dr|drive|ln|lane|way|ct|court|pl|place|po\s*box)\b\.?/i.test(
+      seg
+    )
+  ) {
+    return undefined;
+  }
+  return seg;
+}
+
 // ---------------------------------------------------------------------------
 // Page Metadata helpers
 // ---------------------------------------------------------------------------
@@ -24,8 +49,8 @@ export function generateAgencyMetadata(agency: {
   const specs = agency.specializations ?? [];
   const primarySpec = specs[0];
 
-  // Extract city shorthand from location (e.g. "New York, United States" → "NYC"-style or just city)
-  const city = agency.location?.split(",")[0]?.trim();
+  // Extract a plausible city from location (skips street addresses / junk).
+  const city = extractCity(agency.location);
 
   // Build the agency-type label, avoiding "Shopify Shopify ..." when the
   // specialization itself already contains "Shopify" (e.g. "Shopify Plus").

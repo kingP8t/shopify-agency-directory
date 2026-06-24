@@ -107,7 +107,6 @@ const post = {
     p("Most agencies will send their standard contract. Review it carefully — it will naturally favour the agency. You have every right to negotiate terms, add clauses, or provide your own contract template. On larger projects (above $20,000), it is worth having a lawyer review the agreement before signing. The cost of legal review is usually a fraction of the cost of a dispute."),
     tip("A well-structured agency brief produces a better contract. When scope is defined in your brief, the agency's contract simply needs to reference and confirm it — rather than vaguely re-describe the project in general terms."),
 
-    h2("Frequently Asked Questions"),
     faq([
       {
         q: "Do I need a formal contract with a Shopify agency?",

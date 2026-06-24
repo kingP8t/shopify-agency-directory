@@ -121,7 +121,6 @@ const post = {
 
     cta("International setup is an area where an experienced agency pays for itself. Browse verified Shopify agencies with international expansion experience.", "/agencies?specialization=International", "Browse International Agencies"),
 
-    h2("Frequently Asked Questions"),
     faq([
       {
         q: "What is Shopify Markets?",

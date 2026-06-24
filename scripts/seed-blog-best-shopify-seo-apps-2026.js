@@ -162,7 +162,6 @@ const post = {
     ),
 
     // ── FAQ ─────────────────────────────────────────────────────────────
-    h2("Frequently Asked Questions"),
     faq([
       {
         q: "Does Shopify need an SEO app, or is the built-in SEO enough?",

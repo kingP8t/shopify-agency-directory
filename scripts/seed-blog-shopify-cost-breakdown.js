@@ -277,7 +277,6 @@ const post = {
       "Create Your Project Brief"
     ),
 
-    h2("Frequently Asked Questions"),
     faq([
       {
         q: "How much does it cost to hire a Shopify agency?",

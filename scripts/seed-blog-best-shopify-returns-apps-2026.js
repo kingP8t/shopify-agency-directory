@@ -91,7 +91,6 @@ const post = {
       "Exchange incentives — even a $5 store credit to choose an exchange over a refund can meaningfully improve your refund-to-exchange ratio",
     ),
 
-    h2("Frequently Asked Questions"),
     faq([
       {
         q: "What is the best Shopify returns app in 2026?",

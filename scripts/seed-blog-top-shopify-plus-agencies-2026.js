@@ -164,7 +164,6 @@ const post = {
     ),
 
     // ── FAQ ─────────────────────────────────────────────────────────────
-    h2("Frequently Asked Questions"),
     faq([
       {
         q: "What is a Shopify Plus agency?",

@@ -217,7 +217,6 @@ const post = {
     ),
 
     // ── FAQ ─────────────────────────────────────────────────────────────
-    h2("Frequently Asked Questions"),
     faq([
       {
         q: "How much does it cost to hire a Shopify agency in 2026?",
