@@ -122,13 +122,13 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     ],
     industryContent: {
       whyShopify:
-        "London's ecommerce market is one of the most competitive in Europe, and Shopify dominates because it scales from first-sale startups to enterprise brands doing eight figures a year. London agencies understand the UK market's unique requirements: VAT-inclusive pricing, Royal Mail and DPD shipping integrations, Strong Customer Authentication (SCA) for payments, and multi-currency selling for European and international customers. Many London agencies also specialise in Shopify Plus for high-growth DTC brands in fashion, beauty, and food — industries where London is a global hub. The city's agency ecosystem benefits from proximity to major brands, venture-funded startups, and a deep talent pool in design, development, and ecommerce strategy.",
+        "London has one of the most competitive ecommerce markets in Europe, and Shopify dominates because it scales from first sale startups to enterprise brands doing eight figures a year. London agencies understand the needs of the UK market, including VAT inclusive pricing, Royal Mail and DPD shipping integrations, Strong Customer Authentication for payments, and multi currency selling for European and international customers. Many London agencies also specialise in Shopify Plus for high growth DTC brands in fashion, beauty, and food, industries where London is a global hub. The agency scene benefits from proximity to major brands, funded startups, and a deep talent pool in design, development, and ecommerce strategy.",
       tips: [
-        "Check whether the agency has Shopify Partner or Shopify Plus Partner status — this indicates verified expertise and access to priority Shopify support",
-        "Ask for case studies from brands in your sector — a fashion agency and a B2B agency require very different skill sets even on the same platform",
-        "Clarify whether quotes are in GBP and inclusive of VAT, and whether ongoing maintenance and hosting support are included or billed separately",
-        "Request a clear project timeline with milestones — London agencies often juggle multiple clients, so nailing down delivery dates upfront avoids delays",
-        "Evaluate their post-launch support offering — CRO, SEO, and ongoing development retainers are where the long-term value of an agency relationship lives",
+        "Check whether the agency has Shopify Partner or Shopify Plus Partner status, which signals verified expertise and access to priority Shopify support",
+        "Ask for case studies from brands in your sector, since a fashion agency and a B2B agency need very different skills even on the same platform",
+        "Clarify whether quotes are in GBP and include VAT, and whether ongoing maintenance and hosting support are included or billed separately",
+        "Request a clear project timeline with milestones, since London agencies often juggle several clients and firm dates prevent delays",
+        "Check the post launch support they offer, since CRO, SEO, and ongoing development retainers are where the long term value lives",
       ],
       relatedPosts: [
         { title: "How to Choose a Shopify Agency", slug: "how-to-choose-a-shopify-agency" },
@@ -450,17 +450,17 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     ],
     industryContent: {
       whyShopify:
-        "Shopify has become the most popular migration destination for merchants leaving WooCommerce, Magento, and BigCommerce because it eliminates hosting headaches, reduces security maintenance, and provides a stable, regularly updated platform. Unlike self-hosted solutions, Shopify handles server infrastructure, PCI compliance, and automatic security patches — freeing teams to focus on selling rather than sysadmin. For merchants outgrowing their current platform, Shopify Plus offers enterprise features like checkout extensibility, Shopify Functions for custom pricing logic, and B2B selling — without the complexity and total cost of ownership associated with Magento or Salesforce Commerce Cloud. The platform's app ecosystem also means that most custom functionality from legacy platforms can be replicated through existing integrations rather than expensive custom development.",
+        "Shopify has become the most popular migration destination for merchants leaving WooCommerce, Magento, and BigCommerce, because it removes hosting headaches, reduces security maintenance, and provides a stable, regularly updated platform. Unlike self hosted solutions, Shopify handles server infrastructure, PCI compliance, and automatic security patches, which frees teams to focus on selling rather than sysadmin. For merchants outgrowing their current platform, Shopify Plus adds enterprise features such as checkout extensibility, Shopify Functions for custom pricing logic, and B2B selling, without the complexity and total cost of ownership of Magento or Salesforce Commerce Cloud. The app ecosystem also means most custom functionality from legacy platforms can be replicated through existing integrations rather than expensive custom development.",
       tips: [
-        "Map every URL from your old site before starting — 301 redirects are the single most important factor in preserving SEO rankings through a migration",
-        "Export and audit your product data thoroughly — clean up descriptions, images, and metadata before importing rather than migrating messy data and fixing it later",
-        "Run both platforms in parallel during the transition period so you can verify order processing, inventory sync, and customer account migration before cutting over",
-        "Migrate customer accounts and order history — losing purchase history damages customer trust and breaks loyalty and re-order flows",
-        "Plan your migration around a low-traffic period and avoid peak sales seasons — never migrate within 6 weeks of Black Friday or a major product launch",
+        "Map every URL from your old site before starting, since 301 redirects are the single most important factor in preserving SEO rankings through a migration",
+        "Export and audit your product data thoroughly, and clean up descriptions, images, and metadata before importing rather than migrating messy data and fixing it later",
+        "Run both platforms in parallel during the transition so you can verify order processing, inventory sync, and customer account migration before cutting over",
+        "Migrate customer accounts and order history, since losing purchase history damages customer trust and breaks loyalty and reorder flows",
+        "Plan your migration around a low traffic period and avoid peak sales seasons, and never migrate within 6 weeks of Black Friday or a major product launch",
       ],
       relatedPosts: [
         { title: "How to Choose a Shopify Agency", slug: "how-to-choose-a-shopify-agency" },
-        { title: "Shopify vs WooCommerce: Full Comparison", slug: "shopify-vs-woocommerce" },
+        { title: "Shopify vs WooCommerce, Full Comparison", slug: "shopify-vs-woocommerce" },
       ],
     },
   },
@@ -573,13 +573,13 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     ],
     industryContent: {
       whyShopify:
-        "Canada has a unique advantage in the Shopify ecosystem — the platform was founded in Ottawa and its headquarters remain there, which means Canadian agencies often have early access to new features, close relationships with Shopify's partner team, and deep institutional knowledge of the platform. Canadian agencies are particularly strong in cross-border ecommerce, helping brands sell into both the US and Canadian markets with proper multi-currency support, bilingual French/English storefronts for Quebec compliance, Canadian tax configuration (GST/HST/PST), and integration with Canadian shipping carriers like Canada Post, Purolator, and Canpar. The country's agency ecosystem spans from enterprise Shopify Plus partners in Toronto and Montreal to agile boutique studios in Vancouver and smaller cities, with competitive rates compared to US and UK counterparts.",
+        "Canada has a unique advantage in the Shopify ecosystem, because the platform was founded in Ottawa and is still headquartered there. Canadian agencies often have early access to new features, close relationships with the Shopify partner team, and deep knowledge of the platform. They are particularly strong in cross border ecommerce, helping brands sell into both the US and Canadian markets with proper multi currency support, bilingual French and English storefronts for Quebec compliance, Canadian tax configuration for GST, HST, and PST, and integration with Canadian shipping carriers such as Canada Post, Purolator, and Canpar. The agency scene spans enterprise Shopify Plus partners in Toronto and Montreal to agile boutique studios in Vancouver and smaller cities, with competitive rates compared to US and UK counterparts.",
       tips: [
-        "If you sell in Quebec, ensure your agency builds bilingual French/English support — Quebec's Bill 96 requires French as the default language for commercial communications",
-        "Verify the agency understands Canadian tax requirements including provincial tax variations (GST, HST, PST, QST) which differ significantly from US sales tax",
-        "Ask about cross-border experience if you plan to sell into the US — duties, customs declarations, and USMCA compliance add complexity that not all agencies handle well",
-        "Check whether they integrate with Canadian payment processors and shipping carriers — Shopify Payments works well in Canada but some businesses need Moneris, Beanstream, or specific carrier integrations",
-        "Consider timezone alignment — Canadian agencies in Toronto (ET) and Vancouver (PT) cover the full North American business day, which is valuable for US-based brands",
+        "If you sell in Quebec, make sure your agency builds bilingual French and English support, since Quebec law requires French as the default language for commercial communications",
+        "Confirm the agency understands Canadian tax requirements, including the provincial variations of GST, HST, PST, and QST, which differ from US sales tax",
+        "Ask about cross border experience if you plan to sell into the US, since duties, customs declarations, and trade compliance add complexity that not all agencies handle well",
+        "Check whether they integrate with Canadian payment processors and shipping carriers, since Shopify Payments works well in Canada but some businesses need Moneris, Beanstream, or specific carrier integrations",
+        "Consider timezone alignment, since Canadian agencies in Toronto and Vancouver cover the full North American business day, which is useful for US based brands",
       ],
       relatedPosts: [
         { title: "How to Choose a Shopify Agency", slug: "how-to-choose-a-shopify-agency" },
@@ -741,13 +741,13 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     ],
     industryContent: {
       whyShopify:
-        "Shopify is the dominant platform for fashion ecommerce because it combines powerful variant management with visual-first storefront design. Fashion brands can manage complex SKU matrices across sizes, colours, and materials while presenting products through lookbook-style pages, editorial content, and shoppable social feeds. The platform's native integrations with Instagram Shopping, TikTok Shop, and Google Shopping make omnichannel selling straightforward, while apps like Loop Returns and Happy Returns handle the high return rates typical of fashion. For larger fashion houses, Shopify Plus offers checkout customisation for personalised experiences, VIP access, and flash sales.",
+        "Shopify is the dominant platform for fashion ecommerce because it combines powerful variant management with visual first storefront design. Fashion brands can manage complex SKU matrices across sizes, colours, and materials while presenting products through lookbook style pages, editorial content, and shoppable social feeds. Native integrations with Instagram Shopping, TikTok Shop, and Google Shopping make omnichannel selling straightforward, while apps such as Loop Returns and Happy Returns handle the high return rates typical of fashion. For larger fashion houses, Shopify Plus adds checkout customisation for personalised experiences, VIP access, and flash sales.",
       tips: [
-        "Invest in product photography and video — fashion is a visual-first category where image quality directly impacts conversion rates and return rates",
-        "Implement robust size guides with fit recommendations to reduce size-related returns, which average 30–40% in fashion ecommerce",
-        "Build editorial-style collection pages that tell a seasonal story rather than just listing products in a grid",
-        "Enable product reviews with photo uploads — user-generated content builds trust and shows real-world fit on different body types",
-        "Set up Instagram Shopping and TikTok Shop early — social commerce drives a disproportionate share of fashion discovery and impulse purchases",
+        "Invest in product photography and video, since fashion is a visual first category where image quality directly affects conversion and return rates",
+        "Add clear size guides with fit recommendations to reduce size related returns, which average 30 to 40 percent in fashion ecommerce",
+        "Build editorial style collection pages that tell a seasonal story rather than just listing products in a grid",
+        "Enable product reviews with photo uploads, since user generated content builds trust and shows real world fit on different body types",
+        "Set up Instagram Shopping and TikTok Shop early, since social commerce drives a large share of fashion discovery and impulse purchases",
       ],
       relatedPosts: [
         { title: "How to Choose a Shopify Agency", slug: "how-to-choose-a-shopify-agency" },
@@ -782,13 +782,13 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     ],
     industryContent: {
       whyShopify:
-        "Shopify has become the platform of choice for DTC beauty brands because it combines visual merchandising with the subscription and replenishment features that beauty products demand. The platform's app ecosystem includes purpose-built tools for shade matching, ingredient transparency, and virtual try-on via AR. Subscription apps like Recharge and Skio integrate natively for auto-replenishment of skincare, haircare, and cosmetics. For beauty brands scaling internationally, Shopify Markets handles multi-currency and localised experiences out of the box.",
+        "Shopify has become the platform of choice for DTC beauty brands because it combines visual merchandising with the subscription and replenishment features that beauty products need. The app ecosystem includes purpose built tools for shade matching, ingredient transparency, and virtual try on with AR. Subscription apps such as Recharge and Skio integrate natively for auto replenishment of skincare, haircare, and cosmetics. For beauty brands scaling internationally, Shopify Markets handles multi currency and localised experiences out of the box.",
       tips: [
-        "Build shade or colour finder functionality into your product pages — this reduces returns and increases buyer confidence for cosmetics purchases",
-        "Display full ingredient lists prominently and consider linking to an ingredient glossary — transparency is a key trust signal in beauty",
-        "Integrate user-generated content (reviews with photos, social posts) directly on product pages — real customer results sell more than brand photography alone",
-        "Offer sample sizes or discovery sets as an entry point — beauty customers typically want to try before committing to full-size purchases",
-        "Set up subscription options for consumable products from day one — recurring revenue is the foundation of beauty brand profitability",
+        "Build a shade or colour finder into your product pages, since it reduces returns and increases buyer confidence for cosmetics",
+        "Display full ingredient lists prominently and consider linking to an ingredient glossary, since transparency is a key trust signal in beauty",
+        "Integrate user generated content such as reviews with photos and social posts directly on product pages, since real customer results sell more than brand photography alone",
+        "Offer sample sizes or discovery sets as an entry point, since beauty customers usually want to try before committing to full size purchases",
+        "Set up subscription options for consumable products from day one, since recurring revenue is the foundation of beauty brand profitability",
       ],
       relatedPosts: [
         { title: "How to Choose a Shopify Agency", slug: "how-to-choose-a-shopify-agency" },
@@ -823,13 +823,13 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     ],
     industryContent: {
       whyShopify:
-        "Shopify provides the flexibility health and wellness brands need to balance compliance with conversion. The platform supports detailed product information pages, integrates with subscription apps for auto-replenishment of vitamins and supplements, and offers the content management features needed for educational health resources. Shopify's checkout extensibility on Plus allows wellness brands to add subscription upsells, bundle builders, and personalised product recommendations based on health goals. The robust app ecosystem includes tools for loyalty programmes, quiz-based product matching, and review collection — all critical for building trust in the health space.",
+        "Shopify gives health and wellness brands the flexibility to balance compliance with conversion. It supports detailed product information pages, integrates with subscription apps for auto replenishment of vitamins and supplements, and offers the content management features needed for educational health resources. Checkout extensibility on Plus lets wellness brands add subscription upsells, bundle builders, and personalised product recommendations based on health goals. The app ecosystem includes tools for loyalty programmes, quiz based product matching, and review collection, all of which help build trust in the health space.",
       tips: [
-        "Prioritise trust signals throughout your store — display certifications (GMP, NSF, organic), lab testing results, and third-party verification prominently",
-        "Build a content hub with educational articles, dosage guides, and ingredient explainers — health customers research extensively before purchasing",
-        "Implement a quiz or assessment tool that recommends products based on health goals — personalisation significantly increases average order value in wellness",
-        "Set up subscribe-and-save from launch — wellness products are inherently replenishable and subscription revenue stabilises cash flow",
-        "Be meticulous with product claims — ensure your agency understands the regulatory boundaries for health and supplement marketing in your target markets",
+        "Prioritise trust signals throughout your store, and display certifications such as GMP, NSF, and organic, along with lab testing results and third party verification",
+        "Build a content hub with educational articles, dosage guides, and ingredient explainers, since health customers research extensively before buying",
+        "Add a quiz or assessment tool that recommends products based on health goals, since personalisation raises average order value in wellness",
+        "Set up subscribe and save from launch, since wellness products are naturally replenishable and subscription revenue stabilises cash flow",
+        "Be careful with product claims, and make sure your agency understands the regulatory limits for health and supplement marketing in your target markets",
       ],
       relatedPosts: [
         { title: "How to Choose a Shopify Agency", slug: "how-to-choose-a-shopify-agency" },
@@ -864,12 +864,12 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     ],
     industryContent: {
       whyShopify:
-        "Shopify has become a go-to platform for DTC food and beverage brands because it handles the complexity of food ecommerce — subscription boxes, perishable shipping, local delivery, and multi-channel distribution. The platform integrates with fulfilment providers that specialise in cold chain logistics, and apps like Zapiet enable local pickup and delivery scheduling. For CPG brands, Shopify's wholesale channel and B2B features support both DTC and trade sales from a single backend. Subscription apps handle the recurring orders that food brands depend on, with flexible skip, swap, and pause options that reduce churn.",
+        "Shopify has become a go to platform for DTC food and beverage brands because it handles the complexity of food ecommerce, including subscription boxes, perishable shipping, local delivery, and multi channel distribution. It integrates with fulfilment providers that specialise in cold chain logistics, and apps such as Zapiet enable local pickup and delivery scheduling. For CPG brands, the Shopify wholesale channel and B2B features support both DTC and trade sales from a single backend. Subscription apps handle the recurring orders that food brands depend on, with flexible skip, swap, and pause options that reduce churn.",
       tips: [
-        "Integrate delivery date selection at checkout — food customers need control over when perishable items arrive, especially for gifts and subscription boxes",
-        "Offer subscription bundles with flexible swap and skip options — reducing friction in subscription management dramatically lowers churn rates for food brands",
-        "Invest in appetite-driven product photography — food ecommerce conversion rates are heavily influenced by visual presentation and lifestyle imagery",
-        "Set up local delivery and pickup if you have a physical presence — many food brands see 30–50% of orders from local customers who want same-day or next-day delivery",
+        "Add delivery date selection at checkout, since food customers need control over when perishable items arrive, especially for gifts and subscription boxes",
+        "Offer subscription bundles with flexible swap and skip options, since reducing friction in subscription management lowers churn for food brands",
+        "Invest in appetite driven product photography, since food ecommerce conversion is heavily influenced by visual presentation and lifestyle imagery",
+        "Set up local delivery and pickup if you have a physical presence, since many food brands see 30 to 50 percent of orders from local customers who want same day or next day delivery",
       ],
       relatedPosts: [
         { title: "How to Choose a Shopify Agency", slug: "how-to-choose-a-shopify-agency" },
@@ -904,13 +904,13 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     ],
     industryContent: {
       whyShopify:
-        "Shopify provides home and furniture brands with the catalogue management, visual merchandising, and B2B features needed to sell high-consideration products online. The platform supports complex product variants (materials, finishes, sizes), advanced collection filtering, and detailed product pages with multiple image galleries, dimensions, and care instructions. For brands selling to both consumers and the trade, Shopify Plus B2B channel enables tiered pricing, net terms, and custom catalogues from the same backend. AR integration through Shopify's native 3D viewer lets customers visualise furniture in their own space before purchasing.",
+        "Shopify gives home and furniture brands the catalogue management, visual merchandising, and B2B features needed to sell high consideration products online. It supports complex product variants such as materials, finishes, and sizes, advanced collection filtering, and detailed product pages with multiple image galleries, dimensions, and care instructions. For brands selling to both consumers and the trade, the Shopify Plus B2B channel enables tiered pricing, net terms, and custom catalogues from the same backend. AR through the native 3D viewer lets customers picture furniture in their own space before buying.",
       tips: [
-        "Build detailed product pages with multiple angles, lifestyle shots, dimensions, materials, and care instructions — high-value purchases need comprehensive information",
-        "Implement advanced collection filtering by room, style, material, colour, and price range — furniture catalogues are too large for simple browsing",
-        "Consider AR or 3D product visualisation for key pieces — letting customers see furniture in their space reduces purchase anxiety and return rates",
-        "Set up trade or wholesale accounts if you sell to interior designers — Shopify Plus B2B features let you serve both channels from one store",
-        "Offer room or collection bundles — curated sets of complementary pieces increase average order value and simplify the buying decision",
+        "Build detailed product pages with multiple angles, lifestyle shots, dimensions, materials, and care instructions, since high value purchases need full information",
+        "Add advanced collection filtering by room, style, material, colour, and price range, since furniture catalogues are too large for simple browsing",
+        "Consider AR or 3D visualisation for key pieces, since letting customers see furniture in their space reduces purchase anxiety and returns",
+        "Set up trade or wholesale accounts if you sell to interior designers, since Shopify Plus B2B features let you serve both channels from one store",
+        "Offer room or collection bundles, since curated sets of complementary pieces raise average order value and simplify the buying decision",
       ],
       relatedPosts: [
         { title: "Shopify vs Shopify Plus", slug: "shopify-vs-shopify-plus-which-is-right-for-your-business" },
@@ -945,12 +945,12 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     ],
     industryContent: {
       whyShopify:
-        "Shopify is a strong platform for sports and outdoor brands because it handles the complexity of technical product catalogues, seasonal inventory management, and multi-channel selling. The platform supports detailed product specifications alongside visual merchandising, and its robust inventory system handles the demand spikes typical around sporting seasons and events. For brands with team or club store programmes, Shopify Plus enables password-protected storefronts with custom pricing. Integration with social platforms is particularly valuable in sports, where athlete endorsements and community content drive purchasing decisions.",
+        "Shopify is a strong platform for sports and outdoor brands because it handles technical product catalogues, seasonal inventory, and multi channel selling. It supports detailed product specifications alongside visual merchandising, and its inventory system handles the demand spikes typical around sporting seasons and events. For brands with team or club store programmes, Shopify Plus enables password protected storefronts with custom pricing. Social integrations are especially valuable in sports, where athlete endorsements and community content drive buying decisions.",
       tips: [
-        "Build detailed technical specification pages for performance products — sports customers compare specs before buying and expect the same detail as specialty retailers",
-        "Plan for seasonal inventory management — pre-season marketing, limited drops, and end-of-season clearance are standard in sports and outdoor retail",
-        "Leverage athlete and community content throughout your store — UGC and endorsements build credibility in the sports market more effectively than brand-produced content",
-        "Offer size and fit guides specific to each product category — performance fit varies significantly between running, cycling, climbing, and casual activewear",
+        "Build detailed technical specification pages for performance products, since sports customers compare specs before buying and expect the same detail as specialty retailers",
+        "Plan for seasonal inventory, since pre season marketing, limited drops, and end of season clearance are standard in sports and outdoor retail",
+        "Use athlete and community content throughout your store, since user generated content and endorsements build credibility better than brand produced content",
+        "Offer size and fit guides specific to each product category, since performance fit varies a lot between running, cycling, climbing, and casual activewear",
       ],
       relatedPosts: [
         { title: "How to Choose a Shopify Agency", slug: "how-to-choose-a-shopify-agency" },
@@ -985,13 +985,13 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     ],
     industryContent: {
       whyShopify:
-        "Shopify Plus has emerged as a serious contender for luxury ecommerce because it provides the performance, customisation, and exclusivity features that premium brands require. Checkout extensibility enables personalised gift wrapping, engraving options, and white-glove delivery scheduling. Shopify Functions powers exclusive pricing for VIP customers, invite-only access, and timed product drops. For luxury brands, page speed is both a brand signal and a conversion lever — Shopify's global CDN delivers sub-second load times that match the expectations of luxury consumers. The headless option via Hydrogen or Next.js with the Storefront API gives brands complete creative control for truly bespoke digital experiences.",
+        "Shopify Plus has become a serious contender for luxury ecommerce because it provides the performance, customisation, and exclusivity features premium brands need. Checkout extensibility enables personalised gift wrapping, engraving, and white glove delivery scheduling. Shopify Functions powers exclusive pricing for VIP customers, invite only access, and timed product drops. For luxury brands, page speed is both a brand signal and a conversion lever, and the Shopify global network delivers fast load times that match the expectations of luxury shoppers. The headless option with Hydrogen or Next.js and the Storefront API gives brands full creative control for truly bespoke experiences.",
       tips: [
-        "Invest in custom design that reflects your brand heritage — luxury customers expect a digital experience that matches the quality of the product and the in-store experience",
-        "Leverage Shopify Plus checkout customisation for personalisation — gift wrapping, engraving, personal messages, and white-glove delivery options justify premium pricing",
-        "Build exclusivity into your store — early access for VIP customers, limited-edition product drops, and invite-only shopping experiences create urgency and reinforce brand prestige",
-        "Prioritise page speed and interaction quality — luxury customers are intolerant of slow or clunky experiences, and speed is a subconscious quality signal",
-        "Integrate clienteling tools so your sales team can provide personalised recommendations based on purchase history and preferences — the online experience should feel as curated as in-store",
+        "Invest in custom design that reflects your brand heritage, since luxury customers expect a digital experience that matches the product and the in store experience",
+        "Use Shopify Plus checkout customisation for personalisation, since gift wrapping, engraving, personal messages, and white glove delivery justify premium pricing",
+        "Build exclusivity into your store with early access for VIP customers, limited edition drops, and invite only shopping, which create urgency and reinforce prestige",
+        "Prioritise page speed and interaction quality, since luxury customers are intolerant of slow or clunky experiences and speed is a subconscious quality signal",
+        "Integrate clienteling tools so your sales team can give personalised recommendations based on purchase history and preferences, so the online experience feels as curated as in store",
       ],
       relatedPosts: [
         { title: "Shopify vs Shopify Plus", slug: "shopify-vs-shopify-plus-which-is-right-for-your-business" },
@@ -1026,13 +1026,13 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     ],
     industryContent: {
       whyShopify:
-        "Shopify Plus has invested heavily in B2B features, making it a viable alternative to legacy wholesale platforms. The B2B channel supports company accounts with multiple buyers, customer-specific price lists, percentage or fixed-price discounts, net payment terms (Net 15, 30, 60), draft orders, and quick order forms for repeat purchasing. For brands selling to both consumers and businesses, the ability to run DTC and B2B from a single Shopify admin is a significant operational advantage. ERP integrations with NetSuite, SAP, and Microsoft Dynamics keep inventory, pricing, and order data synchronised across channels.",
+        "Shopify Plus has invested heavily in B2B features, which makes it a viable alternative to legacy wholesale platforms. The B2B channel supports company accounts with multiple buyers, customer specific price lists, percentage or fixed price discounts, net payment terms such as Net 15, 30, and 60, draft orders, and quick order forms for repeat purchasing. For brands selling to both consumers and businesses, running DTC and B2B from a single Shopify admin is a real operational advantage. ERP integrations with NetSuite, SAP, and Microsoft Dynamics keep inventory, pricing, and order data in sync across channels.",
       tips: [
-        "Start with Shopify Plus B2B channel rather than a third-party wholesale app — the native features are deeper, more reliable, and better supported long-term",
-        "Set up company accounts with multiple buyer seats — B2B purchasing often involves procurement teams, not individuals, and you need visibility into approvals and order history",
-        "Integrate your ERP from the start — manual data entry between Shopify and your accounting or inventory system will break down quickly at B2B scale",
-        "Build quick order and reorder functionality — B2B buyers value speed and efficiency over browsing; they know what they need and want to order fast",
-        "Configure net payment terms thoughtfully — offering Net 30 is table stakes for B2B, but your agency should set up proper credit checks and payment reminders",
+        "Start with the Shopify Plus B2B channel rather than a third party wholesale app, since the native features are deeper, more reliable, and better supported long term",
+        "Set up company accounts with multiple buyer seats, since B2B purchasing often involves procurement teams rather than individuals, and you need visibility into approvals and order history",
+        "Integrate your ERP from the start, since manual data entry between Shopify and your accounting or inventory system breaks down quickly at B2B scale",
+        "Build quick order and reorder functionality, since B2B buyers value speed and efficiency, know what they need, and want to order fast",
+        "Configure net payment terms carefully, since offering Net 30 is table stakes for B2B, and your agency should set up proper credit checks and payment reminders",
       ],
       relatedPosts: [
         { title: "Shopify vs Shopify Plus", slug: "shopify-vs-shopify-plus-which-is-right-for-your-business" },
@@ -1067,13 +1067,13 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     ],
     industryContent: {
       whyShopify:
-        "Shopify provides electronics brands with the structured product data capabilities needed for specification-driven ecommerce. Metafields allow detailed technical specifications without cluttering the admin, while custom Liquid templates render spec sheets, comparison tables, and compatibility information in clean, browsable formats. The platform's integration with review apps like Judge.me and Yotpo is particularly valuable in electronics, where review depth and volume heavily influence purchase decisions. For electronics brands with complex inventory — bundles, accessories, and compatibility requirements — Shopify's variant and product relationship systems keep the catalogue manageable.",
+        "Shopify gives electronics brands the structured product data capabilities needed for specification driven ecommerce. Metafields hold detailed technical specifications without cluttering the admin, while custom Liquid templates render spec sheets, comparison tables, and compatibility information in clean, browsable formats. Integration with review apps such as Judge.me and Yotpo is especially valuable in electronics, where review depth and volume heavily influence purchase decisions. For electronics brands with complex inventory such as bundles, accessories, and compatibility requirements, the Shopify variant and product relationship systems keep the catalogue manageable.",
       tips: [
-        "Build structured specification tables for every product — electronics buyers compare specs across products and competitors before purchasing",
-        "Implement product comparison tools that let customers evaluate two or three products side by side on key specifications",
-        "Prioritise review collection and display — electronics customers rely heavily on verified buyer reviews, especially for higher-priced items",
-        "Create compatibility guides and accessory recommendations — cross-selling compatible accessories increases AOV and reduces purchase friction",
-        "Set up warranty registration and support ticket integration — post-purchase experience matters disproportionately in electronics and drives repeat purchases",
+        "Build structured specification tables for every product, since electronics buyers compare specs across products and competitors before buying",
+        "Add product comparison tools that let customers evaluate two or three products side by side on key specifications",
+        "Prioritise review collection and display, since electronics customers rely heavily on verified buyer reviews, especially for higher priced items",
+        "Create compatibility guides and accessory recommendations, since cross selling compatible accessories raises average order value and reduces purchase friction",
+        "Set up warranty registration and support ticket integration, since post purchase experience matters a lot in electronics and drives repeat purchases",
       ],
       relatedPosts: [
         { title: "Shopify SEO Guide 2026", slug: "shopify-seo-guide-2026" },
@@ -1108,12 +1108,12 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     ],
     industryContent: {
       whyShopify:
-        "Shopify is a natural fit for pet brands because the pet industry is built on recurring purchases, emotional branding, and community loyalty — all areas where Shopify excels. Subscription apps handle auto-replenishment for food, treats, and supplements with flexible delivery schedules. Loyalty programmes reward repeat customers and referrals, which are especially powerful in pet communities where recommendations carry significant weight. The platform's content and social integrations support the community-driven marketing that pet brands depend on — from user-generated pet photos to breed-specific content hubs.",
+        "Shopify is a natural fit for pet brands because the pet industry is built on recurring purchases, emotional branding, and community loyalty, all areas where Shopify does well. Subscription apps handle auto replenishment for food, treats, and supplements with flexible delivery schedules. Loyalty programmes reward repeat customers and referrals, which are especially powerful in pet communities where recommendations carry weight. The content and social integrations support the community driven marketing that pet brands depend on, from user generated pet photos to breed specific content hubs.",
       tips: [
-        "Launch with subscription as a core feature, not an afterthought — pet consumables (food, treats, supplements) have natural replenishment cycles that drive predictable recurring revenue",
-        "Build breed or pet-type filtering into your store — pet owners shop based on their specific animal's needs and appreciate tailored product recommendations",
-        "Create a community hub with user-generated content — pet owners love sharing photos and stories, and UGC is the most authentic marketing in the pet space",
-        "Implement a loyalty and referral programme early — pet owners are loyal customers who actively recommend products to other pet owners in their community",
+        "Launch with subscription as a core feature rather than an afterthought, since pet consumables such as food, treats, and supplements have natural replenishment cycles that drive predictable recurring revenue",
+        "Build breed or pet type filtering into your store, since pet owners shop based on the needs of their specific animal and appreciate tailored recommendations",
+        "Create a community hub with user generated content, since pet owners love sharing photos and stories, and it is the most authentic marketing in the pet space",
+        "Add a loyalty and referral programme early, since pet owners are loyal customers who actively recommend products to other owners in their community",
       ],
       relatedPosts: [
         { title: "How to Choose a Shopify Agency", slug: "how-to-choose-a-shopify-agency" },
