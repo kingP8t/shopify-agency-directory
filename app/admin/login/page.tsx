@@ -59,7 +59,7 @@ export default function AdminLoginPage({
           </form>
         </div>
 
-        <p className="mt-4 text-center text-xs text-gray-400">
+        <p className="mt-4 text-center text-xs text-gray-500">
           <Link href="/" className="hover:text-gray-600">
             ← Back to site
           </Link>

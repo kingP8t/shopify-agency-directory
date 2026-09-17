@@ -67,7 +67,7 @@ export default function AdminBlogRow({ post }: AdminBlogRowProps) {
         <p className="mt-0.5 text-sm text-gray-500">
           📅 {post.date} · {post.category} · {post.reading_time} min read
         </p>
-        <p className="mt-0.5 font-mono text-xs text-gray-400">/blog/{post.slug}</p>
+        <p className="mt-0.5 font-mono text-xs text-gray-500">/blog/{post.slug}</p>
       </div>
 
       <div className="flex shrink-0 gap-2">

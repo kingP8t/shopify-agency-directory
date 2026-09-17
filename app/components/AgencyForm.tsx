@@ -189,7 +189,7 @@ export default function AgencyForm({ agency, onClose }: AgencyFormProps) {
       <div>
         <label className="block text-sm font-medium text-gray-700">
           Specializations{" "}
-          <span className="font-normal text-gray-400">(comma-separated)</span>
+          <span className="font-normal text-gray-500">(comma-separated)</span>
         </label>
         <input
           name="specializations"
@@ -203,7 +203,7 @@ export default function AgencyForm({ agency, onClose }: AgencyFormProps) {
       <div>
         <label className="block text-sm font-medium text-gray-700">
           Tags{" "}
-          <span className="font-normal text-gray-400">(comma-separated)</span>
+          <span className="font-normal text-gray-500">(comma-separated)</span>
         </label>
         <input
           name="tags"

@@ -7,7 +7,7 @@ interface AdminLeadsTableProps {
 export default function AdminLeadsTable({ leads }: AdminLeadsTableProps) {
   if (leads.length === 0) {
     return (
-      <div className="mt-4 rounded-2xl border-2 border-dashed border-gray-200 bg-white p-10 text-center text-gray-400">
+      <div className="mt-4 rounded-2xl border-2 border-dashed border-gray-200 bg-white p-10 text-center text-gray-500">
         No lead enquiries yet. They&apos;ll appear here when merchants submit the Get Matched form.
       </div>
     );
@@ -53,7 +53,7 @@ export default function AdminLeadsTable({ leads }: AdminLeadsTableProps) {
                 <td className="max-w-xs px-4 py-3 text-gray-600">
                   <p className="line-clamp-2">{lead.message}</p>
                 </td>
-                <td className="px-4 py-3 whitespace-nowrap text-gray-400">
+                <td className="px-4 py-3 whitespace-nowrap text-gray-500">
                   {lead.created_at
                     ? new Date(lead.created_at).toLocaleDateString(undefined, {
                         day: "numeric",

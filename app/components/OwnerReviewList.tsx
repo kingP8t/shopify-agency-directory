@@ -130,7 +130,7 @@ export default function OwnerReviewList({
 }: OwnerReviewListProps) {
   if (reviews.length === 0) {
     return (
-      <p className="mt-4 text-sm text-gray-400">No reviews yet.</p>
+      <p className="mt-4 text-sm text-gray-500">No reviews yet.</p>
     );
   }
 
@@ -166,7 +166,7 @@ export default function OwnerReviewList({
                 ))}
               </div>
             </div>
-            <time className="shrink-0 text-xs text-gray-400">
+            <time className="shrink-0 text-xs text-gray-500">
               {new Date(review.created_at).toLocaleDateString(undefined, {
                 day: "numeric",
                 month: "short",

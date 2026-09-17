@@ -50,7 +50,7 @@ export default function AdminReviewRow({ review }: AdminReviewRowProps) {
           <span className="font-semibold text-gray-900">
             {review.reviewer_name}
           </span>
-          <span className="text-gray-400">on</span>
+          <span className="text-gray-500">on</span>
           <a
             href={`/agencies/${review.agency_slug}`}
             target="_blank"
@@ -78,7 +78,7 @@ export default function AdminReviewRow({ review }: AdminReviewRowProps) {
               {"★".repeat(5 - review.rating)}
             </span>
           </span>
-          <time className="text-xs text-gray-400">
+          <time className="text-xs text-gray-500">
             {new Date(review.created_at).toLocaleDateString(undefined, {
               day: "numeric",
               month: "short",

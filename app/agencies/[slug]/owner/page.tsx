@@ -218,7 +218,7 @@ export default async function OwnerDashboardPage({
         <div className="mt-6 rounded-2xl border bg-white p-8 shadow-sm">
           <h2 className="text-lg font-semibold text-gray-900">
             Lead Enquiries{" "}
-            <span className="text-sm font-normal text-gray-400">
+            <span className="text-sm font-normal text-gray-500">
               ({totalLeads})
             </span>
           </h2>
@@ -232,7 +232,7 @@ export default async function OwnerDashboardPage({
           {/* Pagination controls */}
           {totalPages > 1 && (
             <nav aria-label="Leads pagination" className="mt-6 flex items-center justify-between">
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-gray-500">
                 Page {currentPage} of {totalPages}
               </p>
               <div className="flex gap-2">
@@ -261,7 +261,7 @@ export default async function OwnerDashboardPage({
         <div className="mt-6 rounded-2xl border bg-white p-8 shadow-sm">
           <h2 className="text-lg font-semibold text-gray-900">
             Reviews{" "}
-            <span className="text-sm font-normal text-gray-400">
+            <span className="text-sm font-normal text-gray-500">
               ({reviews.length})
             </span>
           </h2>

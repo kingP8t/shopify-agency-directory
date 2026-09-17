@@ -67,7 +67,7 @@ export default function BlogPostForm({ post, onClose }: BlogPostFormProps) {
           placeholder="How to Choose a Shopify Agency"
           className="mt-1 block w-full rounded-lg border px-3 py-2 text-sm focus:border-green-500 focus:outline-none"
         />
-        <p className="mt-1 text-xs text-gray-400">
+        <p className="mt-1 text-xs text-gray-500">
           Slug is auto-generated from the title (e.g. &ldquo;how-to-choose-a-shopify-agency&rdquo;)
         </p>
       </div>
@@ -75,7 +75,7 @@ export default function BlogPostForm({ post, onClose }: BlogPostFormProps) {
       {/* SEO Title */}
       <div>
         <label className="block text-sm font-medium text-gray-700">
-          SEO Title <span className="text-gray-400">(optional)</span>
+          SEO Title <span className="text-gray-500">(optional)</span>
         </label>
         <input
           name="seo_title"
@@ -84,7 +84,7 @@ export default function BlogPostForm({ post, onClose }: BlogPostFormProps) {
           placeholder="Short, keyword-first title for Google (≤60 chars)"
           className="mt-1 block w-full rounded-lg border px-3 py-2 text-sm focus:border-green-500 focus:outline-none"
         />
-        <p className="mt-1 text-xs text-gray-400">
+        <p className="mt-1 text-xs text-gray-500">
           Overrides the &lt;title&gt; tag in search results. Leave blank to use the article title. Aim for ≤60 characters with the keyword first.
         </p>
       </div>
@@ -146,7 +146,7 @@ export default function BlogPostForm({ post, onClose }: BlogPostFormProps) {
             placeholder="shopify, hiring, guide"
             className="mt-1 block w-full rounded-lg border px-3 py-2 text-sm focus:border-green-500 focus:outline-none"
           />
-          <p className="mt-1 text-xs text-gray-400">Comma-separated</p>
+          <p className="mt-1 text-xs text-gray-500">Comma-separated</p>
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">
@@ -181,7 +181,7 @@ export default function BlogPostForm({ post, onClose }: BlogPostFormProps) {
         <div>
           <label className="block text-sm font-medium text-gray-700">
             Updated Date{" "}
-            <span className="text-gray-400">(optional)</span>
+            <span className="text-gray-500">(optional)</span>
           </label>
           <input
             name="updated_date"
@@ -234,7 +234,7 @@ export default function BlogPostForm({ post, onClose }: BlogPostFormProps) {
           spellCheck={false}
           className="mt-1 block w-full rounded-lg border px-3 py-2 font-mono text-xs focus:border-green-500 focus:outline-none"
         />
-        <p className="mt-1 text-xs text-gray-400">
+        <p className="mt-1 text-xs text-gray-500">
           JSON array of content blocks. Supported types:{" "}
           <code className="rounded bg-gray-100 px-1">p</code>,{" "}
           <code className="rounded bg-gray-100 px-1">h2</code>,{" "}

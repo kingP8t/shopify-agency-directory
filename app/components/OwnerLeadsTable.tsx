@@ -15,7 +15,7 @@ interface OwnerLeadsTableProps {
 export default function OwnerLeadsTable({ leads }: OwnerLeadsTableProps) {
   if (leads.length === 0) {
     return (
-      <p className="mt-4 text-sm text-gray-400">
+      <p className="mt-4 text-sm text-gray-500">
         No leads yet. They&apos;ll appear here when someone contacts you.
       </p>
     );
@@ -57,7 +57,7 @@ export default function OwnerLeadsTable({ leads }: OwnerLeadsTableProps) {
               <td className="max-w-xs py-3 pr-4 text-gray-600">
                 <p className="line-clamp-2">{lead.message}</p>
               </td>
-              <td className="py-3 text-xs text-gray-400 whitespace-nowrap">
+              <td className="py-3 text-xs text-gray-500 whitespace-nowrap">
                 {new Date(lead.created_at).toLocaleDateString(undefined, {
                   day: "numeric",
                   month: "short",

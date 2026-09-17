@@ -25,7 +25,7 @@ export default function ReLoginForm({ slug, agencyName }: ReLoginFormProps) {
           We sent a login link to your email. Click it to access your
           dashboard for <strong>{agencyName}</strong>.
         </p>
-        <p className="mt-2 text-xs text-gray-400">The link expires in 24 hours.</p>
+        <p className="mt-2 text-xs text-gray-500">The link expires in 24 hours.</p>
       </div>
     );
   }
@@ -64,7 +64,7 @@ export default function ReLoginForm({ slug, agencyName }: ReLoginFormProps) {
         {isPending ? "Sending..." : "Send Login Link →"}
       </button>
 
-      <p className="text-center text-xs text-gray-400">
+      <p className="text-center text-xs text-gray-500">
         We&apos;ll email you a secure link to access your owner dashboard.
       </p>
     </form>

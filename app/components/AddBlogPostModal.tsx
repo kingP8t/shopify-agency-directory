@@ -22,7 +22,7 @@ export default function AddBlogPostModal() {
               <h2 className="text-lg font-bold text-gray-900">New Blog Post</h2>
               <button
                 onClick={() => setOpen(false)}
-                className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+                className="rounded-lg p-1.5 text-gray-500 hover:bg-gray-100 hover:text-gray-600"
                 aria-label="Close"
               >
                 ✕

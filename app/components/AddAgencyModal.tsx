@@ -22,7 +22,7 @@ export default function AddAgencyModal() {
               <h2 className="text-lg font-bold text-gray-900">Add New Agency</h2>
               <button
                 onClick={() => setOpen(false)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-500 hover:text-gray-600"
               >
                 ✕
               </button>

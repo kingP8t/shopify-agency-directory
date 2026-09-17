@@ -275,7 +275,7 @@ export default async function AdminPage({
               <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
                 All Agencies ({agencyCounts.total})
               </h2>
-              <p className="mt-1 text-sm text-gray-400">
+              <p className="mt-1 text-sm text-gray-500">
                 Showing {agencies.length} of {agenciesTotal} — page{" "}
                 {currentAgenciesPage} of {totalAgenciesPages || 1}
               </p>
@@ -283,7 +283,7 @@ export default async function AdminPage({
           </div>
 
           {agenciesTotal === 0 ? (
-            <div className="mt-4 rounded-2xl border-2 border-dashed border-gray-200 bg-white p-12 text-center text-gray-400">
+            <div className="mt-4 rounded-2xl border-2 border-dashed border-gray-200 bg-white p-12 text-center text-gray-500">
               No agencies yet. Click &ldquo;+ Add Agency&rdquo; to get started.
             </div>
           ) : (
@@ -337,12 +337,12 @@ export default async function AdminPage({
           <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
             All Reviews ({reviews.length})
           </h2>
-          <p className="mt-1 text-sm text-gray-400">
+          <p className="mt-1 text-sm text-gray-500">
             {reviews.filter((r) => r.approved).length} approved ·{" "}
             {pendingReviews.length} pending
           </p>
           {reviews.length === 0 ? (
-            <p className="mt-4 text-sm text-gray-400">No reviews yet.</p>
+            <p className="mt-4 text-sm text-gray-500">No reviews yet.</p>
           ) : (
             <ul className="mt-4 space-y-3">
               {reviews.map((review) => (
@@ -359,7 +359,7 @@ export default async function AdminPage({
               <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
                 Lead Enquiries ({leadsTotal})
               </h2>
-              <p className="mt-1 text-sm text-gray-400">
+              <p className="mt-1 text-sm text-gray-500">
                 Showing {leads.length} of {leadsTotal} — page {currentLeadsPage} of {totalLeadsPages || 1}
               </p>
             </div>
@@ -420,7 +420,7 @@ export default async function AdminPage({
               <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
                 Blog Posts ({blogPosts.length})
               </h2>
-              <p className="mt-1 text-sm text-gray-400">
+              <p className="mt-1 text-sm text-gray-500">
                 {publishedPosts} published · {blogPosts.length - publishedPosts} draft
               </p>
             </div>
@@ -428,7 +428,7 @@ export default async function AdminPage({
           </div>
 
           {blogPosts.length === 0 ? (
-            <div className="mt-4 rounded-2xl border-2 border-dashed border-gray-200 bg-white p-12 text-center text-gray-400">
+            <div className="mt-4 rounded-2xl border-2 border-dashed border-gray-200 bg-white p-12 text-center text-gray-500">
               No blog posts yet. Click &ldquo;+ New Post&rdquo; to write your first article.
             </div>
           ) : (

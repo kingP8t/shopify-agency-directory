@@ -160,7 +160,7 @@ export default function OwnerAgencyForm({ agency, slug }: OwnerAgencyFormProps) 
           placeholder="https://youragency.com/logo.png"
           className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
         />
-        <p className="mt-1 text-xs text-gray-400">Direct link to your logo image (PNG, JPG, or SVG).</p>
+        <p className="mt-1 text-xs text-gray-500">Direct link to your logo image (PNG, JPG, or SVG).</p>
       </div>
 
       {/* Founded + Team Size + Budget */}
@@ -222,7 +222,7 @@ export default function OwnerAgencyForm({ agency, slug }: OwnerAgencyFormProps) 
       <div>
         <label htmlFor="owner-specializations" className="block text-sm font-medium text-gray-700">
           Specializations{" "}
-          <span className="font-normal text-gray-400">(comma-separated)</span>
+          <span className="font-normal text-gray-500">(comma-separated)</span>
         </label>
         <input
           id="owner-specializations"
@@ -237,7 +237,7 @@ export default function OwnerAgencyForm({ agency, slug }: OwnerAgencyFormProps) 
       <div>
         <label htmlFor="owner-tags" className="block text-sm font-medium text-gray-700">
           Tags{" "}
-          <span className="font-normal text-gray-400">(comma-separated)</span>
+          <span className="font-normal text-gray-500">(comma-separated)</span>
         </label>
         <input
           id="owner-tags"
