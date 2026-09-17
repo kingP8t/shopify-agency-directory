@@ -135,7 +135,7 @@ export default async function BlogPage({
                 >
                   {featured.category}
                 </span>
-                <span className="text-xs text-gray-400">
+                <span className="text-xs text-gray-500">
                   {featured.readingTime} min read
                 </span>
               </div>
@@ -145,7 +145,7 @@ export default async function BlogPage({
               <p className="mt-2 line-clamp-2 text-sm text-gray-600">
                 {featured.excerpt}
               </p>
-              <p className="mt-4 text-xs text-gray-400">
+              <p className="mt-4 text-xs text-gray-500">
                 By {featured.author} · {formatDate(featured.date)}
               </p>
             </div>
@@ -174,7 +174,7 @@ export default async function BlogPage({
                     >
                       {post.category}
                     </span>
-                    <span className="text-xs text-gray-400">
+                    <span className="text-xs text-gray-500">
                       {post.readingTime} min read
                     </span>
                   </div>
@@ -184,7 +184,7 @@ export default async function BlogPage({
                   <p className="mt-2 line-clamp-2 flex-1 text-sm text-gray-500">
                     {post.excerpt}
                   </p>
-                  <p className="mt-4 text-xs text-gray-400">
+                  <p className="mt-4 text-xs text-gray-500">
                     By {post.author} · {formatDate(post.date)}
                   </p>
                 </div>
@@ -209,7 +209,7 @@ export default async function BlogPage({
             </Link>
             <p className="text-sm text-gray-500">
               Page {currentPage} of {totalPages}
-              <span className="ml-2 text-gray-400">({total} articles)</span>
+              <span className="ml-2 text-gray-500">({total} articles)</span>
             </p>
             <Link
               href={currentPage < totalPages ? `/blog?page=${currentPage + 1}` : "#"}

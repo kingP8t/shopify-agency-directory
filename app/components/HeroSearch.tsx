@@ -51,7 +51,7 @@ export default function HeroSearch() {
 
       {/* Popular searches */}
       <div className="mt-3 flex flex-wrap items-center gap-2">
-        <span className="text-xs text-gray-400">Popular:</span>
+        <span className="text-xs text-gray-500">Popular:</span>
         {POPULAR_SEARCHES.map((term) => (
           <button
             key={term}

@@ -522,7 +522,7 @@ export default async function AgencyPage({
                     {agency.rating && (
                       <p className="text-sm text-gray-600">
                         ⭐ {agency.rating}/5{" "}
-                        <span className="text-gray-400">
+                        <span className="text-gray-500">
                           on Shopify
                           {agency.review_count
                             ? ` · ${agency.review_count} ${
@@ -540,7 +540,7 @@ export default async function AgencyPage({
                           reviews.length
                         ).toFixed(1)}
                         /5{" "}
-                        <span className="text-gray-400">
+                        <span className="text-gray-500">
                           ({reviews.length}{" "}
                           {reviews.length === 1 ? "review" : "reviews"})
                         </span>
@@ -564,7 +564,7 @@ export default async function AgencyPage({
                 {!agency.claimed_at && (
                   <a
                     href={`/agencies/${agency.slug}/claim`}
-                    className="rounded-lg border border-dashed border-gray-300 px-4 py-2 text-xs text-gray-400 hover:border-green-400 hover:text-green-600"
+                    className="rounded-lg border border-dashed border-gray-300 px-4 py-2 text-xs text-gray-500 hover:border-green-400 hover:text-green-600"
                   >
                     Is this your agency? Claim it →
                   </a>
@@ -706,7 +706,7 @@ export default async function AgencyPage({
               <h2 className="text-lg font-semibold text-gray-900">
                 Reviews
                 {reviews.length > 0 && (
-                  <span className="ml-2 text-sm font-normal text-gray-400">
+                  <span className="ml-2 text-sm font-normal text-gray-500">
                     ({reviews.length})
                   </span>
                 )}
@@ -720,7 +720,7 @@ export default async function AgencyPage({
                       reviews.length
                     ).toFixed(1)}
                   </span>
-                  <span className="text-gray-400">/ 5</span>
+                  <span className="text-gray-500">/ 5</span>
                 </div>
               )}
             </div>
@@ -744,7 +744,7 @@ export default async function AgencyPage({
                           ))}
                         </div>
                       </div>
-                      <time className="shrink-0 text-xs text-gray-400">
+                      <time className="shrink-0 text-xs text-gray-500">
                         {new Date(review.created_at).toLocaleDateString(undefined, {
                           day: "numeric",
                           month: "short",
@@ -767,7 +767,7 @@ export default async function AgencyPage({
                 ))}
               </ul>
             ) : (
-              <p className="mt-4 text-sm text-gray-400">
+              <p className="mt-4 text-sm text-gray-500">
                 No reviews yet — be the first to leave one below.
               </p>
             )}

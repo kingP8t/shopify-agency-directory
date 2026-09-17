@@ -191,7 +191,7 @@ export default async function HomePage() {
 
           {/* Secondary: direct search */}
           <div className="mt-8 border-t pt-6">
-            <p className="mb-3 text-sm text-gray-400">Or search directly</p>
+            <p className="mb-3 text-sm text-gray-500">Or search directly</p>
             <HeroSearch />
           </div>
         </div>
@@ -204,7 +204,7 @@ export default async function HomePage() {
 
             {/* Region */}
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-medium uppercase tracking-wide text-gray-400">Region</span>
+              <span className="text-xs font-medium uppercase tracking-wide text-gray-500">Region</span>
               {(
                 [
                   { label: "US Agencies",        href: "/agencies?country=US" },
@@ -224,7 +224,7 @@ export default async function HomePage() {
 
             {/* Budget */}
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-medium uppercase tracking-wide text-gray-400">Budget</span>
+              <span className="text-xs font-medium uppercase tracking-wide text-gray-500">Budget</span>
               {(
                 [
                   { label: "Under $5k",     href: `/agencies?budget=${encodeURIComponent("Under $5,000")}` },
@@ -243,7 +243,7 @@ export default async function HomePage() {
 
             {/* Service */}
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-medium uppercase tracking-wide text-gray-400">Service</span>
+              <span className="text-xs font-medium uppercase tracking-wide text-gray-500">Service</span>
               {(
                 [
                   { label: "Shopify Plus", href: "/agencies?specialization=Shopify+Plus" },
@@ -315,7 +315,7 @@ export default async function HomePage() {
               Get Matched — Free
               <span aria-hidden="true">→</span>
             </a>
-            <p className="mt-3 text-xs text-gray-400">Free service · We never share your details without permission</p>
+            <p className="mt-3 text-xs text-gray-500">Free service · We never share your details without permission</p>
           </div>
         </div>
       </section>
@@ -371,7 +371,7 @@ export default async function HomePage() {
                   {agency.rating ? (
                     <span className="text-gray-500">
                       ⭐ {agency.rating}{" "}
-                      <span className="text-gray-400">on Shopify</span>
+                      <span className="text-gray-500">on Shopify</span>
                     </span>
                   ) : (
                     <span />
@@ -388,7 +388,7 @@ export default async function HomePage() {
             {/* Filler card */}
             <Link
               href="/agencies"
-              className="flex items-center justify-center rounded-2xl border-2 border-dashed border-gray-200 bg-white p-6 text-center text-sm text-gray-400 hover:border-green-300 hover:text-green-600"
+              className="flex items-center justify-center rounded-2xl border-2 border-dashed border-gray-200 bg-white p-6 text-center text-sm text-gray-500 hover:border-green-300 hover:text-green-600"
             >
               Browse all agencies →
             </Link>
@@ -502,7 +502,7 @@ export default async function HomePage() {
                 <p className="mt-2 line-clamp-2 text-sm text-gray-500">
                   {post.excerpt}
                 </p>
-                <p className="mt-3 text-xs text-gray-400">
+                <p className="mt-3 text-xs text-gray-500">
                   {post.readingTime} min read
                 </p>
               </Link>

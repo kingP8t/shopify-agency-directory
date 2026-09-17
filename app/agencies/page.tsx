@@ -493,7 +493,7 @@ export default async function AgenciesPage({
                             {agency.rating && (
                               <p className="text-sm font-medium text-gray-900">
                                 ⭐ {agency.rating}
-                                <span className="font-normal text-gray-400">
+                                <span className="font-normal text-gray-500">
                                   {" "}on Shopify
                                 </span>
                               </p>
@@ -564,7 +564,7 @@ export default async function AgenciesPage({
                       }, [])
                       .map((item, idx) =>
                         item === "..." ? (
-                          <span key={`ellipsis-${idx}`} className="px-2 text-gray-400">
+                          <span key={`ellipsis-${idx}`} className="px-2 text-gray-500">
                             …
                           </span>
                         ) : (

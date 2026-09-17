@@ -878,7 +878,7 @@ export default function BriefGenerator() {
 
         <button
           onClick={reset}
-          className="mx-auto block text-sm text-gray-400 hover:text-gray-600"
+          className="mx-auto block text-sm text-gray-500 hover:text-gray-600"
         >
           Start over with a new brief
         </button>

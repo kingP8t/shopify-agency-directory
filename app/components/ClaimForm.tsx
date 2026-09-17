@@ -34,7 +34,7 @@ export default function ClaimForm({ slug, agencyName }: ClaimFormProps) {
           We sent a verification link to your email. Click it to verify your
           ownership of <strong>{agencyName}</strong>.
         </p>
-        <p className="mt-2 text-xs text-gray-400">The link expires in 24 hours.</p>
+        <p className="mt-2 text-xs text-gray-500">The link expires in 24 hours.</p>
       </div>
     );
   }
@@ -73,7 +73,7 @@ export default function ClaimForm({ slug, agencyName }: ClaimFormProps) {
         {isPending ? "Sending..." : "Send Verification Link →"}
       </button>
 
-      <p className="text-center text-xs text-gray-400">
+      <p className="text-center text-xs text-gray-500">
         We verify ownership by email. Your email won&apos;t be shown publicly.
       </p>
     </form>

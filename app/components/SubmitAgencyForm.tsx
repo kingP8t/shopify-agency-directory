@@ -139,7 +139,7 @@ export default function SubmitAgencyForm() {
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Specializations{" "}
-              <span className="font-normal text-gray-400">
+              <span className="font-normal text-gray-500">
                 (select all that apply)
               </span>
             </label>
@@ -250,7 +250,7 @@ export default function SubmitAgencyForm() {
         {isPending ? "Submitting..." : "Submit Your Agency →"}
       </button>
 
-      <p className="text-center text-xs text-gray-400">
+      <p className="text-center text-xs text-gray-500">
         All submissions are reviewed by our team before going live. We aim to
         review within 1–2 business days.
       </p>

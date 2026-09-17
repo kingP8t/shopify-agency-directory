@@ -138,7 +138,7 @@ export default function MigrationCalculatorPage() {
             <h2 className="text-2xl font-bold text-white sm:text-3xl">
               Need Expert Help With Your Migration?
             </h2>
-            <p className="mx-auto mt-3 max-w-xl text-gray-400">
+            <p className="mx-auto mt-3 max-w-xl text-gray-500">
               Tell us about your project and we&apos;ll match you with 3
               vetted Shopify migration specialists that fit your requirements
               — completely free.

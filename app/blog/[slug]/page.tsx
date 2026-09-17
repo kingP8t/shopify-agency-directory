@@ -174,7 +174,7 @@ function RenderBlock({ block }: { block: ContentBlock }) {
             </table>
           </div>
           <div className="pointer-events-none absolute right-0 top-0 h-full w-6 rounded-r-xl bg-gradient-to-l from-gray-200/60 to-transparent sm:hidden" />
-          <p className="mt-1.5 text-center text-xs text-gray-400 sm:hidden">Swipe to see more →</p>
+          <p className="mt-1.5 text-center text-xs text-gray-500 sm:hidden">Swipe to see more →</p>
         </div>
       );
     case "faq":
@@ -550,7 +550,7 @@ export default async function BlogPostPage({
                     <p className="mt-1 text-sm font-semibold text-gray-900 group-hover:text-green-700">
                       {p.title}
                     </p>
-                    <p className="mt-1 text-xs text-gray-400">
+                    <p className="mt-1 text-xs text-gray-500">
                       {p.readingTime} min read
                     </p>
                   </Link>

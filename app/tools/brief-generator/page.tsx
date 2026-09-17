@@ -157,7 +157,7 @@ export default function BriefGeneratorPage() {
             <h2 className="text-2xl font-bold text-white sm:text-3xl">
               Ready to Send Your Brief to Agencies?
             </h2>
-            <p className="mx-auto mt-3 max-w-xl text-gray-400">
+            <p className="mx-auto mt-3 max-w-xl text-gray-500">
               Submit your brief through our free matching service and receive
               3 curated agency recommendations within 24 hours.
             </p>

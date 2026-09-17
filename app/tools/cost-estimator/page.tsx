@@ -137,7 +137,7 @@ export default function CostEstimatorPage() {
             <h2 className="text-2xl font-bold text-white sm:text-3xl">
               Ready to Find the Right Agency?
             </h2>
-            <p className="mx-auto mt-3 max-w-xl text-gray-400">
+            <p className="mx-auto mt-3 max-w-xl text-gray-500">
               Tell us about your project and we&apos;ll match you with 3
               vetted Shopify agencies that fit your budget and requirements
               — completely free.

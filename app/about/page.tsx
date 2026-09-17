@@ -475,7 +475,7 @@ export default function AboutPage() {
               <h2 className="text-2xl font-bold text-white sm:text-3xl">
                 Ready to find a verified Shopify agency?
               </h2>
-              <p className="mx-auto mt-3 max-w-lg text-gray-400">
+              <p className="mx-auto mt-3 max-w-lg text-gray-500">
                 Every agency in our directory has been through the process above.
                 Browse with confidence, or let us match you for free.
               </p>

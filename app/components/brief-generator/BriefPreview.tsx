@@ -19,7 +19,7 @@ function Section({
         </h3>
         <button
           onClick={() => onEdit(stepNumber)}
-          className="text-xs font-medium text-gray-400 hover:text-green-600"
+          className="text-xs font-medium text-gray-500 hover:text-green-600"
         >
           Edit
         </button>
@@ -33,7 +33,7 @@ function Field({ label, value }: { label: string; value: string }) {
   if (!value) return null;
   return (
     <div>
-      <span className="text-xs font-semibold uppercase text-gray-400">
+      <span className="text-xs font-semibold uppercase text-gray-500">
         {label}
       </span>
       <p className="text-sm text-gray-800">{value}</p>

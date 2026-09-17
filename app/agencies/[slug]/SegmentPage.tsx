@@ -181,7 +181,7 @@ export default async function SegmentPage({
                         {agency.rating && (
                           <p className="text-sm font-medium text-gray-900">
                             ⭐ {agency.rating}
-                            <span className="font-normal text-gray-400">
+                            <span className="font-normal text-gray-500">
                               {" "}on Shopify
                             </span>
                           </p>

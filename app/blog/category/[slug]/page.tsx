@@ -141,7 +141,7 @@ export default async function CategoryPage({
                       >
                         {post.category}
                       </span>
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-gray-500">
                         {post.readingTime} min read
                       </span>
                     </div>
@@ -151,7 +151,7 @@ export default async function CategoryPage({
                     <p className="mt-2 line-clamp-2 flex-1 text-sm text-gray-500">
                       {post.excerpt}
                     </p>
-                    <p className="mt-4 text-xs text-gray-400">
+                    <p className="mt-4 text-xs text-gray-500">
                       {formatDate(post.date)}
                     </p>
                   </div>

@@ -91,7 +91,7 @@ export default function ReviewForm({ agencyId, agencyName }: ReviewFormProps) {
         <div>
           <label htmlFor="reviewer_email" className="block text-sm font-medium text-gray-700">
             Email
-            <span className="ml-1 text-xs font-normal text-gray-400">(optional — we&apos;ll notify you when published)</span>
+            <span className="ml-1 text-xs font-normal text-gray-500">(optional — we&apos;ll notify you when published)</span>
           </label>
           <input
             id="reviewer_email"
@@ -129,7 +129,7 @@ export default function ReviewForm({ agencyId, agencyName }: ReviewFormProps) {
       >
         {isPending ? "Submitting..." : "Submit Review"}
       </button>
-      <p className="text-center text-xs text-gray-400">
+      <p className="text-center text-xs text-gray-500">
         Reviews are approved before going live.
       </p>
     </form>

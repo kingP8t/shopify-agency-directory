@@ -477,7 +477,7 @@ export default function CostEstimator() {
           <p className="mt-3 text-4xl font-bold text-gray-900 sm:text-5xl">
             {fmt(result.lowCost)} &ndash; {fmt(result.highCost)}
             {result.isMonthly && (
-              <span className="text-2xl font-medium text-gray-400">/month</span>
+              <span className="text-2xl font-medium text-gray-500">/month</span>
             )}
           </p>
           <p className="mt-2 text-sm text-gray-500">
@@ -642,7 +642,7 @@ export default function CostEstimator() {
 
         <button
           onClick={reset}
-          className="mx-auto block text-sm text-gray-400 hover:text-gray-600"
+          className="mx-auto block text-sm text-gray-500 hover:text-gray-600"
         >
           Start over with different options
         </button>

@@ -48,7 +48,7 @@ export default function NotFound() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t bg-white px-6 py-6 text-center text-sm text-gray-400">
+      <footer className="border-t bg-white px-6 py-6 text-center text-sm text-gray-500">
         © {new Date().getFullYear()} Shopify Agency Directory
       </footer>
     </div>

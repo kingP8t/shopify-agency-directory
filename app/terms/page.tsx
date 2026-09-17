@@ -27,7 +27,7 @@ export default function TermsPage() {
       <main className="mx-auto max-w-3xl px-6 py-12">
         <div className="rounded-2xl border bg-white p-10 shadow-sm">
           <h1 className="text-3xl font-bold text-gray-900">Terms of Service</h1>
-          <p className="mt-2 text-sm text-gray-400">
+          <p className="mt-2 text-sm text-gray-500">
             Last updated: {new Date().toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" })}
           </p>
 
@@ -110,7 +110,7 @@ export default function TermsPage() {
         </div>
       </main>
 
-      <footer className="border-t bg-white px-6 py-6 text-center text-sm text-gray-400">
+      <footer className="border-t bg-white px-6 py-6 text-center text-sm text-gray-500">
         <div className="mx-auto flex max-w-3xl flex-col gap-2 sm:flex-row sm:justify-between">
           <p>© {new Date().getFullYear()} {SITE}</p>
           <div className="flex justify-center gap-4">

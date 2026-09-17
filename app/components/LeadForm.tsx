@@ -164,7 +164,7 @@ export default function LeadForm({ agencyId, agencyName }: LeadFormProps) {
           <div>
             <label htmlFor="store_url" className={labelClass}>
               Current Store URL{" "}
-              <span className="text-xs font-normal text-gray-400">
+              <span className="text-xs font-normal text-gray-500">
                 (if you have one)
               </span>
             </label>
@@ -282,7 +282,7 @@ export default function LeadForm({ agencyId, agencyName }: LeadFormProps) {
               : "Get My Free Matches \u2192"}
         </button>
 
-        <p className="text-center text-xs text-gray-400">
+        <p className="text-center text-xs text-gray-500">
           Free service · Takes 2 minutes · We never share your details without
           permission
         </p>

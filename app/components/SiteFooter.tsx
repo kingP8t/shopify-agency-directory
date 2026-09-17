@@ -66,7 +66,7 @@ export default function SiteFooter() {
                 The independent directory for finding and comparing verified
                 Shopify agencies worldwide.
               </p>
-              <address className="mt-4 text-sm font-semibold not-italic leading-relaxed text-gray-700">
+              <address className="mt-4 text-sm font-semibold not-italic leading-relaxed text-gray-400">
                 140 West Franklin St, Ste 203<br />
                 Monterey, CA 93940, USA
               </address>
@@ -95,13 +95,13 @@ export default function SiteFooter() {
           </div>
 
           {/* Bottom bar */}
-          <div className="mt-10 flex flex-col items-start justify-between gap-3 border-t border-gray-800 pt-6 text-xs text-gray-600 sm:flex-row sm:items-center">
+          <div className="mt-10 flex flex-col items-start justify-between gap-3 border-t border-gray-800 pt-6 text-xs text-gray-400 sm:flex-row sm:items-center">
             <p>© {year} Shopify Agency Directory. Independent — not affiliated with Shopify Inc.</p>
             <div className="flex gap-4">
-              <Link href="/privacy" className="hover:text-gray-400">Privacy</Link>
-              <Link href="/terms" className="hover:text-gray-400">Terms</Link>
-              <Link href="/submit" className="hover:text-gray-400">Submit Agency</Link>
-              <Link href="/llms.txt" className="hover:text-gray-400">llms.txt</Link>
+              <Link href="/privacy" className="hover:text-white">Privacy</Link>
+              <Link href="/terms" className="hover:text-white">Terms</Link>
+              <Link href="/submit" className="hover:text-white">Submit Agency</Link>
+              <Link href="/llms.txt" className="hover:text-white">llms.txt</Link>
             </div>
           </div>
         </div>
