@@ -421,17 +421,30 @@ export default async function BlogPostPage({
             </h1>
             <p className="mt-3 text-lg text-gray-500">{post.excerpt}</p>
 
-            {/* Featured image */}
+            {/* Featured image. SVG covers render via a plain <img> (next/image
+                does not optimize SVG without dangerouslyAllowSVG); rasters keep
+                next/image optimization. */}
             {post.featuredImage && (
               <div className="mt-6 overflow-hidden rounded-xl">
-                <Image
-                  src={post.featuredImage}
-                  alt={post.title}
-                  width={1200}
-                  height={630}
-                  className="h-auto w-full"
-                  priority
-                />
+                {post.featuredImage.endsWith(".svg") ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={post.featuredImage}
+                    alt={`${post.title} — Shopify Agency Directory`}
+                    width={1200}
+                    height={630}
+                    className="h-auto w-full"
+                  />
+                ) : (
+                  <Image
+                    src={post.featuredImage}
+                    alt={`${post.title} — Shopify Agency Directory`}
+                    width={1200}
+                    height={630}
+                    className="h-auto w-full"
+                    priority
+                  />
+                )}
               </div>
             )}
 

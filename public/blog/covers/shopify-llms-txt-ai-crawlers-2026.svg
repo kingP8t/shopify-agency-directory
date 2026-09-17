@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#064e3b"/>
+      <stop offset="0.55" stop-color="#047857"/>
+      <stop offset="1" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1040" cy="120" r="220" fill="#ffffff" opacity="0.06"/>
+  <circle cx="1160" cy="520" r="150" fill="#ffffff" opacity="0.05"/>
+  <rect x="80" y="150" width="64" height="6" rx="3" fill="#6ee7b7"/>
+  <text x="80" y="132" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="24" font-weight="600" letter-spacing="2" fill="#6ee7b7">SEO · AI CRAWLERS</text>
+  <text font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="66" font-weight="800" fill="#ffffff"><tspan x="80" y="262">llms.txt for</tspan><tspan x="80" y="338">Shopify</tspan></text>
+  <text x="80" y="560" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="27" font-weight="700" fill="#a7f3d0">★ Shopify Agency Directory</text>
+  <text x="80" y="592" font-family="Segoe UI, system-ui, Arial, sans-serif" font-size="20" font-weight="500" fill="#d1fae5" opacity="0.85">shopifyagencydirectory.com/blog</text>
+</svg>
