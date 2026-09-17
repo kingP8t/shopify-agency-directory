@@ -150,13 +150,13 @@ export default function LeadForm({ agencyId, agencyName }: LeadFormProps) {
         <div className="grid gap-5 sm:grid-cols-2">
           <div>
             <label htmlFor="company" className={labelClass}>
-              Company / Store Name <span className="text-red-500">*</span>
+              Company / Store Name{" "}
+              <span className="text-xs font-normal text-gray-500">(optional)</span>
             </label>
             <input
               id="company"
               name="company"
               type="text"
-              required
               placeholder="My Shopify Store"
               className={inputClass}
             />
@@ -227,12 +227,12 @@ export default function LeadForm({ agencyId, agencyName }: LeadFormProps) {
         {/* Timeline */}
         <div>
           <label htmlFor="timeline" className={labelClass}>
-            When do you need this done? <span className="text-red-500">*</span>
+            When do you need this done?{" "}
+            <span className="text-xs font-normal text-gray-500">(optional)</span>
           </label>
           <select
             id="timeline"
             name="timeline"
-            required
             defaultValue=""
             className={selectClass}
           >
@@ -250,12 +250,14 @@ export default function LeadForm({ agencyId, agencyName }: LeadFormProps) {
         {/* Message */}
         <div>
           <label htmlFor="message" className={labelClass}>
-            Describe your project <span className="text-red-500">*</span>
+            Describe your project{" "}
+            <span className="text-xs font-normal text-gray-500">
+              (optional, but helps us match faster)
+            </span>
           </label>
           <textarea
             id="message"
             name="message"
-            required
             rows={5}
             placeholder="What are you building or improving? Any specific features, integrations, or challenges we should know about?"
             className={inputClass}

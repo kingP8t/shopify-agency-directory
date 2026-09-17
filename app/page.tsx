@@ -177,14 +177,16 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          {/* Social proof */}
-          <div className="mt-6 flex items-center justify-center gap-2 text-sm text-gray-500">
-            <span className="flex gap-0.5 text-amber-400" aria-hidden="true">
-              {"★★★★★"}
+          {/* Trust signal — real, verifiable numbers from the directory */}
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 text-sm text-gray-500">
+            <span className="font-semibold text-gray-700">
+              {agencyCount > 0 ? `${agencyCount}+` : "900+"}
             </span>
-            <span>
-              Trusted by <span className="font-semibold text-gray-700">3,000+</span> merchants worldwide
+            <span>verified Shopify agencies across</span>
+            <span className="font-semibold text-gray-700">
+              {countryCount > 0 ? countryCount : "50+"}
             </span>
+            <span>countries</span>
           </div>
 
           {/* Secondary: direct search */}
@@ -420,7 +422,7 @@ export default async function HomePage() {
             {avgRating ? (
               <>
                 <p className="text-3xl font-bold">{avgRating}★</p>
-                <p className="mt-1 text-green-100">Average Rating</p>
+                <p className="mt-1 text-green-100">Avg. Shopify Rating</p>
               </>
             ) : (
               <>

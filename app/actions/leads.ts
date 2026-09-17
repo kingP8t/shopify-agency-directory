@@ -48,10 +48,13 @@ export async function submitLeadAction(
   const project_type = formData.get("project_type")?.toString().trim() || null;
   const timeline = formData.get("timeline")?.toString().trim() || null;
   const store_url = formData.get("store_url")?.toString().trim() || null;
-  const message = formData.get("message")?.toString().trim();
+  // Optional — kept as a string so a NOT NULL column is always satisfied.
+  const message = formData.get("message")?.toString().trim() || "";
   const agency_id = formData.get("agency_id")?.toString() || null;
 
-  if (!name || !email || !company || !project_type || !budget || !timeline || !message) {
+  // Only the essentials are required, to keep the top-of-funnel form low-friction.
+  // company, timeline, store_url, and message are optional.
+  if (!name || !email || !project_type || !budget) {
     return { success: false, error: "Please fill in all required fields." };
   }
 

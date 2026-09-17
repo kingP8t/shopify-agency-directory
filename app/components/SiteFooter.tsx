@@ -42,8 +42,8 @@ export default function SiteFooter() {
                 Free: Agency Hiring Checklist
               </p>
               <p className="mt-1 text-sm text-green-200">
-                10 questions every merchant should ask before signing a contract.
-                Used by 2,000+ store owners.
+                The 10 questions every merchant should ask before signing a
+                contract. Free — we&apos;ll email it to you.
               </p>
             </div>
             <div className="w-full sm:max-w-md">
