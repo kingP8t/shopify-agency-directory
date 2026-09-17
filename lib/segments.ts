@@ -172,7 +172,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
         "Agree on what happens after launch, since Plus stores usually need ongoing development and optimization",
       ],
       relatedPosts: [
-        { title: "Shopify vs Shopify Plus: Which Is Right for Your Business?", slug: "shopify-vs-shopify-plus-which-is-right-for-your-business" },
+        { title: "Shopify vs Shopify Plus, Which Is Right for Your Business?", slug: "shopify-vs-shopify-plus-which-is-right-for-your-business" },
         { title: "How Much Does a Shopify Website Cost?", slug: "how-much-does-a-shopify-website-cost" },
       ],
     },
@@ -296,7 +296,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
       ],
       relatedPosts: [
         { title: "How to Choose a Shopify Agency", slug: "how-to-choose-a-shopify-agency" },
-        { title: "Product Page Anatomy: What High-Converting Shopify Stores Do Differently", slug: "high-converting-shopify-product-page-anatomy" },
+        { title: "Product Page Anatomy, What High-Converting Shopify Stores Do Differently", slug: "high-converting-shopify-product-page-anatomy" },
       ],
     },
   },
@@ -418,7 +418,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
         "Remote collaboration is standard, so location is not a barrier",
       ],
       relatedPosts: [
-        { title: "Shopify International Expansion: Multi-Currency, Multi-Language, and Shopify Markets (2026 Guide)", slug: "shopify-international-multi-currency-markets-guide-2026" },
+        { title: "Shopify International Expansion, Multi-Currency, Multi-Language, and Shopify Markets, 2026 Guide", slug: "shopify-international-multi-currency-markets-guide-2026" },
         { title: "How to Choose a Shopify Agency", slug: "how-to-choose-a-shopify-agency" },
       ],
     },
@@ -501,7 +501,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
       ],
       relatedPosts: [
         { title: "How Much Does a Shopify Website Cost?", slug: "how-much-does-a-shopify-website-cost" },
-        { title: "Shopify Conversion Rate Benchmarks in 2026: Where Does Your Store Actually Stand?", slug: "shopify-conversion-rate-benchmarks-2026" },
+        { title: "Shopify Conversion Rate Benchmarks in 2026, Where Does Your Store Actually Stand?", slug: "shopify-conversion-rate-benchmarks-2026" },
       ],
     },
   },
@@ -623,7 +623,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
         "Agree on clear reporting, so you can see rankings, traffic, and revenue over time",
       ],
       relatedPosts: [
-        { title: "Shopify SEO in 2026: The Complete Guide for Ecommerce Merchants", slug: "shopify-seo-guide-2026" },
+        { title: "Shopify SEO in 2026, The Complete Guide for Ecommerce Merchants", slug: "shopify-seo-guide-2026" },
         { title: "How to Hire a Shopify SEO Agency", slug: "how-to-hire-a-shopify-seo-agency" },
       ],
     },
@@ -665,7 +665,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
       ],
       relatedPosts: [
         { title: "How Much Does a Shopify Website Cost?", slug: "how-much-does-a-shopify-website-cost" },
-        { title: "Shopify Page Speed & Core Web Vitals: How to Pass in 2026", slug: "shopify-core-web-vitals-page-speed-2026" },
+        { title: "Shopify Page Speed and Core Web Vitals, How to Pass in 2026", slug: "shopify-core-web-vitals-page-speed-2026" },
       ],
     },
   },
@@ -705,7 +705,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
         "Agree on browser and device testing before launch, so the theme works everywhere",
       ],
       relatedPosts: [
-        { title: "Product Page Anatomy: What High-Converting Shopify Stores Do Differently", slug: "high-converting-shopify-product-page-anatomy" },
+        { title: "Product Page Anatomy, What High-Converting Shopify Stores Do Differently", slug: "high-converting-shopify-product-page-anatomy" },
         { title: "How Much Does a Shopify Website Cost?", slug: "how-much-does-a-shopify-website-cost" },
       ],
     },
@@ -1203,7 +1203,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
       ],
       relatedPosts: [
         { title: "How Much Does a Shopify Website Cost?", slug: "how-much-does-a-shopify-website-cost" },
-        { title: "Product Page Anatomy: What High-Converting Shopify Stores Do Differently", slug: "high-converting-shopify-product-page-anatomy" },
+        { title: "Product Page Anatomy, What High-Converting Shopify Stores Do Differently", slug: "high-converting-shopify-product-page-anatomy" },
       ],
     },
   },
@@ -1284,7 +1284,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
         "Treat the agency as a long term partner, not a one off vendor",
       ],
       relatedPosts: [
-        { title: "Shopify vs Shopify Plus: Which Is Right for Your Business?", slug: "shopify-vs-shopify-plus-which-is-right-for-your-business" },
+        { title: "Shopify vs Shopify Plus, Which Is Right for Your Business?", slug: "shopify-vs-shopify-plus-which-is-right-for-your-business" },
         { title: "How Much Does a Shopify Website Cost?", slug: "how-much-does-a-shopify-website-cost" },
       ],
     },
@@ -1325,7 +1325,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
         "Weigh experience and reliability far above the lowest quote",
       ],
       relatedPosts: [
-        { title: "Shopify vs Shopify Plus: Which Is Right for Your Business?", slug: "shopify-vs-shopify-plus-which-is-right-for-your-business" },
+        { title: "Shopify vs Shopify Plus, Which Is Right for Your Business?", slug: "shopify-vs-shopify-plus-which-is-right-for-your-business" },
         { title: "How Much Does a Shopify Website Cost?", slug: "how-much-does-a-shopify-website-cost" },
       ],
     },
@@ -1452,8 +1452,8 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
         "Agree on clear reporting that ties tests to revenue, not just clicks",
       ],
       relatedPosts: [
-        { title: "Shopify Conversion Rate Benchmarks in 2026: Where Does Your Store Actually Stand?", slug: "shopify-conversion-rate-benchmarks-2026" },
-        { title: "Product Page Anatomy: What High-Converting Shopify Stores Do Differently", slug: "high-converting-shopify-product-page-anatomy" },
+        { title: "Shopify Conversion Rate Benchmarks in 2026, Where Does Your Store Actually Stand?", slug: "shopify-conversion-rate-benchmarks-2026" },
+        { title: "Product Page Anatomy, What High-Converting Shopify Stores Do Differently", slug: "high-converting-shopify-product-page-anatomy" },
       ],
     },
   },
@@ -1493,8 +1493,8 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
         "Agree on clear reporting and a test budget before scaling spend",
       ],
       relatedPosts: [
-        { title: "Shopify Conversion Rate Benchmarks in 2026: Where Does Your Store Actually Stand?", slug: "shopify-conversion-rate-benchmarks-2026" },
-        { title: "Shopify SEO in 2026: The Complete Guide for Ecommerce Merchants", slug: "shopify-seo-guide-2026" },
+        { title: "Shopify Conversion Rate Benchmarks in 2026, Where Does Your Store Actually Stand?", slug: "shopify-conversion-rate-benchmarks-2026" },
+        { title: "Shopify SEO in 2026, The Complete Guide for Ecommerce Merchants", slug: "shopify-seo-guide-2026" },
       ],
     },
   },
@@ -1534,7 +1534,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
         "Tie the brand work to real goals, such as trust, higher prices, or repeat sales",
       ],
       relatedPosts: [
-        { title: "Product Page Anatomy: What High-Converting Shopify Stores Do Differently", slug: "high-converting-shopify-product-page-anatomy" },
+        { title: "Product Page Anatomy, What High-Converting Shopify Stores Do Differently", slug: "high-converting-shopify-product-page-anatomy" },
         { title: "How to Choose a Shopify Agency", slug: "how-to-choose-a-shopify-agency" },
       ],
     },
@@ -1575,8 +1575,8 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
         "Agree on a small set of metrics that actually guide your decisions",
       ],
       relatedPosts: [
-        { title: "Shopify Conversion Rate Benchmarks in 2026: Where Does Your Store Actually Stand?", slug: "shopify-conversion-rate-benchmarks-2026" },
-        { title: "Shopify SEO in 2026: The Complete Guide for Ecommerce Merchants", slug: "shopify-seo-guide-2026" },
+        { title: "Shopify Conversion Rate Benchmarks in 2026, Where Does Your Store Actually Stand?", slug: "shopify-conversion-rate-benchmarks-2026" },
+        { title: "Shopify SEO in 2026, The Complete Guide for Ecommerce Merchants", slug: "shopify-seo-guide-2026" },
       ],
     },
   },
@@ -1657,7 +1657,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
         "Start with one or two markets and expand once the setup is proven",
       ],
       relatedPosts: [
-        { title: "Shopify International Expansion: Multi-Currency, Multi-Language, and Shopify Markets (2026 Guide)", slug: "shopify-international-multi-currency-markets-guide-2026" },
+        { title: "Shopify International Expansion, Multi-Currency, Multi-Language, and Shopify Markets, 2026 Guide", slug: "shopify-international-multi-currency-markets-guide-2026" },
         { title: "How Much Does a Shopify Website Cost?", slug: "how-much-does-a-shopify-website-cost" },
       ],
     },
@@ -1698,8 +1698,8 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
         "Check mobile checkout closely, since that is where most orders happen",
       ],
       relatedPosts: [
-        { title: "The Shopify Checkout Optimization Checklist: 12 Changes That Actually Move the Needle", slug: "shopify-checkout-optimization-checklist" },
-        { title: "Shopify Conversion Rate Benchmarks in 2026: Where Does Your Store Actually Stand?", slug: "shopify-conversion-rate-benchmarks-2026" },
+        { title: "The Shopify Checkout Optimization Checklist, 12 Changes That Actually Move the Needle", slug: "shopify-checkout-optimization-checklist" },
+        { title: "Shopify Conversion Rate Benchmarks in 2026, Where Does Your Store Actually Stand?", slug: "shopify-conversion-rate-benchmarks-2026" },
       ],
     },
   },
@@ -1780,8 +1780,8 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
         "Make sure they protect the first product image and hero from lazy loading",
       ],
       relatedPosts: [
-        { title: "Shopify Page Speed & Core Web Vitals: How to Pass in 2026", slug: "shopify-core-web-vitals-page-speed-2026" },
-        { title: "Product Page Anatomy: What High-Converting Shopify Stores Do Differently", slug: "high-converting-shopify-product-page-anatomy" },
+        { title: "Shopify Page Speed and Core Web Vitals, How to Pass in 2026", slug: "shopify-core-web-vitals-page-speed-2026" },
+        { title: "Product Page Anatomy, What High-Converting Shopify Stores Do Differently", slug: "high-converting-shopify-product-page-anatomy" },
       ],
     },
   },
