@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { generateAgencyMetadata, generateAgencyJsonLd, generateProfilePageJsonLd } from "@/lib/seo";
 import { countryName } from "@/lib/countries";
+import { isGibberishListing } from "@/lib/listing-quality";
 import { supabase } from "@/lib/supabase";
 import type { Agency } from "@/lib/supabase";
 import { getSegment, SEGMENT_SLUGS } from "@/lib/segments";
@@ -312,12 +313,15 @@ async function getApprovedReviews(agencyId: string): Promise<Review[]> {
 }
 
 /**
- * A listing is "quality" enough to surface in Similar Agencies when its name
- * is a real, readable string. Excludes scraped junk like "★★★★★", emoji-only
- * names, or names carrying markup/escape characters — without penalising
+ * A listing is presentable enough to surface in the Similar Agencies widget
+ * when it is not gibberish and its name is a clean, readable string. This is
+ * stricter than isGibberishListing on purpose: hiding one card is harmless,
+ * whereas gibberish also drives noindex and sitemap removal. Excludes names
+ * with no letters or with markup/escape characters, without penalising
  * legitimate non-Latin (e.g. CJK) agency names, which contain letters.
  */
 function isQualityListing(agency: Agency): boolean {
+  if (isGibberishListing(agency)) return false;
   const name = agency.name?.trim() ?? "";
   if (name.length < 2) return false;
   // Must contain at least one letter in some script (excludes "★★★★★", "360&5"-only symbols).
@@ -394,7 +398,7 @@ export async function generateMetadata({
   const agency = await getAgency(slug);
   if (!agency) return { title: "Agency Not Found" };
 
-  return generateAgencyMetadata({
+  const metadata = generateAgencyMetadata({
     name: agency.name,
     slug: agency.slug,
     description: agency.description,
@@ -403,6 +407,11 @@ export async function generateMetadata({
     rating: agency.rating ?? undefined,
     reviewCount: agency.review_count ?? undefined,
   });
+
+  // Scraper debris must not be indexed, even if it was published by mistake.
+  return isGibberishListing(agency)
+    ? { ...metadata, robots: { index: false, follow: false } }
+    : metadata;
 }
 
 // ---------------------------------------------------------------------------

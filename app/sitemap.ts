@@ -2,6 +2,28 @@ import type { MetadataRoute } from "next";
 import { supabase } from "@/lib/supabase";
 import { getAllPosts, getAllCategoryPairs } from "@/lib/blog";
 import { SEGMENT_SLUGS } from "@/lib/segments";
+import { isGibberishListing, type ListingFields } from "@/lib/listing-quality";
+
+type SitemapAgency = ListingFields & { slug: string; updated_at: string };
+
+// Supabase returns at most 1000 rows per request, so page through the table.
+// A single unpaged select silently dropped every agency past the 1000th.
+async function getPublishedAgencies(): Promise<SitemapAgency[]> {
+  const PAGE = 1000;
+  const rows: SitemapAgency[] = [];
+  for (let from = 0; ; from += PAGE) {
+    const { data, error } = await supabase
+      .from("agencies")
+      .select("slug, updated_at, name, description, website")
+      .eq("status", "published")
+      .order("slug") // stable order is required for range pagination
+      .range(from, from + PAGE - 1);
+    if (error || !data) break;
+    rows.push(...(data as SitemapAgency[]));
+    if (data.length < PAGE) break;
+  }
+  return rows;
+}
 
 // Always use HTTPS in production. Never let localhost leak into the sitemap.
 function getSiteUrl(): string {
@@ -93,19 +115,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  const { data: agencies } = await supabase
-    .from("agencies")
-    .select("slug, updated_at")
-    .eq("status", "published");
-
-  const agencyRoutes: MetadataRoute.Sitemap = (agencies ?? []).map(
-    (agency: { slug: string; updated_at: string }) => ({
-      url: `${BASE_URL}/agencies/${agency.slug}`,
-      lastModified: new Date(agency.updated_at),
-      changeFrequency: "weekly" as const,
-      priority: 0.8,
-    })
+  // Gibberish listings (scraped error pages, unreadable names) never go in the
+  // sitemap, even if one is published by mistake.
+  const agencies = (await getPublishedAgencies()).filter(
+    (agency) => !isGibberishListing(agency)
   );
+
+  const agencyRoutes: MetadataRoute.Sitemap = agencies.map((agency) => ({
+    url: `${BASE_URL}/agencies/${agency.slug}`,
+    lastModified: new Date(agency.updated_at),
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  }));
 
   const allPosts = await getAllPosts();
   const blogRoutes: MetadataRoute.Sitemap = allPosts.map((post) => ({

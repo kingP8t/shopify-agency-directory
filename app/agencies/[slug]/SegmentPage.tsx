@@ -9,6 +9,7 @@ import AgencyLogo from "@/app/components/AgencyLogo";
 import LeadForm from "@/app/components/LeadForm";
 import { generateSegmentJsonLd } from "@/lib/seo";
 import { logError } from "@/lib/logger";
+import { withoutGibberish } from "@/lib/listing-quality";
 
 // ---------------------------------------------------------------------------
 // Data fetching
@@ -56,7 +57,9 @@ async function getSegmentAgencies(
     logError("segment-fetch", error);
     return { agencies: [], total: 0 };
   }
-  return { agencies: (data as Agency[]) ?? [], total: count ?? 0 };
+  // Keep gibberish listings off segment pages, and keep the matched total honest.
+  const { rows, removed } = withoutGibberish((data as Agency[]) ?? []);
+  return { agencies: rows, total: Math.max(0, (count ?? 0) - removed) };
 }
 
 // ---------------------------------------------------------------------------

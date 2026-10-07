@@ -9,6 +9,7 @@ import MobileFilterDrawer from "@/app/components/MobileFilterDrawer";
 import { generateAgencyListJsonLd, generateDirectoryMetadata } from "@/lib/seo";
 import { COUNTRY_NAMES } from "@/lib/countries";
 import { logError } from "@/lib/logger";
+import { withoutGibberish } from "@/lib/listing-quality";
 
 export async function generateMetadata({
   searchParams,
@@ -235,7 +236,9 @@ async function getAgencies(
     logError("agencies-fetch", error);
     return { agencies: [], total: 0 };
   }
-  return { agencies: (data as Agency[]) ?? [], total: count ?? 0 };
+  // Keep gibberish listings out of the directory, and keep the total honest.
+  const { rows, removed } = withoutGibberish((data as Agency[]) ?? []);
+  return { agencies: rows, total: Math.max(0, (count ?? 0) - removed) };
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
