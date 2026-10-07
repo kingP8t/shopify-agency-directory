@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { generateAgencyMetadata, generateAgencyJsonLd, generateProfilePageJsonLd } from "@/lib/seo";
+import { generateAgencyMetadata, generateSegmentMetadata, generateAgencyJsonLd, generateProfilePageJsonLd } from "@/lib/seo";
 import { countryName } from "@/lib/countries";
 import { isGibberishListing } from "@/lib/listing-quality";
 import { supabase } from "@/lib/supabase";
@@ -389,13 +389,7 @@ export async function generateMetadata({
   const { slug } = await params;
 
   const segment = getSegment(slug);
-  if (segment) {
-    return {
-      title: segment.metaTitle,
-      description: segment.metaDescription,
-      alternates: { canonical: `/agencies/${segment.slug}` },
-    };
-  }
+  if (segment) return generateSegmentMetadata(segment);
 
   const agency = await getAgency(slug);
   if (!agency) return { title: "Agency Not Found" };

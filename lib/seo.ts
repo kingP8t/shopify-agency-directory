@@ -116,6 +116,43 @@ export function generateAgencyMetadata(agency: {
   };
 }
 
+/**
+ * Segment landing pages such as /agencies/london and /agencies/shopify-plus.
+ *
+ * Next.js replaces the root layout's `openGraph` and `twitter` objects whole
+ * when a page sets its own, and keeps them whole when it sets neither. A page
+ * that only returns `title` and `description` therefore shares the homepage's
+ * og:title, og:description and og:url. Set every social field here instead.
+ */
+export function generateSegmentMetadata(segment: {
+  slug: string;
+  metaTitle: string;
+  metaDescription: string;
+}): Metadata {
+  const url = `${BASE_URL}/agencies/${segment.slug}`;
+  // Same shape as the <title> the root layout template produces.
+  const socialTitle = `${segment.metaTitle} | ${SITE_NAME}`;
+
+  return {
+    title: segment.metaTitle,
+    description: segment.metaDescription,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "website",
+      locale: "en_US",
+      siteName: SITE_NAME,
+      url,
+      title: socialTitle,
+      description: segment.metaDescription,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: socialTitle,
+      description: segment.metaDescription,
+    },
+  };
+}
+
 export function generateDirectoryMetadata(
   page = 1,
   filters?: { specialization?: string; location?: string; hasAnyFilter?: boolean }
