@@ -8,12 +8,13 @@ const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://shopifyagencydirectory.com";
 
 export const metadata: Metadata = {
-  title: "Free Shopify Tools — Cost Estimator, Brief Generator & Migration Calculator",
+  title: "Free Shopify Tools — Cost Estimator, Plan Calculator, Brief Generator & More",
   description:
-    "Free tools for Shopify merchants. Estimate project costs, create a professional agency brief, or assess your migration complexity — all in minutes.",
+    "Free tools for Shopify merchants. Compare Shopify plans, estimate project costs, create an agency brief, or assess migration complexity — all in minutes.",
   keywords: [
     "shopify tools",
     "shopify cost calculator",
+    "shopify plan comparison",
     "shopify project brief",
     "shopify migration calculator",
     "shopify agency tools",
@@ -71,6 +72,50 @@ const TOOLS = [
       </svg>
     ),
     badges: ["No signup required", "Downloadable PDF"],
+  },
+  {
+    title: "Shopify Plan Comparison Calculator",
+    description:
+      "Basic, Shopify, Advanced or Plus? Enter your revenue, staff and feature needs to see total monthly cost — plan fee, card processing, and transaction fee savings — for all 4 plans.",
+    href: "/tools/plan-calculator",
+    icon: (
+      <svg
+        className="h-8 w-8 text-green-600"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.5}
+          d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+        />
+      </svg>
+    ),
+    badges: ["All 4 plans compared", "Transaction fee savings"],
+  },
+  {
+    title: "Store Speed & Health Grader",
+    description:
+      "Enter any Shopify store URL and get an A–F audit covering page speed, mobile, SEO, structured data, and app bloat, in under a minute.",
+    href: "/tools/store-grader",
+    icon: (
+      <svg
+        className="h-8 w-8 text-green-600"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.5}
+          d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+        />
+      </svg>
+    ),
+    badges: ["No signup", "A–F grade"],
   },
   {
     title: "Migration Complexity Calculator",
@@ -233,7 +278,7 @@ export default function ToolsPage() {
             <h2 className="text-2xl font-bold text-white sm:text-3xl">
               Need Help Finding the Right Agency?
             </h2>
-            <p className="mx-auto mt-3 max-w-xl text-gray-400">
+            <p className="mx-auto mt-3 max-w-xl text-gray-500">
               Use our free matching service to get 3 curated agency
               recommendations within 24 hours.
             </p>

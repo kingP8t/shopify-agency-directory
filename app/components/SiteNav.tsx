@@ -17,6 +17,8 @@ const NAV_LINKS: NavLink[] = [
     label: "Free Tools",
     children: [
       { href: "/tools/cost-estimator", label: "Cost Estimator", desc: "Estimate project costs in 60 seconds" },
+      { href: "/tools/plan-calculator", label: "Plan Calculator", desc: "Compare Shopify plans side-by-side" },
+      { href: "/tools/store-grader", label: "Store Health Grader", desc: "Audit any store's speed, SEO & app bloat" },
       { href: "/tools/brief-generator", label: "Brief Generator", desc: "Create a professional project brief" },
       { href: "/tools/migration-calculator", label: "Migration Calculator", desc: "Assess your migration complexity" },
     ],
@@ -53,7 +55,7 @@ export default function SiteNav() {
         </Link>
 
         {/* Desktop links */}
-        <div className="hidden items-center gap-6 text-sm sm:flex">
+        <div className="hidden items-center gap-6 text-sm md:flex">
           {NAV_LINKS.map((link) => {
             if (link.highlight) {
               return (
@@ -127,7 +129,7 @@ export default function SiteNav() {
 
         {/* Mobile hamburger button */}
         <button
-          className="flex items-center justify-center rounded-lg p-2 text-gray-600 hover:bg-gray-100 sm:hidden"
+          className="flex items-center justify-center rounded-lg p-2 text-gray-600 hover:bg-gray-100 md:hidden"
           onClick={() => setOpen((o) => !o)}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
@@ -146,7 +148,7 @@ export default function SiteNav() {
 
       {/* Mobile dropdown */}
       {open && (
-        <div className="mx-auto mt-3 max-w-6xl space-y-1 border-t pt-3 sm:hidden">
+        <div className="mx-auto mt-3 max-w-6xl space-y-1 border-t pt-3 md:hidden">
           {NAV_LINKS.map((link) => {
             if (link.highlight) {
               return (
