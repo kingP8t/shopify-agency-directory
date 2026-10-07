@@ -234,7 +234,9 @@ export default async function SegmentPage({
             <div className="mt-12 space-y-10">
               <section>
                 <h2 className="text-xl font-bold text-gray-900">
-                  Why Shopify for {segment.breadcrumbLabel}?
+                  {segment.inPlace
+                    ? `Why Shopify in ${segment.inPlace}?`
+                    : `Why Shopify for ${segment.breadcrumbLabel}?`}
                 </h2>
                 <p className="mt-3 leading-relaxed text-gray-600">
                   {segment.industryContent.whyShopify}
@@ -244,7 +246,9 @@ export default async function SegmentPage({
               {segment.industryContent.tips.length > 0 && (
                 <section>
                   <h2 className="text-xl font-bold text-gray-900">
-                    Tips for {segment.breadcrumbLabel} on Shopify
+                    {segment.inPlace
+                      ? `Tips for hiring a Shopify agency in ${segment.inPlace}`
+                      : `Tips for ${segment.breadcrumbLabel} on Shopify`}
                   </h2>
                   <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-gray-600">
                     {segment.industryContent.tips.map((tip, i) => (

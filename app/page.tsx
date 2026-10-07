@@ -207,10 +207,10 @@ export default async function HomePage() {
               <span className="text-xs font-medium uppercase tracking-wide text-gray-500">Region</span>
               {(
                 [
-                  { label: "US Agencies",        href: "/agencies?country=US" },
-                  { label: "UK Agencies",        href: "/agencies?country=GB" },
-                  { label: "Australian Agencies",href: "/agencies?country=AU" },
-                  { label: "Canadian Agencies",  href: "/agencies?country=CA" },
+                  { label: "US Agencies",        href: "/agencies/united-states" },
+                  { label: "UK Agencies",        href: "/agencies/united-kingdom" },
+                  { label: "Australian Agencies",href: "/agencies/australia" },
+                  { label: "Canadian Agencies",  href: "/agencies/canada" },
                 ] as { label: string; href: string }[]
               ).map(({ label, href }) => (
                 <a key={label} href={href}

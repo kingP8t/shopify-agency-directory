@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getAllPosts } from "@/lib/blog";
+import { SEGMENTS } from "@/lib/segments";
 
 // Regenerate hourly so newly published posts appear without a redeploy.
 export const revalidate = 3600;
@@ -39,18 +40,15 @@ Each agency has a profile at ${SITE}/agencies/{slug} with:
 ## Blog posts
 `;
 
-const FOOTER = `## Directory segments — by location
+const FOOTER = `## Directory segments — by city
 
-Pre-filtered landing pages for agencies by location:
+Pre-filtered landing pages for agencies by city:
 - [London Agencies](${SITE}/agencies/london)
-- [US Agencies](${SITE}/agencies/united-states)
 - [New York Agencies](${SITE}/agencies/new-york)
 - [Los Angeles Agencies](${SITE}/agencies/los-angeles)
 - [Chicago Agencies](${SITE}/agencies/chicago)
 - [Austin Agencies](${SITE}/agencies/austin)
 - [Miami Agencies](${SITE}/agencies/miami)
-- [Australian Agencies](${SITE}/agencies/australia)
-- [Canadian Agencies](${SITE}/agencies/canada)
 
 ## Directory segments — by service
 
@@ -138,7 +136,20 @@ export async function GET() {
     )
     .join("\n\n");
 
-  const body = `${HEADER}\n${blogSection}\n\n${FOOTER}`;
+  // Country pages come from the segment data, so new countries appear here
+  // without anyone editing this file.
+  const countrySection =
+    `## Directory segments — by country\n\n` +
+    `Pre-filtered landing pages for agencies by country:\n` +
+    Object.values(SEGMENTS)
+      .filter((segment) => segment.filter.country)
+      .map(
+        (segment) =>
+          `- [${segment.breadcrumbLabel} Agencies](${SITE}/agencies/${segment.slug})`
+      )
+      .join("\n");
+
+  const body = `${HEADER}\n${blogSection}\n\n${countrySection}\n\n${FOOTER}`;
 
   return new NextResponse(body, {
     headers: { "Content-Type": "text/plain; charset=utf-8" },

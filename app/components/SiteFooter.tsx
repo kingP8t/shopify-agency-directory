@@ -20,8 +20,11 @@ const FOOTER_LINKS = {
   ],
   Locations: [
     { href: "/agencies/united-states", label: "United States" },
-    { href: "/agencies/australia", label: "Australia" },
+    { href: "/agencies/united-kingdom", label: "United Kingdom" },
     { href: "/agencies/canada", label: "Canada" },
+    { href: "/agencies/australia", label: "Australia" },
+    { href: "/agencies/india", label: "India" },
+    { href: "/agencies/germany", label: "Germany" },
     { href: "/agencies/london", label: "London" },
     { href: "/agencies/new-york", label: "New York" },
     { href: "/agencies/los-angeles", label: "Los Angeles" },

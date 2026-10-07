@@ -1,3 +1,5 @@
+import { COUNTRY_SEGMENTS } from "@/lib/country-segments";
+
 export interface SegmentFilter {
   country?: string;
   location?: string;
@@ -15,6 +17,14 @@ export interface SegmentConfig {
   metaDescription: string;
   intro: string;
   breadcrumbLabel: string;
+  /**
+   * Location pages only. The phrase that follows "in" in section headings,
+   * for example "the United Kingdom", so headings read "Why Shopify in the
+   * United Kingdom?" and not "Why Shopify for United Kingdom?".
+   */
+  inPlace?: string;
+  /** Slugs to link first in "Explore More Agencies", ahead of the defaults. */
+  relatedSlugs?: string[];
   filter: SegmentFilter;
   faq?: Array<{ q: string; a: string }>;
   /** Richer content for industry vertical pages */
@@ -36,6 +46,10 @@ const SEGMENT_CATEGORIES: Record<string, SegmentCategory> = {
   london: "location", "united-states": "location", "new-york": "location",
   "los-angeles": "location", chicago: "location", austin: "location",
   miami: "location", australia: "location", canada: "location",
+  // Country pages defined in lib/country-segments.ts
+  ...Object.fromEntries(
+    Object.keys(COUNTRY_SEGMENTS).map((slug) => [slug, "location" as const])
+  ),
   // Services
   "shopify-plus": "service", migration: "service", headless: "service",
   "theme-development": "service", "ecommerce-seo": "service",
@@ -67,10 +81,23 @@ export function getRelatedSegments(
 
   const allSlugs = Object.keys(SEGMENTS).filter((s) => s !== currentSlug);
 
-  // Same-category siblings (e.g. other locations if this is a location page)
-  const sameCategory = allSlugs.filter(
+  // Same-category siblings (e.g. other locations if this is a location page).
+  // Start after the current page and wrap around, so each page links to its
+  // own neighbours and link equity spreads across the group, instead of every
+  // page in a large group pointing at the same first two.
+  const categoryOrder = Object.keys(SEGMENTS).filter(
     (s) => SEGMENT_CATEGORIES[s] === cat
   );
+  const at = categoryOrder.indexOf(currentSlug);
+  const rotated = [
+    ...categoryOrder.slice(at + 1),
+    ...categoryOrder.slice(0, at),
+  ];
+  // Hand picked pairs first, for example the UK page and the London page.
+  const preferred = (SEGMENTS[currentSlug].relatedSlugs ?? []).filter(
+    (s) => s !== currentSlug && SEGMENTS[s]
+  );
+  const sameCategory = [...new Set([...preferred, ...rotated])];
 
   // Complementary categories — pick the most useful cross-category links
   const COMPLEMENTS: Record<SegmentCategory, SegmentCategory[]> = {
@@ -105,6 +132,8 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "London is home to some of the world's leading Shopify agencies, from boutique studios to large-scale enterprise partners. Browse verified agencies based in or near London, with real client reviews and transparent pricing.",
     breadcrumbLabel: "London",
+    inPlace: "London",
+    relatedSlugs: ["united-kingdom"],
     filter: { location: "London" },
     faq: [
       {
@@ -187,6 +216,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "The United States has the largest concentration of Shopify agencies globally, from boutique studios to enterprise-scale partners. Browse verified US agencies across New York, Los Angeles, Chicago, Austin, Miami, and beyond.",
     breadcrumbLabel: "United States",
+    inPlace: "the United States",
     filter: { country: "US" },
     faq: [
       {
@@ -228,6 +258,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "New York City has a thriving Shopify agency ecosystem, particularly strong in fashion, luxury, beauty, and direct-to-consumer brands. Browse verified agencies based in New York with real client reviews.",
     breadcrumbLabel: "New York",
+    inPlace: "New York",
     filter: { location: "New York" },
     faq: [
       {
@@ -269,6 +300,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "Los Angeles is a major hub for DTC brands, wellness companies, and ecommerce-first businesses. Browse verified Shopify agencies based in LA, known for creative design and growth-focused development.",
     breadcrumbLabel: "Los Angeles",
+    inPlace: "Los Angeles",
     filter: { location: "Los Angeles" },
     faq: [
       {
@@ -310,6 +342,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "Chicago's agency scene blends B2B expertise with strong retail and manufacturing heritage. Browse verified Shopify agencies based in Chicago across specializations from store builds to platform migrations.",
     breadcrumbLabel: "Chicago",
+    inPlace: "Chicago",
     filter: { location: "Chicago" },
     faq: [
       {
@@ -351,6 +384,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "Austin's fast-growing tech and startup scene has produced a strong cohort of ecommerce-focused agencies. Browse verified Shopify agencies based in Austin, Texas, with real client reviews.",
     breadcrumbLabel: "Austin",
+    inPlace: "Austin",
     filter: { location: "Austin" },
     faq: [
       {
@@ -392,6 +426,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "Miami's international business community, luxury retail sector, and proximity to Latin American markets make it home to several strong Shopify agencies with multilingual capabilities.",
     breadcrumbLabel: "Miami",
+    inPlace: "Miami",
     filter: { location: "Miami" },
     faq: [
       {
@@ -515,6 +550,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "Australia has a thriving Shopify ecosystem with agencies spanning Sydney, Melbourne, Brisbane, and beyond. Many Australian agencies have expertise in localised ecommerce — including local payment gateways, shipping integrations, and GST compliance — alongside strong DTC and retail brand work.",
     breadcrumbLabel: "Australia",
+    inPlace: "Australia",
     filter: { country: "AU" },
     faq: [
       {
@@ -556,6 +592,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "Canada is home to a strong Shopify agency ecosystem — unsurprisingly, given that Shopify itself was founded in Ottawa. Canadian agencies span Toronto, Vancouver, Montreal, and smaller cities, with deep expertise across DTC brands, B2B ecommerce, and enterprise Shopify Plus projects.",
     breadcrumbLabel: "Canada",
+    inPlace: "Canada",
     filter: { country: "CA" },
     faq: [
       {
@@ -1785,6 +1822,9 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
       ],
     },
   },
+
+  // Country landing pages, defined in lib/country-segments.ts
+  ...COUNTRY_SEGMENTS,
 };
 
 export function getSegment(slug: string): SegmentConfig | null {
