@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import LeadForm from "@/app/components/LeadForm";
 import SiteNav from "@/app/components/SiteNav";
-import { generateServiceJsonLd } from "@/lib/seo";
+import { generateServiceJsonLd, withSocialMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: "Get Matched with a Shopify Agency",
   description:
     "Tell us about your project and we'll connect you with the best Shopify agency for your needs and budget.",
   alternates: { canonical: "/get-matched" },
-};
+}, "/get-matched");
 
 export default function GetMatchedPage() {
   // Static, trusted data from lib/seo.ts — no user input, safe for JSON-LD

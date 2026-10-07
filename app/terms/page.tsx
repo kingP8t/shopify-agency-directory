@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { withSocialMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: "Terms of Service",
   description: "Terms of Service for Shopify Agency Directory.",
   robots: { index: false, follow: false },
-};
+}, "/terms");
 
 const SITE = "Shopify Agency Directory";
 const CONTACT_EMAIL = process.env.ADMIN_EMAIL ?? "hello@shopifyagencydirectory.com";

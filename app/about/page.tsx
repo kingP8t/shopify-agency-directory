@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
-import { BASE_URL, SITE_NAME } from "@/lib/seo";
+import { BASE_URL, SITE_NAME, withSocialMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: "About Us & How We Verify Agencies",
   description:
     "Learn how Shopify Agency Directory verifies, reviews, and ranks agencies. Our transparent methodology ensures every listing meets strict quality standards.",
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     "trusted Shopify agencies",
   ],
   alternates: { canonical: "/about" },
-};
+}, "/about");
 
 // ---------------------------------------------------------------------------
 // Data

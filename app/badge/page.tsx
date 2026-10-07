@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import SiteNav from "@/app/components/SiteNav";
+import { withSocialMetadata } from "@/lib/seo";
 
 const SITE =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
   "https://shopifyagencydirectory.com";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: "Agency Badge Programme",
   description:
     "Get your 'Verified on Shopify Agency Directory' badge to embed on your website. Show potential clients you're a trusted Shopify agency.",
   alternates: { canonical: `${SITE}/badge` },
-};
+}, "/badge");
 
 const STEPS = [
   {

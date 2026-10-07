@@ -117,6 +117,57 @@ export function generateAgencyMetadata(agency: {
 }
 
 /**
+ * Image for pages that have no `opengraph-image` file of their own. It is the
+ * route behind `app/opengraph-image.tsx`; keep `alt` and the size in step with
+ * that file. Next.js only attaches the root file's image to pages that set no
+ * `openGraph` or `twitter` object, so a page that sets its own must name it.
+ */
+const DEFAULT_SOCIAL_IMAGE = {
+  url: `${BASE_URL}/opengraph-image`,
+  width: 1200,
+  height: 630,
+  alt: "Shopify Agency Directory — Find Top Shopify Experts",
+};
+
+/**
+ * Add page-specific Open Graph and Twitter tags to a page's metadata.
+ *
+ * Next.js keeps the root layout's `openGraph` and `twitter` objects whole when
+ * a page sets neither, so a page that only returns `title`, `description` and
+ * `alternates` shares the homepage's og:title, og:description and og:url. It
+ * replaces them whole when a page sets its own, so every field is set here.
+ * Everything else in `meta` (canonical, robots, keywords) is returned as is.
+ *
+ * `path` is the page's canonical path, such as "/tools", used for og:url.
+ */
+export function withSocialMetadata(
+  meta: Metadata & { title: string; description: string },
+  path: string
+): Metadata {
+  // Same shape as the <title> the root layout template produces.
+  const socialTitle = `${meta.title} | ${SITE_NAME}`;
+
+  return {
+    ...meta,
+    openGraph: {
+      type: "website",
+      locale: "en_US",
+      siteName: SITE_NAME,
+      url: `${BASE_URL}${path}`,
+      title: socialTitle,
+      description: meta.description,
+      images: [DEFAULT_SOCIAL_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: socialTitle,
+      description: meta.description,
+      images: [DEFAULT_SOCIAL_IMAGE],
+    },
+  };
+}
+
+/**
  * Segment landing pages such as /agencies/london and /agencies/shopify-plus.
  *
  * Next.js replaces the root layout's `openGraph` and `twitter` objects whole
@@ -176,12 +227,15 @@ export function generateDirectoryMetadata(
   // noindex filtered / paginated views — segment pages are the canonical versions
   const shouldNoIndex = page > 1 || !!filters?.hasAnyFilter;
 
-  return {
-    title,
-    description,
-    ...(shouldNoIndex && { robots: { index: false, follow: true } }),
-    alternates: { canonical: `${BASE_URL}/agencies` },
-  };
+  return withSocialMetadata(
+    {
+      title,
+      description,
+      ...(shouldNoIndex && { robots: { index: false, follow: true } }),
+      alternates: { canonical: `${BASE_URL}/agencies` },
+    },
+    "/agencies"
+  );
 }
 
 // ---------------------------------------------------------------------------

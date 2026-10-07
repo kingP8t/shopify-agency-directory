@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { withSocialMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: "Privacy Policy",
   description: "Privacy Policy for Shopify Agency Directory — how we collect, use, and protect your data.",
   robots: { index: false, follow: false },
-};
+}, "/privacy");
 
 const SITE = "Shopify Agency Directory";
 const CONTACT_EMAIL = process.env.ADMIN_EMAIL ?? "hello@shopifyagencydirectory.com";

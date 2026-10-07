@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
-import { generateBreadcrumbJsonLd } from "@/lib/seo";
+import { generateBreadcrumbJsonLd, withSocialMetadata } from "@/lib/seo";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://shopifyagencydirectory.com";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: "Free Shopify Tools — Cost Estimator, Plan Calculator, Brief Generator & More",
   description:
     "Free tools for Shopify merchants. Compare Shopify plans, estimate project costs, create an agency brief, or assess migration complexity — all in minutes.",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     "free shopify resources",
   ],
   alternates: { canonical: `${SITE_URL}/tools` },
-};
+}, "/tools");
 
 const breadcrumbs = [
   { name: "Home", href: "/" },

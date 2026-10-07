@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { generateWebApplicationJsonLd, generateBreadcrumbJsonLd } from "@/lib/seo";
+import {
+  generateWebApplicationJsonLd,
+  generateBreadcrumbJsonLd,
+  withSocialMetadata,
+} from "@/lib/seo";
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
 import CostEstimator from "@/app/components/CostEstimator";
@@ -8,7 +12,7 @@ import CostEstimator from "@/app/components/CostEstimator";
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://shopifyagencydirectory.com";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: "Shopify Project Cost Estimator — Free Calculator",
   description:
     "Estimate your Shopify project cost in 60 seconds. Get price ranges for store builds, redesigns, migrations, and Shopify Plus upgrades based on data from 900+ agencies.",
@@ -22,7 +26,7 @@ export const metadata: Metadata = {
     "shopify migration cost",
   ],
   alternates: { canonical: `${SITE_URL}/tools/cost-estimator` },
-};
+}, "/tools/cost-estimator");
 
 const breadcrumbs = [
   { name: "Home", href: "/" },

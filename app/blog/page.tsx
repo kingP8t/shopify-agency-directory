@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getPostsPaginated, getAllCategoryPairs } from "@/lib/blog";
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
+import { withSocialMetadata } from "@/lib/seo";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://shopifyagencydirectory.com";
@@ -12,12 +13,12 @@ const POSTS_PER_PAGE = 12;
 // Revalidate blog listing every hour — new posts are published weekly
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: "Shopify Blog — Guides, Tips & Agency Advice",
   description:
     "Expert guides on hiring Shopify agencies, platform comparisons, migration advice, and ecommerce growth strategies.",
   alternates: { canonical: `${SITE_URL}/blog` },
-};
+}, "/blog");
 
 const CATEGORY_COLORS: Record<string, string> = {
   "Hiring Guide":    "bg-green-100 text-green-700",

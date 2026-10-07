@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   generateWebApplicationJsonLd,
   generateBreadcrumbJsonLd,
+  withSocialMetadata,
 } from "@/lib/seo";
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
@@ -11,7 +12,7 @@ import PlanComparisonCalculator from "@/app/components/PlanComparisonCalculator"
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://shopifyagencydirectory.com";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: "Shopify Plan Comparison Calculator — Basic, Shopify, Advanced, Plus",
   description:
     "Compare Shopify Basic, Shopify, Advanced, and Plus side-by-side. Enter your revenue, staff and feature needs to see the total monthly cost (plan fee + card processing + transaction fees) and get a recommendation.",
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
     "shopify pricing",
   ],
   alternates: { canonical: `${SITE_URL}/tools/plan-calculator` },
-};
+}, "/tools/plan-calculator");
 
 const breadcrumbs = [
   { name: "Home", href: "/" },

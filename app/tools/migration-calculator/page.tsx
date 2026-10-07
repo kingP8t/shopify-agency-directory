@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { generateWebApplicationJsonLd, generateBreadcrumbJsonLd } from "@/lib/seo";
+import {
+  generateWebApplicationJsonLd,
+  generateBreadcrumbJsonLd,
+  withSocialMetadata,
+} from "@/lib/seo";
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
 import MigrationCalculator from "@/app/components/MigrationCalculator";
@@ -8,7 +12,7 @@ import MigrationCalculator from "@/app/components/MigrationCalculator";
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://shopifyagencydirectory.com";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: "Shopify Migration Complexity Calculator — Free Tool",
   description:
     "Assess how complex your Shopify migration will be in 2 minutes. Get a complexity score, estimated timeline, risk factors, and agency recommendations based on your current platform and store setup.",
@@ -23,7 +27,7 @@ export const metadata: Metadata = {
     "ecommerce migration tool",
   ],
   alternates: { canonical: `${SITE_URL}/tools/migration-calculator` },
-};
+}, "/tools/migration-calculator");
 
 const breadcrumbs = [
   { name: "Home", href: "/" },

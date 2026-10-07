@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { generateWebApplicationJsonLd, generateBreadcrumbJsonLd } from "@/lib/seo";
+import {
+  generateWebApplicationJsonLd,
+  generateBreadcrumbJsonLd,
+  withSocialMetadata,
+} from "@/lib/seo";
 import SiteNav from "@/app/components/SiteNav";
 import Breadcrumbs from "@/app/components/Breadcrumbs";
 import BriefGenerator from "@/app/components/BriefGenerator";
@@ -8,7 +12,7 @@ import BriefGenerator from "@/app/components/BriefGenerator";
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://shopifyagencydirectory.com";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: "Free Shopify Project Brief Generator — Create Your RFP in Minutes",
   description:
     "Create a professional Shopify project brief in minutes. Answer a few questions about your business, goals, and requirements — then download a polished PDF to send to agencies.",
@@ -22,7 +26,7 @@ export const metadata: Metadata = {
     "shopify agency brief",
   ],
   alternates: { canonical: `${SITE_URL}/tools/brief-generator` },
-};
+}, "/tools/brief-generator");
 
 const breadcrumbs = [
   { name: "Home", href: "/" },

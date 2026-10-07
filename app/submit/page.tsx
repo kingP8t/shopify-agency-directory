@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import SubmitAgencyForm from "@/app/components/SubmitAgencyForm";
+import { withSocialMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withSocialMetadata({
   title: "Submit Your Shopify Agency",
   description:
     "List your Shopify agency in our directory. Reach thousands of merchants looking for Shopify experts. Free to submit.",
   alternates: { canonical: "/submit" },
-};
+}, "/submit");
 
 export default function SubmitAgencyPage() {
   return (
