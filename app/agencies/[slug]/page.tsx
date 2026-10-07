@@ -763,9 +763,9 @@ export default async function AgencyPage({
                     </div>
                     <p className="mt-2 text-sm leading-relaxed text-gray-600">{review.body}</p>
                     {review.owner_reply && (
-                      <div className="mt-3 rounded-lg border-l-2 border-green-400 bg-gray-50 px-4 py-3">
-                        <p className="text-xs font-medium text-gray-500">
-                          Response from {agency.name}
+                      <div className="mt-3 rounded-lg border border-green-100 bg-green-50 px-4 py-3">
+                        <p className="text-xs font-semibold text-green-800">
+                          Owner reply from {agency.name}
                         </p>
                         <p className="mt-1 text-sm text-gray-700">
                           {review.owner_reply}
