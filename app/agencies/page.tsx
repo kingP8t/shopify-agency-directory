@@ -198,7 +198,11 @@ async function getAgencies(
     .select("*", { count: "exact" })
     .eq("status", "published")
     .order("featured", { ascending: false })
-    .order("rating", { ascending: false });
+    // nullsFirst: false matters. Postgres puts NULL first on DESC, which ranked
+    // every unrated listing above every rated one. slug makes paging stable.
+    .order("rating", { ascending: false, nullsFirst: false })
+    .order("review_count", { ascending: false, nullsFirst: false })
+    .order("slug");
 
   if (params.specializations.length > 0) {
     // overlaps = has ANY of the selected specializations (OR logic)

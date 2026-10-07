@@ -29,7 +29,8 @@ async function getFeaturedAgencies(): Promise<Agency[]> {
     .select("*")
     .eq("status", "published")
     .eq("featured", true)
-    .order("rating", { ascending: false })
+    .order("rating", { ascending: false, nullsFirst: false })
+    .order("slug")
     .limit(6);
 
   if (error) return [];

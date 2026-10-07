@@ -11,6 +11,9 @@ import { generateSegmentJsonLd } from "@/lib/seo";
 import { logError } from "@/lib/logger";
 import { withoutGibberish } from "@/lib/listing-quality";
 
+const SEGMENT_PAGE_SIZE = 20;
+const SEGMENT_FETCH_LIMIT = SEGMENT_PAGE_SIZE + 10;
+
 // ---------------------------------------------------------------------------
 // Data fetching
 // ---------------------------------------------------------------------------
@@ -23,7 +26,11 @@ async function getSegmentAgencies(
     .select("*", { count: "exact" })
     .eq("status", "published")
     .order("featured", { ascending: false })
-    .order("rating", { ascending: false });
+    // nullsFirst: false matters. Postgres puts NULL first on DESC, which ranked
+    // every unrated listing above every rated one. slug makes the order stable.
+    .order("rating", { ascending: false, nullsFirst: false })
+    .order("review_count", { ascending: false, nullsFirst: false })
+    .order("slug");
 
   if (filter.specialization) {
     query = query.contains("specializations", [filter.specialization]);
@@ -50,7 +57,9 @@ async function getSegmentAgencies(
     query = query.or(orClauses);
   }
 
-  query = query.limit(20);
+  // Fetch a few extra so removing a gibberish row below still leaves a full
+  // page of 20 real agencies, instead of a short list.
+  query = query.limit(SEGMENT_FETCH_LIMIT);
 
   const { data, error, count } = await query;
   if (error) {
@@ -59,7 +68,10 @@ async function getSegmentAgencies(
   }
   // Keep gibberish listings off segment pages, and keep the matched total honest.
   const { rows, removed } = withoutGibberish((data as Agency[]) ?? []);
-  return { agencies: rows, total: Math.max(0, (count ?? 0) - removed) };
+  return {
+    agencies: rows.slice(0, SEGMENT_PAGE_SIZE),
+    total: Math.max(0, (count ?? 0) - removed),
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -218,7 +230,7 @@ export default async function SegmentPage({
             )}
           </div>
 
-          {total > 20 && (
+          {total > SEGMENT_PAGE_SIZE && (
             <div className="mt-6 text-center">
               <Link
                 href={directoryUrl}

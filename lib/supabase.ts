@@ -120,7 +120,9 @@ export async function getAgencies(options?: {
     .select("*")
     .eq("status", "published")
     .order("featured", { ascending: false })
-    .order("rating", { ascending: false });
+    .order("rating", { ascending: false, nullsFirst: false })
+    .order("review_count", { ascending: false, nullsFirst: false })
+    .order("slug");
 
   if (options?.featured) query = query.eq("featured", true);
   if (options?.location)

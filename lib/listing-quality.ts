@@ -22,6 +22,23 @@ const SHOPIFY_OWN_SITE = /^https?:\/\/(?:(?:help|community|apps|www)\.)?shopify\
 const HTML_TAG = /<\/?[a-z][^>]*>/i;
 
 /**
+ * One long word with capitals scattered through lowercase letters, such as
+ * "NXxftLBUoWdcZOggbRTZltaa". Real CamelCase brands (WebCrafters, eBizTrait,
+ * FortyDollarDeal) keep capitals at word boundaries, so they stay under both
+ * the capital count and the capital ratio. All caps names have no lowercase
+ * to switch from, so they are never matched.
+ */
+function looksLikeRandomCase(name: string): boolean {
+  if (/\s/.test(name)) return false;
+  const letters = name.replace(/[^A-Za-z]/g, "");
+  if (letters.length < 10 || letters.length < name.length * 0.9) return false;
+  const upper = letters.replace(/[^A-Z]/g, "").length;
+  const ratio = upper / letters.length;
+  const humps = (letters.match(/[a-z][A-Z]/g) ?? []).length;
+  return humps >= 3 && ratio >= 0.3 && ratio <= 0.75;
+}
+
+/**
  * True when a listing is scraper debris or unreadable, so it should not be
  * indexed, appear in the sitemap, or show up in directory and segment pages.
  *
@@ -44,6 +61,12 @@ export function isGibberishListing(listing: ListingFields): boolean {
   // of the same character.
   if (/^[A-Za-z]{6,}$/.test(name) && !/[aeiouy]/i.test(name)) return true;
   if (/(.)\1{4,}/u.test(name)) return true;
+  if (looksLikeRandomCase(name)) return true;
+
+  // A real description has spaces. A long unbroken run of Latin letters and
+  // digits is a random token. Limiting this to Latin characters keeps Chinese
+  // and Japanese descriptions, which have no spaces, safe.
+  if (description.length >= 30 && /^[A-Za-z0-9]+$/.test(description)) return true;
 
   // Scraped error pages and bot checks.
   if (ERROR_PAGE_TEXT.test(name) || ERROR_PAGE_TEXT.test(description)) return true;

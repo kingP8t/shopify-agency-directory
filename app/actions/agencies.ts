@@ -4,7 +4,12 @@
 type AnyClient = any;
 
 import { getAdminClient } from "@/lib/supabase";
+import { isGibberishListing } from "@/lib/listing-quality";
 import { revalidatePath } from "next/cache";
+
+// Shown when an admin tries to publish a listing that fails the quality check.
+const NOT_PUBLISHABLE =
+  "This listing looks like spam or unreadable text, such as a random letter name or description, so it cannot be published. Fix the name and description first, or leave it as a draft.";
 
 function slugify(text: string): string {
   return text
@@ -65,6 +70,12 @@ export async function upsertAgencyAction(
 
   if (!name || !description) {
     return { success: false, error: "Name and description are required." };
+  }
+
+  // Minimum quality before a listing can go live. Drafts and pending listings
+  // can still be saved so they can be fixed up.
+  if (status === "published" && isGibberishListing({ name, description, website })) {
+    return { success: false, error: NOT_PUBLISHABLE };
   }
 
   const slug = slugify(name);
@@ -137,6 +148,21 @@ export async function toggleStatusAction(
   const db: AnyClient = getAdminClient();
 
   const newStatus = currentStatus === "published" ? "draft" : "published";
+
+  // Publishing runs the same quality check as the edit form. Unpublishing
+  // never needs it.
+  if (newStatus === "published") {
+    const { data: listing } = await db
+      .from("agencies")
+      .select("name, description, website")
+      .eq("id", id)
+      .single();
+    if (!listing) return { success: false, error: "Listing not found." };
+    if (isGibberishListing(listing)) {
+      return { success: false, error: NOT_PUBLISHABLE };
+    }
+  }
+
   const { error } = await db
     .from("agencies")
     .update({ status: newStatus })

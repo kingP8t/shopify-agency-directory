@@ -4,6 +4,7 @@ import { getAdminClient } from "@/lib/supabase";
 import { headers } from "next/headers";
 import { sendNewAgencySubmissionEmail } from "@/lib/email";
 import { isRateLimited } from "@/lib/rate-limit";
+import { isGibberishListing } from "@/lib/listing-quality";
 
 export interface SubmitAgencyState {
   success: boolean;
@@ -76,6 +77,22 @@ export async function submitAgencyAction(
     return {
       success: false,
       error: "Description must be at least 50 characters.",
+    };
+  }
+
+  // A real description is made of words. Random 50 character strings pass the
+  // length check above, so also require a few words and reject unreadable text.
+  if (description.split(/\s+/).filter(Boolean).length < 6) {
+    return {
+      success: false,
+      error: "Please describe the agency in a sentence or two.",
+    };
+  }
+  if (isGibberishListing({ name, description, website })) {
+    return {
+      success: false,
+      error:
+        "We could not accept this submission. Please check the agency name, website, and description.",
     };
   }
 

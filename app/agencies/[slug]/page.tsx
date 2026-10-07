@@ -342,7 +342,9 @@ async function getSimilarAgencies(
     .select("*")
     .eq("status", "published")
     .neq("slug", agency.slug)
-    .order("rating", { ascending: false })
+    .order("rating", { ascending: false, nullsFirst: false })
+    .order("review_count", { ascending: false, nullsFirst: false })
+    .order("slug")
     // Over-fetch so quality filtering below can still fill `limit` slots.
     .limit(limit * 4);
 
