@@ -113,6 +113,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    {
+      url: `${BASE_URL}/tools/plan-calculator`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/tools/store-grader`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
   ];
 
   // Gibberish listings (scraped error pages, unreadable names) never go in the
@@ -154,6 +166,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const authorRoutes: MetadataRoute.Sitemap = [
     {
       url: `${BASE_URL}/authors/elena-king`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    },
+    {
+      url: `${BASE_URL}/authors/varine-rashford`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    },
+    {
+      url: `${BASE_URL}/authors/helena-hernandez`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.6,

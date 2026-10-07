@@ -12,7 +12,11 @@ import { BASE_URL, SITE_NAME } from "@/lib/seo";
 // ---------------------------------------------------------------------------
 
 export function generateStaticParams() {
-  return [{ slug: "elena-king" }, { slug: "varine-rashford" }];
+  return [
+    { slug: "elena-king" },
+    { slug: "varine-rashford" },
+    { slug: "helena-hernandez" },
+  ];
 }
 
 // ---------------------------------------------------------------------------
@@ -116,7 +120,7 @@ export default async function AuthorPage({
           <section className="mt-8">
             <h2 className="text-lg font-semibold text-gray-900">
               Articles by {author.name}
-              <span className="ml-2 text-sm font-normal text-gray-400">
+              <span className="ml-2 text-sm font-normal text-gray-500">
                 ({authorPosts.length})
               </span>
             </h2>
@@ -138,7 +142,7 @@ export default async function AuthorPage({
                     <p className="mt-1 line-clamp-2 text-sm text-gray-500">
                       {post.excerpt}
                     </p>
-                    <p className="mt-2 text-xs text-gray-400">
+                    <p className="mt-2 text-xs text-gray-500">
                       {post.readingTime} min read ·{" "}
                       {new Date(post.date).toLocaleDateString(undefined, {
                         day: "numeric",

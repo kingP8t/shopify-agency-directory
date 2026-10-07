@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import LeadForm from "@/app/components/LeadForm";
+import SiteNav from "@/app/components/SiteNav";
 import { generateServiceJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -22,17 +22,7 @@ export default function GetMatchedPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
       />
 
-      {/* Nav */}
-      <nav className="border-b bg-white px-6 py-4">
-        <div className="mx-auto flex max-w-6xl items-center justify-between">
-          <Link href="/" className="text-lg font-bold text-gray-900">
-            Shopify Agency Directory
-          </Link>
-          <Link href="/agencies" className="text-sm text-gray-500 hover:text-gray-900">
-            Browse Agencies
-          </Link>
-        </div>
-      </nav>
+      <SiteNav />
 
       <main className="mx-auto max-w-2xl px-6 py-16">
         {/* Header */}

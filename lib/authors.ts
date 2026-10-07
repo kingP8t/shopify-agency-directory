@@ -29,6 +29,14 @@ const AUTHORS: Record<string, Author> = {
     schemaDescription:
       "Content and paid advertising specialist covering Shopify migration strategy and platform economics.",
   },
+  "Helena Hernandez": {
+    name: "Helena Hernandez",
+    slug: "helena-hernandez",
+    title: "Media Strategist",
+    bio: "Helena Hernandez is a media strategist based in Plano, Texas, writing about brand, content, and storytelling for Shopify merchants. She covers how DTC stores build trust, how to brief an agency on creative work, and what separates marketing that converts from marketing that just looks good. A Tejana balancing a strategy career with deep-rooted traditions, she brings warmth and plain-spoken honesty to the page — if a tactic flops, she will say so.",
+    schemaDescription:
+      "Media strategist covering brand, content, and storytelling for Shopify merchants.",
+  },
 };
 
 /** Look up an author by name. Returns undefined for unknown authors. */
