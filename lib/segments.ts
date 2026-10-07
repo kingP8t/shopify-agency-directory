@@ -23,6 +23,13 @@ export interface SegmentConfig {
    * United Kingdom?" and not "Why Shopify for United Kingdom?".
    */
   inPlace?: string;
+  /**
+   * Service pages only. The topic as it reads inside a sentence, for example
+   * "a Shopify migration" or "ecommerce SEO", so headings read "Why a Shopify
+   * migration matters" and not "Why Migrations matters". Falls back to
+   * breadcrumbLabel, which is title case and often plural.
+   */
+  headingTopic?: string;
   /** Slugs to link first in "Explore More Agencies", ahead of the defaults. */
   relatedSlugs?: string[];
   filter: SegmentFilter;
@@ -39,7 +46,7 @@ export interface SegmentConfig {
 // Segment categorisation — used by getRelatedSegments() to pick cross-links
 // ---------------------------------------------------------------------------
 
-type SegmentCategory = "location" | "service" | "budget" | "industry";
+export type SegmentCategory = "location" | "service" | "budget" | "industry";
 
 const SEGMENT_CATEGORIES: Record<string, SegmentCategory> = {
   // Locations
@@ -68,6 +75,53 @@ const SEGMENT_CATEGORIES: Record<string, SegmentCategory> = {
   "luxury-brands": "industry", "b2b-wholesale": "industry",
   "electronics-tech": "industry", pets: "industry",
 };
+
+/**
+ * Headings for the "why" and "tips" sections of a segment page. One template
+ * per segment type, because one template cannot read well for a city, a service,
+ * a budget and an industry. The old shared template produced "Why Shopify for
+ * Shopify Plus?" and "Tips for Shopify Plus on Shopify".
+ */
+export function getSegmentHeadings(segment: SegmentConfig): {
+  why: string;
+  tips: string;
+} {
+  const label = segment.breadcrumbLabel;
+
+  switch (SEGMENT_CATEGORIES[segment.slug]) {
+    case "location": {
+      const place = segment.inPlace ?? label;
+      return {
+        why: `Why Shopify in ${place}?`,
+        tips: `Tips for hiring a Shopify agency in ${place}`,
+      };
+    }
+    case "service": {
+      const topic = segment.headingTopic ?? label;
+      return {
+        why: `Why ${topic} matters`,
+        // Some tips are about hiring and some are about the work itself, so the
+        // heading has to suit both.
+        tips: `Tips for getting ${topic} right`,
+      };
+    }
+    case "budget": {
+      // "Under $10k" reads as "under $10k" mid sentence, and "$5k–$25k" as a
+      // spoken range.
+      const amount = label.replace(/\s*–\s*/g, " to ").replace(/^Under/, "under");
+      return {
+        why: `What can you get for ${amount}?`,
+        tips: `Tips for spending ${amount} well`,
+      };
+    }
+    default:
+      // Industry pages, and any page not yet given a type.
+      return {
+        why: `Why Shopify for ${label}?`,
+        tips: `Tips for ${label} on Shopify`,
+      };
+  }
+}
 
 /**
  * Return up to 4 related segment pages for cross-linking.
@@ -468,6 +522,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "Migrating to Shopify from WooCommerce, Magento, or BigCommerce is a complex project requiring expertise in data migration, URL structure preservation, and SEO continuity. These agencies specialize in platform migrations and have the processes to protect your rankings and customer data throughout the transition.",
     breadcrumbLabel: "Migrations",
+    headingTopic: "a Shopify migration",
     filter: { specialization: "Migrations" },
     faq: [
       {
@@ -634,6 +689,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "Ecommerce SEO for Shopify requires more than keyword research — it demands technical expertise in Shopify's URL structure, structured data, collection page optimization, and site speed. These agencies specialize in driving sustainable organic traffic and revenue growth for Shopify stores.",
     breadcrumbLabel: "Ecommerce SEO",
+    headingTopic: "ecommerce SEO",
     filter: { specialization: "SEO" },
     faq: [
       {
@@ -675,6 +731,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "Headless Shopify decouples the frontend from Shopify's backend, enabling faster load times, custom user experiences, and integration with complex content stacks. These agencies specialize in headless builds using Shopify Hydrogen, Next.js with the Storefront API, and other modern frontend frameworks.",
     breadcrumbLabel: "Headless",
+    headingTopic: "a headless build",
     filter: { specialization: "Headless" },
     faq: [
       {
@@ -716,6 +773,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "A great Shopify theme is the foundation of your store's conversion rate and brand experience. These agencies specialize in custom theme development, theme customization, and performance optimization — going beyond off-the-shelf templates to build stores that reflect your brand and convert visitors into customers.",
     breadcrumbLabel: "Theme Development",
+    headingTopic: "theme development",
     filter: { specialization: "Theme Development" },
     faq: [
       {
@@ -1381,6 +1439,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "Building a new Shopify store is the most common reason merchants hire an agency — and getting it right from the start saves you money, time, and headaches down the road. These agencies specialise in new store builds, from theme setup and product configuration to custom design and launch support.",
     breadcrumbLabel: "Store Build",
+    headingTopic: "a store build",
     filter: { specialization: "Store Build" },
     faq: [
       {
@@ -1422,6 +1481,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "When off-the-shelf apps don't solve your problem, you need a custom Shopify app. These agencies specialise in building private apps for individual stores, public apps for the Shopify App Store, and custom integrations that connect Shopify with your other business systems.",
     breadcrumbLabel: "App Development",
+    headingTopic: "custom app development",
     filter: { specialization: "App Development" },
     faq: [
       {
@@ -1463,6 +1523,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "Getting traffic to your Shopify store is only half the battle — converting those visitors into customers is where the real money is. CRO agencies use data, A/B testing, and UX expertise to systematically improve your conversion rate. Even a small uplift can dramatically increase revenue without spending more on ads.",
     breadcrumbLabel: "CRO",
+    headingTopic: "conversion rate optimization",
     filter: { specialization: "CRO" },
     faq: [
       {
@@ -1504,6 +1565,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "A great Shopify store is useless without customers finding it. These agencies specialise in driving traffic and revenue for Shopify stores through paid advertising, email marketing, social media, and growth strategy. They understand the Shopify ecosystem and know which levers actually move the needle for ecommerce.",
     breadcrumbLabel: "Marketing",
+    headingTopic: "Shopify marketing",
     filter: { specialization: "Marketing" },
     faq: [
       {
@@ -1545,6 +1607,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "Your brand is the reason people choose you over the next Shopify store selling something similar. These agencies don't just design logos — they build complete brand identities for ecommerce, from strategy and positioning to visual design, packaging, and a store experience that makes your brand unforgettable.",
     breadcrumbLabel: "Branding",
+    headingTopic: "branding",
     filter: { specialization: "Branding" },
     faq: [
       {
@@ -1586,6 +1649,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "You can't improve what you don't measure. These agencies help Shopify stores set up proper tracking, build meaningful dashboards, fix attribution gaps, and turn data into decisions. If you're making business decisions based on vibes instead of numbers, an analytics agency pays for itself fast.",
     breadcrumbLabel: "Analytics",
+    headingTopic: "analytics",
     filter: { specialization: "Analytics" },
     faq: [
       {
@@ -1627,6 +1691,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "Launching your Shopify store is just the beginning. Keeping it updated, optimised, and running smoothly requires ongoing attention — theme updates, app management, content changes, performance monitoring, and bug fixes. These agencies offer ongoing support retainers so you always have an expert on call.",
     breadcrumbLabel: "Ongoing Support",
+    headingTopic: "ongoing support",
     filter: { specialization: "Ongoing Website Management" },
     faq: [
       {
@@ -1668,6 +1733,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "Selling internationally on Shopify is more than just turning on another currency. These agencies specialise in the full picture — Shopify Markets configuration, currency and pricing strategy, translations, local payment methods, international shipping, tax compliance, and making sure your store actually converts in every market you sell into.",
     breadcrumbLabel: "Internationalisation",
+    headingTopic: "internationalisation",
     filter: { specialization: "Internationalization" },
     faq: [
       {
@@ -1709,6 +1775,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "Your checkout is where the money happens — and where a lot of it leaks away. These agencies specialise in Shopify checkout upgrades, including migration to checkout extensibility, custom checkout UI, post-purchase upsells, and the optimisation work that turns abandoned carts into completed orders.",
     breadcrumbLabel: "Checkout Upgrade",
+    headingTopic: "a checkout upgrade",
     filter: { specialization: "Checkout Upgrade" },
     faq: [
       {
@@ -1750,6 +1817,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "As your business grows, your Shopify store can't live in isolation. It needs to talk to your ERP, CRM, warehouse management, accounting software, and other business systems. These agencies specialise in building the integrations that keep data flowing accurately between Shopify and the rest of your tech stack.",
     breadcrumbLabel: "Systems Integration",
+    headingTopic: "systems integration",
     filter: { specialization: "Systems Integration" },
     faq: [
       {
@@ -1791,6 +1859,7 @@ export const SEGMENTS: Record<string, SegmentConfig> = {
     intro:
       "A slow Shopify store costs you money — literally. Every extra second of load time drops your conversion rate. These agencies specialise in making Shopify stores faster: optimising images, cleaning up bloated theme code, fixing render-blocking resources, improving Core Web Vitals scores, and squeezing every millisecond out of your storefront.",
     breadcrumbLabel: "Performance",
+    headingTopic: "store performance",
     filter: { specialization: "Performance" },
     faq: [
       {

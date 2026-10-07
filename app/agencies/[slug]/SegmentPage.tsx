@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { SegmentConfig } from "@/lib/segments";
-import { getRelatedSegments } from "@/lib/segments";
+import { getRelatedSegments, getSegmentHeadings } from "@/lib/segments";
 import { supabase } from "@/lib/supabase";
 import type { Agency } from "@/lib/supabase";
 import SiteNav from "@/app/components/SiteNav";
@@ -84,6 +84,7 @@ export default async function SegmentPage({
   segment: SegmentConfig;
 }) {
   const { agencies, total } = await getSegmentAgencies(segment.filter);
+  const headings = getSegmentHeadings(segment);
 
   // Build the directory URL for "see all" overflow link
   const dirParams = new URLSearchParams();
@@ -246,9 +247,7 @@ export default async function SegmentPage({
             <div className="mt-12 space-y-10">
               <section>
                 <h2 className="text-xl font-bold text-gray-900">
-                  {segment.inPlace
-                    ? `Why Shopify in ${segment.inPlace}?`
-                    : `Why Shopify for ${segment.breadcrumbLabel}?`}
+                  {headings.why}
                 </h2>
                 <p className="mt-3 leading-relaxed text-gray-600">
                   {segment.industryContent.whyShopify}
@@ -258,9 +257,7 @@ export default async function SegmentPage({
               {segment.industryContent.tips.length > 0 && (
                 <section>
                   <h2 className="text-xl font-bold text-gray-900">
-                    {segment.inPlace
-                      ? `Tips for hiring a Shopify agency in ${segment.inPlace}`
-                      : `Tips for ${segment.breadcrumbLabel} on Shopify`}
+                    {headings.tips}
                   </h2>
                   <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-relaxed text-gray-600">
                     {segment.industryContent.tips.map((tip, i) => (
